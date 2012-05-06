@@ -1,0 +1,20 @@
+CUPP - Common User Passwords Profiler
+
+3.0
+ - added word length shaping function
+ - added wordlists downloader function
+ - added alectodb parser
+ - fixed thresholds for word concatenations
+ - fixed sorting in final parsing
+ - fixed some user input validations
+ - ascii cow now looks nicer :)
+
+2.0
+ - added l33t mode
+ - added char mode
+ - ability to make pwnsauce with other wordlists or wyd.pl outputs
+ - cupp.cfg makes cupp.py easier to configure 
+
+
+1.0
+ - Initial release
