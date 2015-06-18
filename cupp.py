@@ -285,6 +285,7 @@ elif sys.argv[1] == '-i':
 
 	words = ['']
 	words1 = raw_input("> Do you want to add some key words about the victim? Y/[N]: ").lower()
+	words2 = ""
 	if words1 == "y":
 		words2 = raw_input("> Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed: ").replace(" ","")
 	words = words2.split(",")
