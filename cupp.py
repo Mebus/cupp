@@ -245,7 +245,7 @@ elif sys.argv[1] == '-i':
 
 # We need some informations first!
 
-	name = raw_input("> Name: ").lower()
+	name = raw_input("> First Name: ").lower()
 	while len(name) == 0 or name == " " or name == "  " or name == "   ":
 		print "\r\n[-] You must enter a name at least!"
 		name = raw_input("> Name: ").lower()
@@ -261,12 +261,12 @@ elif sys.argv[1] == '-i':
 
 	print "\r\n"
 
-	wife = raw_input("> Wife's(husband's) name: ").lower()
-	wifen = raw_input("> Wife's(husband's) nickname: ").lower()
-	wifeb = raw_input("> Wife's(husband's) birthdate (DDMMYYYY): ")
+	wife = raw_input("> Partners) name: ").lower()
+	wifen = raw_input("> Partners) nickname: ").lower()
+	wifeb = raw_input("> Partners) birthdate (DDMMYYYY): ")
 	while len(wifeb) != 0 and len(wifeb) != 8:
 		print "\r\n[-] You must enter 8 digits for birthday!"
-		wifeb = raw_input("> Wife's(husband's) birthdate (DDMMYYYY): ")
+		wifeb = raw_input("> Partners birthdate (DDMMYYYY): ")
 	wifeb = str(wifeb)
 	print "\r\n"
 
@@ -284,9 +284,10 @@ elif sys.argv[1] == '-i':
 	print "\r\n"
 
 	words = ['']
-	oth = raw_input("> Do you want to add some key words about the victim? Y/[N]: ").lower()
-	if oth == "y":
-		words = raw_input("> Please enter the words, separated by comma. [i.e. hacker, juice, black]: ").split(", ").lower()
+	words1 = raw_input("> Do you want to add some key words about the victim? Y/[N]: ").lower()
+	if words1 == "y":
+		words2 = raw_input("> Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed: ").replace(" ","")
+	words = words2.split(",")
 
 	spechars = ['']
 	spechars1 = raw_input("> Do you want to add special chars at the end of words? Y/[N]: ").lower()
