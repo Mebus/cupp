@@ -754,9 +754,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/aussie/')
 		dire = 'dictionaries/aussie/'
 		
-		file = open(dire+'oz.Z', 'wb')
-		print "\r\n[+] downloading oz.Z..."
-		ftp.retrbinary('RETR ' + 'oz.Z', handleDownload)
+		file = open(dire+'oz.gz', 'wb')
+		print "\r\n[+] downloading oz.gz..."
+		ftp.retrbinary('RETR ' + 'oz.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -773,9 +773,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/chinese/')
 		dire = 'dictionaries/chinese/'
 		
-		file = open(dire+'chinese.Z', 'wb')
-		print "\r\n[+] downloading chinese.Z..."
-		ftp.retrbinary('RETR ' + 'chinese.Z', handleDownload)
+		file = open(dire+'chinese.gz', 'wb')
+		print "\r\n[+] downloading chinese.gz..."
+		ftp.retrbinary('RETR ' + 'chinese.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -791,34 +791,34 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/computer/')
 		dire = 'dictionaries/computer/'
 		
-		file = open(dire+'Domains.Z', 'wb')
-		print "\r\n[+] downloading Domains.Z..."
-		ftp.retrbinary('RETR ' + 'Domains.Z', handleDownload)
+		file = open(dire+'Domains.gz', 'wb')
+		print "\r\n[+] downloading Domains.gz..."
+		ftp.retrbinary('RETR ' + 'Domains.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'Dosref.Z', 'wb')
-		print "\r\n[+] downloading Dosref.Z..."
-		ftp.retrbinary('RETR ' + 'Dosref.Z', handleDownload)
+		file = open(dire+'Dosref.gz', 'wb')
+		print "\r\n[+] downloading Dosref.gz..."
+		ftp.retrbinary('RETR ' + 'Dosref.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'Ftpsites.Z', 'wb')
-		print "\r\n[+] downloading Ftpsites.Z..."
-		ftp.retrbinary('RETR ' + 'Ftpsites.Z', handleDownload)
+		file = open(dire+'Ftpsites.gz', 'wb')
+		print "\r\n[+] downloading Ftpsites.gz..."
+		ftp.retrbinary('RETR ' + 'Ftpsites.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'Jargon.Z', 'wb')
-		print "\r\n[+] downloading Jargon.Z..."
-		ftp.retrbinary('RETR ' + 'Jargon.Z', handleDownload)
+		file = open(dire+'Jargon.gz', 'wb')
+		print "\r\n[+] downloading Jargon.gz..."
+		ftp.retrbinary('RETR ' + 'Jargon.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'common-passwords.txt.Z', 'wb')
-		print "\r\n[+] downloading common-passwords.txt.Z..."
-		ftp.retrbinary('RETR ' + 'common-passwords.txt.Z', handleDownload)
+		file = open(dire+'common-passwords.txt.gz', 'wb')
+		print "\r\n[+] downloading common-passwords.txt.gz..."
+		ftp.retrbinary('RETR ' + 'common-passwords.txt.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'etc-hosts.Z', 'wb')
-		print "\r\n[+] downloading etc-hosts.Z..."
-		ftp.retrbinary('RETR ' + 'etc-hosts.Z', handleDownload)
+		file = open(dire+'etc-hosts.gz', 'wb')
+		print "\r\n[+] downloading etc-hosts.gz..."
+		ftp.retrbinary('RETR ' + 'etc-hosts.gz', handleDownload)
 		filequitter()
 			
 		file = open(dire+'foldoc.gz', 'wb')
@@ -826,14 +826,14 @@ elif sys.argv[1] == '-l':
 		ftp.retrbinary('RETR ' + 'foldoc.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'language-list.Z', 'wb')
-		print "\r\n[+] downloading language-list.Z..."
-		ftp.retrbinary('RETR ' + 'language-list.Z', handleDownload)
+		file = open(dire+'language-list.gz', 'wb')
+		print "\r\n[+] downloading language-list.gz..."
+		ftp.retrbinary('RETR ' + 'language-list.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'unix.Z', 'wb')
-		print "\r\n[+] downloading unix.Z..."
-		ftp.retrbinary('RETR ' + 'unix.Z', handleDownload)
+		file = open(dire+'unix.gz', 'wb')
+		print "\r\n[+] downloading unix.gz..."
+		ftp.retrbinary('RETR ' + 'unix.gz', handleDownload)
 		filequitter()
 		
 		print '[+] files saved to '+ dire
@@ -867,9 +867,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/czech/')
 		dire = 'dictionaries/czech/'
 		
-		file = open(dire+'czech-wordlist-ascii-cstug-novak.Z', 'wb')
-		print "\r\n[+] downloading czech-wordlist-ascii-cstug-novak.Z..."
-		ftp.retrbinary('RETR ' + 'czech-wordlist-ascii-cstug-novak.Z', handleDownload)
+		file = open(dire+'czech-wordlist-ascii-cstug-novak.gz', 'wb')
+		print "\r\n[+] downloading czech-wordlist-ascii-cstug-novak.gz..."
+		ftp.retrbinary('RETR ' + 'czech-wordlist-ascii-cstug-novak.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -886,9 +886,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/danish/')
 		dire = 'dictionaries/danish/'
 		
-		file = open(dire+'danish.words.Z', 'wb')
-		print "\r\n[+] downloading danish.words.Z..."
-		ftp.retrbinary('RETR ' + 'danish.words.Z', handleDownload)
+		file = open(dire+'danish.words.gz', 'wb')
+		print "\r\n[+] downloading danish.words.gz..."
+		ftp.retrbinary('RETR ' + 'danish.words.gz', handleDownload)
 		filequitter()
 			
 		file = open(dire+'dansk.zip', 'wb')
@@ -909,24 +909,24 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/databases/')
 		dire = 'dictionaries/databases/'
 		
-		file = open(dire+'acronyms.Z', 'wb')
-		print "\r\n[+] downloading acronyms.Z..."
-		ftp.retrbinary('RETR ' + 'acronyms.Z', handleDownload)
+		file = open(dire+'acronyms.gz', 'wb')
+		print "\r\n[+] downloading acronyms.gz..."
+		ftp.retrbinary('RETR ' + 'acronyms.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'att800.Z', 'wb')
-		print "\r\n[+] downloading att800.Z..."
-		ftp.retrbinary('RETR ' + 'att800.Z', handleDownload)
+		file = open(dire+'att800.gz', 'wb')
+		print "\r\n[+] downloading att800.gz..."
+		ftp.retrbinary('RETR ' + 'att800.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'computer-companies.Z', 'wb')
-		print "\r\n[+] downloading computer-companies.Z..."
-		ftp.retrbinary('RETR ' + 'computer-companies.Z', handleDownload)
+		file = open(dire+'computer-companies.gz', 'wb')
+		print "\r\n[+] downloading computer-companies.gz..."
+		ftp.retrbinary('RETR ' + 'computer-companies.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'world_heritage.Z', 'wb')
-		print "\r\n[+] downloading world_heritage.Z..."
-		ftp.retrbinary('RETR ' + 'world_heritage.Z', handleDownload)
+		file = open(dire+'world_heritage.gz', 'wb')
+		print "\r\n[+] downloading world_heritage.gz..."
+		ftp.retrbinary('RETR ' + 'world_heritage.gz', handleDownload)
 		filequitter()
 		
 		print '[+] files saved to '+ dire
@@ -1015,9 +1015,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/dutch/')
 		dire = 'dictionaries/dutch/'
 		
-		file = open(dire+'words.dutch.Z', 'wb')
-		print "\r\n[+] downloading words.dutch.Z..."
-		ftp.retrbinary('RETR ' + 'words.dutch.Z', handleDownload)
+		file = open(dire+'words.dutch.gz', 'wb')
+		print "\r\n[+] downloading words.dutch.gz..."
+		ftp.retrbinary('RETR ' + 'words.dutch.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -1061,9 +1061,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/french/')
 		dire = 'dictionaries/french/'
 		
-		file = open(dire+'dico.Z', 'wb')
-		print "\r\n[+] downloading dico.Z..."
-		ftp.retrbinary('RETR ' + 'dico.Z', handleDownload)
+		file = open(dire+'dico.gz', 'wb')
+		print "\r\n[+] downloading dico.gz..."
+		ftp.retrbinary('RETR ' + 'dico.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -1079,19 +1079,19 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/german/')
 		dire = 'dictionaries/german/'
 		
-		file = open(dire+'deutsch.dic.Z', 'wb')
-		print "\r\n[+] downloading deutsch.dic.Z..."
-		ftp.retrbinary('RETR ' + 'deutsch.dic.Z', handleDownload)
+		file = open(dire+'deutsch.dic.gz', 'wb')
+		print "\r\n[+] downloading deutsch.dic.gz..."
+		ftp.retrbinary('RETR ' + 'deutsch.dic.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'germanl.Z', 'wb')
-		print "\r\n[+] downloading germanl.Z..."
-		ftp.retrbinary('RETR ' + 'germanl.Z', handleDownload)
+		file = open(dire+'germanl.gz', 'wb')
+		print "\r\n[+] downloading germanl.gz..."
+		ftp.retrbinary('RETR ' + 'germanl.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'words.german.Z', 'wb')
-		print "\r\n[+] downloading words.german.Z..."
-		ftp.retrbinary('RETR ' + 'words.german.Z', handleDownload)
+		file = open(dire+'words.german.gz', 'wb')
+		print "\r\n[+] downloading words.german.gz..."
+		ftp.retrbinary('RETR ' + 'words.german.gz', handleDownload)
 		filequitter()
 		
 		print '[+] files saved to '+ dire
@@ -1107,9 +1107,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/hindi/')
 		dire = 'dictionaries/hindi/'
 		
-		file = open(dire+'hindu-names.Z', 'wb')
-		print "\r\n[+] downloading hindu-names.Z..."
-		ftp.retrbinary('RETR ' + 'hindu-names.Z', handleDownload)
+		file = open(dire+'hindu-names.gz', 'wb')
+		print "\r\n[+] downloading hindu-names.gz..."
+		ftp.retrbinary('RETR ' + 'hindu-names.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -1143,9 +1143,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/italian/')
 		dire = 'dictionaries/italian/'
 		
-		file = open(dire+'words.italian.Z', 'wb')
-		print "\r\n[+] downloading words.italian.Z..."
-		ftp.retrbinary('RETR ' + 'words.italian.Z', handleDownload)
+		file = open(dire+'words.italian.gz', 'wb')
+		print "\r\n[+] downloading words.italian.gz..."
+		ftp.retrbinary('RETR ' + 'words.italian.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -1161,9 +1161,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/japanese/')
 		dire = 'dictionaries/japanese/'
 		
-		file = open(dire+'words.japanese.Z', 'wb')
-		print "\r\n[+] downloading words.japanese.Z..."
-		ftp.retrbinary('RETR ' + 'words.japanese.Z', handleDownload)
+		file = open(dire+'words.japanese.gz', 'wb')
+		print "\r\n[+] downloading words.japanese.gz..."
+		ftp.retrbinary('RETR ' + 'words.japanese.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -1179,9 +1179,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/latin/')
 		dire = 'dictionaries/latin/'
 		
-		file = open(dire+'wordlist.aug.Z', 'wb')
-		print "\r\n[+] downloading wordlist.aug.Z..."
-		ftp.retrbinary('RETR ' + 'wordlist.aug.Z', handleDownload)
+		file = open(dire+'wordlist.aug.gz', 'wb')
+		print "\r\n[+] downloading wordlist.aug.gz..."
+		ftp.retrbinary('RETR ' + 'wordlist.aug.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -1280,19 +1280,19 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/movieTV/')
 		dire = 'dictionaries/movieTV/'
 		
-		file = open(dire+'Movies.Z', 'wb')
-		print "\r\n[+] downloading Movies.Z..."
-		ftp.retrbinary('RETR ' + 'Movies.Z', handleDownload)
+		file = open(dire+'Movies.gz', 'wb')
+		print "\r\n[+] downloading Movies.gz..."
+		ftp.retrbinary('RETR ' + 'Movies.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'Python.Z', 'wb')
-		print "\r\n[+] downloading Python.Z..."
-		ftp.retrbinary('RETR ' + 'Python.Z', handleDownload)
+		file = open(dire+'Python.gz', 'wb')
+		print "\r\n[+] downloading Python.gz..."
+		ftp.retrbinary('RETR ' + 'Python.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'Trek.Z', 'wb')
-		print "\r\n[+] downloading Trek.Z..."
-		ftp.retrbinary('RETR ' + 'Trek.Z', handleDownload)
+		file = open(dire+'Trek.gz', 'wb')
+		print "\r\n[+] downloading Trek.gz..."
+		ftp.retrbinary('RETR ' + 'Trek.gz', handleDownload)
 		filequitter()
 		
 		print '[+] files saved to '+ dire
@@ -1490,29 +1490,29 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/net/')
 		dire = 'dictionaries/net/'
 		
-		file = open(dire+'hosts-txt.Z', 'wb')
-		print "\r\n[+] downloading hosts-txt.Z..."
-		ftp.retrbinary('RETR ' + 'hosts-txt.Z', handleDownload)
+		file = open(dire+'hosts-txt.gz', 'wb')
+		print "\r\n[+] downloading hosts-txt.gz..."
+		ftp.retrbinary('RETR ' + 'hosts-txt.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'inet-machines.Z', 'wb')
-		print "\r\n[+] downloading inet-machines.Z..."
-		ftp.retrbinary('RETR ' + 'inet-machines.Z', handleDownload)
+		file = open(dire+'inet-machines.gz', 'wb')
+		print "\r\n[+] downloading inet-machines.gz..."
+		ftp.retrbinary('RETR ' + 'inet-machines.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'usenet-loginids.Z', 'wb')
-		print "\r\n[+] downloading usenet-loginids.Z..."
-		ftp.retrbinary('RETR ' + 'usenet-loginids.Z', handleDownload)
+		file = open(dire+'usenet-loginids.gz', 'wb')
+		print "\r\n[+] downloading usenet-loginids.gz..."
+		ftp.retrbinary('RETR ' + 'usenet-loginids.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'usenet-machines.Z', 'wb')
-		print "\r\n[+] downloading usenet-machines.Z..."
-		ftp.retrbinary('RETR ' + 'usenet-machines.Z', handleDownload)
+		file = open(dire+'usenet-machines.gz', 'wb')
+		print "\r\n[+] downloading usenet-machines.gz..."
+		ftp.retrbinary('RETR ' + 'usenet-machines.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'uunet-sites.Z', 'wb')
-		print "\r\n[+] downloading uunet-sites.Z..."
-		ftp.retrbinary('RETR ' + 'uunet-sites.Z', handleDownload)
+		file = open(dire+'uunet-sites.gz', 'wb')
+		print "\r\n[+] downloading uunet-sites.gz..."
+		ftp.retrbinary('RETR ' + 'uunet-sites.gz', handleDownload)
 		filequitter()
 		
 		print '[+] files saved to '+ dire
@@ -1528,9 +1528,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/norwegian/')
 		dire = 'dictionaries/norwegian/'
 		
-		file = open(dire+'words.norwegian.Z', 'wb')
-		print "\r\n[+] downloading words.norwegian.Z..."
-		ftp.retrbinary('RETR ' + 'words.norwegian.Z', handleDownload)
+		file = open(dire+'words.norwegian.gz', 'wb')
+		print "\r\n[+] downloading words.norwegian.gz..."
+		ftp.retrbinary('RETR ' + 'words.norwegian.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -1546,29 +1546,29 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/places/')
 		dire = 'dictionaries/places/'
 		
-		file = open(dire+'Colleges.Z', 'wb')
-		print "\r\n[+] downloading Colleges.Z..."
-		ftp.retrbinary('RETR ' + 'Colleges.Z', handleDownload)
+		file = open(dire+'Colleges.gz', 'wb')
+		print "\r\n[+] downloading Colleges.gz..."
+		ftp.retrbinary('RETR ' + 'Colleges.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'US-counties.Z', 'wb')
-		print "\r\n[+] downloading US-counties.Z..."
-		ftp.retrbinary('RETR ' + 'US-counties.Z', handleDownload)
+		file = open(dire+'US-counties.gz', 'wb')
+		print "\r\n[+] downloading US-counties.gz..."
+		ftp.retrbinary('RETR ' + 'US-counties.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'World.factbook.Z', 'wb')
-		print "\r\n[+] downloading World.factbook.Z..."
-		ftp.retrbinary('RETR ' + 'World.factbook.Z', handleDownload)
+		file = open(dire+'World.factbook.gz', 'wb')
+		print "\r\n[+] downloading World.factbook.gz..."
+		ftp.retrbinary('RETR ' + 'World.factbook.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'Zipcodes.Z', 'wb')
-		print "\r\n[+] downloading Zipcodes.Z..."
-		ftp.retrbinary('RETR ' + 'Zipcodes.Z', handleDownload)
+		file = open(dire+'Zipcodes.gz', 'wb')
+		print "\r\n[+] downloading Zipcodes.gz..."
+		ftp.retrbinary('RETR ' + 'Zipcodes.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'places.Z', 'wb')
-		print "\r\n[+] downloading places.Z..."
-		ftp.retrbinary('RETR ' + 'places.Z', handleDownload)
+		file = open(dire+'places.gz', 'wb')
+		print "\r\n[+] downloading places.gz..."
+		ftp.retrbinary('RETR ' + 'places.gz', handleDownload)
 		filequitter()
 		
 		print '[+] files saved to '+ dire
@@ -1584,9 +1584,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/polish/')
 		dire = 'dictionaries/polish/'
 		
-		file = open(dire+'words.polish.Z', 'wb')
-		print "\r\n[+] downloading words.polish.Z..."
-		ftp.retrbinary('RETR ' + 'words.polish.Z', handleDownload)
+		file = open(dire+'words.polish.gz', 'wb')
+		print "\r\n[+] downloading words.polish.gz..."
+		ftp.retrbinary('RETR ' + 'words.polish.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -1665,19 +1665,19 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/religion/')
 		dire = 'dictionaries/religion/'
 		
-		file = open(dire+'Koran.Z', 'wb')
-		print "\r\n[+] downloading Koran.Z..."
-		ftp.retrbinary('RETR ' + 'Koran.Z', handleDownload)
+		file = open(dire+'Koran.gz', 'wb')
+		print "\r\n[+] downloading Koran.gz..."
+		ftp.retrbinary('RETR ' + 'Koran.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'kjbible.Z', 'wb')
-		print "\r\n[+] downloading kjbible.Z..."
-		ftp.retrbinary('RETR ' + 'kjbible.Z', handleDownload)
+		file = open(dire+'kjbible.gz', 'wb')
+		print "\r\n[+] downloading kjbible.gz..."
+		ftp.retrbinary('RETR ' + 'kjbible.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'norse.Z', 'wb')
-		print "\r\n[+] downloading norse.Z..."
-		ftp.retrbinary('RETR ' + 'norse.Z', handleDownload)
+		file = open(dire+'norse.gz', 'wb')
+		print "\r\n[+] downloading norse.gz..."
+		ftp.retrbinary('RETR ' + 'norse.gz', handleDownload)
 		filequitter()
 		
 		print '[+] files saved to '+ dire
@@ -1693,14 +1693,14 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/russian/')
 		dire = 'dictionaries/russian/'
 		
-		file = open(dire+'russian.lst.Z', 'wb')
-		print "\r\n[+] downloading russian.lst.Z..."
-		ftp.retrbinary('RETR ' + 'russian.lst.Z', handleDownload)
+		file = open(dire+'russian.lst.gz', 'wb')
+		print "\r\n[+] downloading russian.lst.gz..."
+		ftp.retrbinary('RETR ' + 'russian.lst.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'russian_words.koi8.Z', 'wb')
-		print "\r\n[+] downloading russian_words.koi8.Z..."
-		ftp.retrbinary('RETR ' + 'russian_words.koi8.Z', handleDownload)
+		file = open(dire+'russian_words.koi8.gz', 'wb')
+		print "\r\n[+] downloading russian_words.koi8.gz..."
+		ftp.retrbinary('RETR ' + 'russian_words.koi8.gz', handleDownload)
 		filequitter()
 		
 		print '[+] files saved to '+ dire
@@ -1746,14 +1746,14 @@ elif sys.argv[1] == '-l':
 		ftp.retrbinary('RETR ' + 'Viruses.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'asteroids.Z', 'wb')
-		print "\r\n[+] downloading asteroids.Z..."
-		ftp.retrbinary('RETR ' + 'asteroids.Z', handleDownload)
+		file = open(dire+'asteroids.gz', 'wb')
+		print "\r\n[+] downloading asteroids.gz..."
+		ftp.retrbinary('RETR ' + 'asteroids.gz', handleDownload)
 		filequitter()
 			
-		file = open(dire+'biology.Z', 'wb')
-		print "\r\n[+] downloading biology.Z..."
-		ftp.retrbinary('RETR ' + 'biology.Z', handleDownload)
+		file = open(dire+'biology.gz', 'wb')
+		print "\r\n[+] downloading biology.gz..."
+		ftp.retrbinary('RETR ' + 'biology.gz', handleDownload)
 		filequitter()
 			
 		file = open(dire+'tech.gz', 'wb')
@@ -1774,9 +1774,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/spanish/')
 		dire = 'dictionaries/spanish/'
 		
-		file = open(dire+'words.spanish.Z', 'wb')
-		print "\r\n[+] downloading words.spanish.Z..."
-		ftp.retrbinary('RETR ' + 'words.spanish.Z', handleDownload)
+		file = open(dire+'words.spanish.gz', 'wb')
+		print "\r\n[+] downloading words.spanish.gz..."
+		ftp.retrbinary('RETR ' + 'words.spanish.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -1810,9 +1810,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/swedish/')
 		dire = 'dictionaries/swedish/'
 		
-		file = open(dire+'words.swedish.Z', 'wb')
-		print "\r\n[+] downloading words.swedish.Z..."
-		ftp.retrbinary('RETR ' + 'words.swedish.Z', handleDownload)
+		file = open(dire+'words.swedish.gz', 'wb')
+		print "\r\n[+] downloading words.swedish.gz..."
+		ftp.retrbinary('RETR ' + 'words.swedish.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
@@ -1846,9 +1846,9 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/yiddish/')
 		dire = 'dictionaries/yiddish/'
 		
-		file = open(dire+'yiddish.Z', 'wb')
-		print "\r\n[+] downloading yiddish.Z..."
-		ftp.retrbinary('RETR ' + 'yiddish.Z', handleDownload)
+		file = open(dire+'yiddish.gz', 'wb')
+		print "\r\n[+] downloading yiddish.gz..."
+		ftp.retrbinary('RETR ' + 'yiddish.gz', handleDownload)
 		filequitter()
 		
 		print '[+] file saved to '+ dire
