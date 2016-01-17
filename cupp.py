@@ -59,16 +59,23 @@ wcto = config.getint('nums','wcto')
 threshold = config.getint('nums','threshold')
 
 # 1337 mode configs, well you can add more lines if you add it to config file too.
-# You will need to add more lines in two places in cupp.py code as well...
-a = config.get('leet','a')
-i = config.get('leet','i')
-e = config.get('leet','e')
-t = config.get('leet','t')
-o = config.get('leet','o')
-s = config.get('leet','s')
-g = config.get('leet','g')
-z = config.get('leet','z')
+# Add the target letter as defined in the .cfg file here
+# Adding lower case letters
+targetLetters = ['a', 'b', 'c', 'e', 'g', 'i', 'o', 's', 't', 'z']
+# Adding upper case letters
+targetLetters += ['A', 'B', 'C', 'E', 'G', 'I', 'O', 'S', 'T', 'Z']
 
+# This variable will store the changes to be performed
+leetChanges = []
+
+# Iterating through the target letters
+for l in targetLetters:
+    newChange = {}
+    newChange["from"] = l
+    newChange["to"] = config.get('leet', l)
+    
+    # Adding the change
+    leetChanges.append(newChange)
 
 # for concatenations...
 
@@ -204,15 +211,10 @@ elif sys.argv[1] == '-w':
 	unique_lista = dict.fromkeys(uniqlist).keys()
 	unique_leet = []
 	if leetmode == "y":
-		for x in unique_lista: # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
-			x = x.replace('a',a)
-			x = x.replace('i',i)
-			x = x.replace('e',e)
-			x = x.replace('t',t)
-			x = x.replace('o',o)
-			x = x.replace('s',s)
-			x = x.replace('g',g)
-			x = x.replace('z',z)
+		for x in unique_lista: 
+			# Iterating through the changes added before
+			for change in leetChanges:
+				x = x.replace(change["from"],change["to"])
 			unique_leet.append(x)
 	
 	unique_list = unique_lista + unique_leet
@@ -533,16 +535,11 @@ elif sys.argv[1] == '-i':
 	unique_leet = []
 	if leetmode == "y":
 		for x in unique_lista: # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
-			x = x.replace('a',a)
-			x = x.replace('i',i)
-			x = x.replace('e',e)
-			x = x.replace('t',t)
-			x = x.replace('o',o)
-			x = x.replace('s',s)
-			x = x.replace('g',g)
-			x = x.replace('z',z)
+			# Iterating through the changes added before
+			for change in leetChanges:
+				x = x.replace(change["from"],change["to"])
 			unique_leet.append(x)
-	
+
 	unique_list = unique_lista + unique_leet
 	
 	unique_list_finished = []
