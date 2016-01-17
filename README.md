@@ -80,3 +80,7 @@
   bole_loser@hotmail.com
   http://www.offensive-security.com
   http://www.bolexxx.net
+
+  Yaiza Rubio aka yrubiosec
+  Félix Brezo aka febrezo
+  http://i3visio.com
