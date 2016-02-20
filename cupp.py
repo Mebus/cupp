@@ -448,6 +448,43 @@ elif sys.argv[1] == '-i':
 			if kombinak.index(kombina1) != kombinak.index(kombina2) and kombinak.index(kombina1.title()) != kombinak.index(kombina2.title()):
 				kombinaak.append(kombina1+kombina2)
 	
+	# Trying to solve issue arised from Tomas Dobrotka (Issue 8)
+	# Example: John Doe 01031975 --> jd131975, jd01031975
+	#Getting the initial of the name and surname 
+	name_initial = name[0:1].lower();
+	surname_initial = surname[0:1].lower();
+	capital_name_initial = name_initial.upper();
+	capital_surname_initial = surname_initial.upper();
+	
+	
+	#Creating a new list containing the combinations requested
+	initial_bd_list = list();
+	name_initial_list = [name_initial, capital_name_initial];
+	surname_initial_list = [surname_initial, capital_surname_initial];
+	bds_year_list = [birthdate_yy, birthdate_yyy, birthdate_yyyy];
+	bds_month_list = [birthdate_mm, birthdate_xm];
+	bds_day_list = [birthdate_dd, birthdate_xd];
+	
+	for nil in name_initial_list:
+		for sil in surname_initial_list:	
+			for bds in bds_day_list:
+				if bds == '0':	#if the day is 10, 20 or 30 you may won't to use 0?
+					continue
+				for bml in bds_month_list: 
+					if bml == '0':
+						continue
+					for byl in bds_year_list:
+						initial_bd_list.append(nil + sil + bds + bml + byl);
+						
+	
+	
+	
+	
+	
+	initial_bd_list_unique = dict.fromkeys(initial_bd_list).keys()
+	#End
+	
+	
 	
 	
 	komb1 = list(komb(kombinaa, bdss))
