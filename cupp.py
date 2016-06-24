@@ -448,6 +448,43 @@ elif sys.argv[1] == '-i':
 			if kombinak.index(kombina1) != kombinak.index(kombina2) and kombinak.index(kombina1.title()) != kombinak.index(kombina2.title()):
 				kombinaak.append(kombina1+kombina2)
 	
+	# Trying to solve issue arised from Tomas Dobrotka (Issue 8)
+	# Example: John Doe 01031975 --> jd131975, jd01031975
+	#Getting the initial of the name and surname 
+	name_initial = name[0:1].lower();
+	surname_initial = surname[0:1].lower();
+	capital_name_initial = name_initial.upper();
+	capital_surname_initial = surname_initial.upper();
+	
+	
+	#Creating a new list containing the combinations requested
+	initial_bd_list = list();
+	name_initial_list = [name_initial, capital_name_initial];
+	surname_initial_list = [surname_initial, capital_surname_initial];
+	bds_year_list = [birthdate_yy, birthdate_yyy, birthdate_yyyy];
+	bds_month_list = [birthdate_mm, birthdate_xm];
+	bds_day_list = [birthdate_dd, birthdate_xd];
+	
+	for nil in name_initial_list:
+		for sil in surname_initial_list:	
+			for bds in bds_day_list:
+				if bds == '0':	#if the day is 10, 20 or 30 you may won't to use 0?
+					continue
+				for bml in bds_month_list: 
+					if bml == '0':
+						continue
+					for byl in bds_year_list:
+						initial_bd_list.append(nil + sil + bds + bml + byl);
+						
+	
+	
+	
+	
+	
+	initial_bd_list_unique = dict.fromkeys(initial_bd_list).keys()
+	#End
+	
+	
 	
 	
 	komb1 = list(komb(kombinaa, bdss))
@@ -527,7 +564,7 @@ elif sys.argv[1] == '-i':
 	komb_unique011 = dict.fromkeys(komb005).keys()
 	komb_unique012 = dict.fromkeys(komb006).keys()
 	
-	uniqlist = bdss+wbdss+kbdss+reverse+komb_unique01+komb_unique02+komb_unique03+komb_unique04+komb_unique05+komb_unique1+komb_unique2+komb_unique3+komb_unique4+komb_unique5+komb_unique6+komb_unique7+komb_unique8+komb_unique9+komb_unique10+komb_unique11+komb_unique12+komb_unique13+komb_unique14+komb_unique15+komb_unique16+komb_unique17+komb_unique18+komb_unique19+komb_unique20+komb_unique21+komb_unique07+komb_unique08+komb_unique09+komb_unique010+komb_unique011+komb_unique012
+	uniqlist = bdss+wbdss+kbdss+reverse+komb_unique01+komb_unique02+komb_unique03+komb_unique04+komb_unique05+komb_unique1+komb_unique2+komb_unique3+komb_unique4+komb_unique5+komb_unique6+komb_unique7+komb_unique8+komb_unique9+komb_unique10+komb_unique11+komb_unique12+komb_unique13+komb_unique14+komb_unique15+komb_unique16+komb_unique17+komb_unique18+komb_unique19+komb_unique20+komb_unique21+komb_unique07+komb_unique08+komb_unique09+komb_unique010+komb_unique011+komb_unique012+initial_bd_list_unique
 	
 	unique_lista = dict.fromkeys(uniqlist).keys()
 	unique_leet = []
