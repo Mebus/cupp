@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.5
+#!/usr/bin/env python3
 #
 #  Muris Kurgas aka j0rgan
 #  j0rgan [at] remote-exploit [dot] org
@@ -9,7 +9,7 @@
 """Common User Passwords Profiler"""
 __author__ = 'Muris Kurgas'
 __license__ = 'GPL'
-__version__ = '3.0'
+__version__ = '3.1.0-alpha'
 
 import argparse
 import configparser
@@ -89,10 +89,10 @@ def get_parser():
 
 def version():
     """Display version and exit."""
-    print("\n \033[1;31m[ cupp.py ]  v3.0\033[1;m\n")
+    print("\n \033[1;31m[ cupp.py ]  v3.1.0-alpha\033[1;m\n")
     print(" * Hacked up by j0rgan - j0rgan@remote-exploit.org")
     print(" * http://www.remote-exploit.org\n")
-    print(" Take a look docs/README file for more info about the program\n")
+    print(" Take a look ./README.md file for more info about the program\n")
     sys.exit()
 
 

@@ -2,7 +2,7 @@
 #
 #  [Program]
 #
-#  CUPP 3.0
+#  CUPP 3.1.0-alpha
 #  Common User Passwords Profiler
 #
 #
@@ -112,10 +112,10 @@ if len(sys.argv) < 2 or sys.argv[1] == '-h':
 	exit()
 
 elif sys.argv[1] == '-v':
-	print "\r\n	\033[1;31m[ cupp.py ]  v3.0\033[1;m\r\n"
+	print "\r\n	\033[1;31m[ cupp.py ]  v3.1.0-alpha\033[1;m\r\n"
 	print "	* Hacked up by j0rgan - j0rgan@remote-exploit.org"
 	print "	* http://www.remote-exploit.org\r\n"
-	print "	Take a look docs/README file for more info about the program\r\n"
+	print "	Take a look ./README.md file for more info about the program\r\n"
 	exit()
 
 
