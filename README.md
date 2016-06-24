@@ -45,7 +45,6 @@
    CUPP has configuration file cupp.cfg with instructions.
 
 
-
 ## License
 
   This program is free software; you can redistribute it and/or modify
@@ -64,19 +63,30 @@
 
   See 'docs/LICENSE' for more information.
 
+## Github import
 
+This project was imported into https://github.com/Mebus/cupp by Mebus from:  
+http://www.remote-exploit.org/content/cupp-3.0.tar.gz  
+http://www.remote-exploit.org/articles/misc_research__amp_code/index.html  
+to encourage further developement of the tool.
 
-## Author
+## Original author
 
-  Muris Kurgas aka j0rgan
-  j0rgan@remote-exploit.org
-  http://www.remote-exploit.org
-  http://www.azuzi.me
+  Muris Kurgas aka j0rgan  
+  j0rgan@remote-exploit.org  
+  http://www.remote-exploit.org  
+  http://www.azuzi.me  
 
 
 ## Contributors
 
-  Bosko Petrovic aka bolexxx
-  bole_loser@hotmail.com
-  http://www.offensive-security.com
-  http://www.bolexxx.net
+  * Bosko Petrovic aka bolexxx  
+  bole_loser@hotmail.com  
+  http://www.offensive-security.com  
+  http://www.bolexxx.net  
+
+  * Mebus  
+    https://github.com/Mebus/  
+
+  * Abhro  
+    https://github.com/Abhro/  
