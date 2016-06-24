@@ -90,3 +90,7 @@ to encourage further developement of the tool.
 
   * Abhro  
     https://github.com/Abhro/  
+
+  * Andrea Giacomo  
+    https://github.com/codepr
+
