@@ -628,7 +628,7 @@ elif sys.argv[1] == '-l':
 
 	print "     1   Moby            14      french          27      places"
 	print "     2   afrikaans       15      german          28      polish"
-	print "     3   american        16      hindi           39      random"
+	print "     3   american        16      hindi           29      random"
 	print "     4   aussie          17      hungarian       30      religion"
 	print "     5   chinese         18      italian         31      russian"
 	print "     6   computer        19      japanese        32      science"
