@@ -264,12 +264,12 @@ elif sys.argv[1] == '-i':
 
 	print "\r\n"
 
-	wife = raw_input("> Partners) name: ").lower()
-	wifen = raw_input("> Partners) nickname: ").lower()
-	wifeb = raw_input("> Partners) birthdate (DDMMYYYY): ")
+	wife = raw_input("> Partner's name: ").lower()
+	wifen = raw_input("> Partner's nickname: ").lower()
+	wifeb = raw_input("> Partner's birthdate (DDMMYYYY): ")
 	while len(wifeb) != 0 and len(wifeb) != 8:
 		print "\r\n[-] You must enter 8 digits for birthday!"
-		wifeb = raw_input("> Partners birthdate (DDMMYYYY): ")
+		wifeb = raw_input("> Partner's birthdate (DDMMYYYY): ")
 	wifeb = str(wifeb)
 	print "\r\n"
 
@@ -424,7 +424,7 @@ elif sys.argv[1] == '-i':
 
 	kombinaac = [pet, petup, company, companyup]
 
-	kombina = [name, surname, nick, nameup, surnameup, nickup]
+	kombina = [name, surname, nick, nameup, surnameup, nickup, nicknamesurname, nickname, nicknamebirthdate, nicknameddmm, nicknamemmdd]
 
 	kombinaw = [wife, wifen, wifeup, wifenup, surname, surnameup]
 
