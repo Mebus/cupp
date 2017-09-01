@@ -68,7 +68,7 @@
 This project was imported into https://github.com/Mebus/cupp by Mebus from:  
 http://www.remote-exploit.org/content/cupp-3.0.tar.gz  
 http://www.remote-exploit.org/articles/misc_research__amp_code/index.html  
-to encourage further developement of the tool.
+to encourage further development of the tool.
 
 ## Original author
 
