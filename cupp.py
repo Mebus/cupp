@@ -243,10 +243,10 @@ elif sys.argv[1] == '-w':
 
 
 elif sys.argv[1] == '-i':
-	print "\r\n[+] Insert the informations about the victim to make a dictionary"
+	print "\r\n[+] Insert the information about the victim to make a dictionary"
 	print "[+] If you don't know all the info, just hit enter when asked! ;)\r\n"
 
-# We need some informations first!
+# We need some information first!
 
 	name = raw_input("> First Name: ").lower()
 	while len(name) == 0 or name == " " or name == "  " or name == "   ":
