@@ -45,7 +45,7 @@ import csv
 
 # Reading configuration file...
 config = configparser.ConfigParser()
-config.read('cupp.cfg')
+config.read(os.path.join(os.path.dirname(__file__), 'cupp.cfg'))
 
 years = config.get('years', 'years').split(',')
 chars = config.get('specialchars', 'chars').split(',')
