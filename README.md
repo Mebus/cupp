@@ -1,4 +1,4 @@
-# cupp.py - Common User Passwords Profiler
+# CUPP - Common User Passwords Profiler
 
  
 ## About
@@ -15,10 +15,19 @@
   guessed by someone profiling the user, such as a birthday, nickname, address,
   name of a pet or relative, or a common word such as God, love, money or password.
 
-  That is why CUPP has born, and it can be used in situations like legal
+  That is why CUPP was born, and it can be used in situations like legal
   penetration tests or forensic crime investigations.
 
 
+Requirements
+------------
+
+You need Python 3 to run CUPP.
+
+Quick start
+-----------
+
+    $ python3 cupp.py -h
 
 ## Options
 
