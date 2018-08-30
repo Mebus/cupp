@@ -1,8 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 #  [Program]
 #
-#  CUPP 3.1.0-alpha
+#  CUPP 3.2.0-alpha
 #  Common User Passwords Profiler
 #
 #
@@ -37,14 +37,14 @@
 import sys
 import os
 import ftplib
-import ConfigParser
-import urllib
+import configparser
+import urllib.request, urllib.parse, urllib.error
 import gzip
 import csv
 
 
 # Reading configuration file...
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read('cupp.cfg')
 
 years = config.get('years', 'years').split(',')
@@ -74,7 +74,7 @@ z = config.get('leet','z')
 
 def concats(seq, start, stop):
 	for mystr in seq:
-		for num in xrange(start, stop):
+		for num in range(start, stop):
 			yield mystr + str(num)
 
 
@@ -96,46 +96,46 @@ def print_to_file(filename, unique_list_finished):
 	for line in f:
 		lines += 1
 	f.close()
-	print "[+] Saving dictionary to \033[1;31m"+filename+"\033[1;m, counting \033[1;31m"+str(lines)+" words.\033[1;m"
-	print "[+] Now load your pistolero with \033[1;31m"+filename+"\033[1;m and shoot! Good luck!"
+	print("[+] Saving dictionary to \033[1;31m"+filename+"\033[1;m, counting \033[1;31m"+str(lines)+" words.\033[1;m")
+	print("[+] Now load your pistolero with \033[1;31m"+filename+"\033[1;m and shoot! Good luck!")
 
 if len(sys.argv) < 2 or sys.argv[1] == '-h':
-	print " ___________ "
-	print " \033[07m  cupp.py! \033[27m                # Common"
-	print "      \                     # User"
-	print "       \   \033[1;31m,__,\033[1;m             # Passwords"
-	print "        \  \033[1;31m(\033[1;moo\033[1;31m)____\033[1;m         # Profiler"
-	print "           \033[1;31m(__)    )\ \033[1;m  "
-	print "           \033[1;31m   ||--|| \033[1;m\033[05m*\033[25m\033[1;m      [ Muris Kurgas | j0rgan@remote-exploit.org ]\r\n\r\n"
+	print(" ___________ ")
+	print(" \033[07m  cupp.py! \033[27m                # Common")
+	print("      \                     # User")
+	print("       \   \033[1;31m,__,\033[1;m             # Passwords")
+	print("        \  \033[1;31m(\033[1;moo\033[1;31m)____\033[1;m         # Profiler")
+	print("           \033[1;31m(__)    )\ \033[1;m  ")
+	print("           \033[1;31m   ||--|| \033[1;m\033[05m*\033[25m\033[1;m      [ Muris Kurgas | j0rgan@remote-exploit.org ]\r\n\r\n")
 
-	print "	[ Options ]\r\n"
-	print "	-h	You are looking at it baby! :)"
-	print " 		 For more help take a look in docs/README"
-	print "		 Global configuration file is cupp.cfg\n"
+	print("	[ Options ]\r\n")
+	print("	-h	You are looking at it baby! :)")
+	print(" 		 For more help take a look in docs/README")
+	print("		 Global configuration file is cupp.cfg\n")
 
-	print "	-i	Interactive questions for user password profiling\r\n"
+	print("	-i	Interactive questions for user password profiling\r\n")
 
-	print "	-w	Use this option to improve existing dictionary,"
-	print "		 or WyD.pl output to make some pwnsauce\r\n"
+	print("	-w	Use this option to improve existing dictionary,")
+	print("		 or WyD.pl output to make some pwnsauce\r\n")
 
-	print "	-l	Download huge wordlists from repository\r\n"
-	print "	-a	Parse default usernames and passwords directly from Alecto DB."
-	print "		 Project Alecto uses purified databases of Phenoelit and CIRT"
-	print "		 which where merged and enhanced.\r\n"
-	print "	-v	Version of the program\r\n"
+	print("	-l	Download huge wordlists from repository\r\n")
+	print("	-a	Parse default usernames and passwords directly from Alecto DB.")
+	print("		 Project Alecto uses purified databases of Phenoelit and CIRT")
+	print("		 which where merged and enhanced.\r\n")
+	print("	-v	Version of the program\r\n")
 	exit()
 
 elif sys.argv[1] == '-v':
-	print "\r\n	\033[1;31m[ cupp.py ]  v3.1.0-alpha\033[1;m\r\n"
-	print "	* Hacked up by j0rgan - j0rgan@remote-exploit.org"
-	print "	* http://www.remote-exploit.org\r\n"
-	print "	Take a look ./README.md file for more info about the program\r\n"
+	print("\r\n	\033[1;31m[ cupp.py ]  v3.2.0-alpha\033[1;m\r\n")
+	print("	* Hacked up by j0rgan - j0rgan@remote-exploit.org")
+	print("	* http://www.remote-exploit.org\r\n")
+	print("	Take a look ./README.md file for more info about the program\r\n")
 	exit()
 
 
 elif sys.argv[1] == '-w':
 	if len(sys.argv) < 3:
-		print "\r\n[Usage]:	"+sys.argv[0]+"  -w  [FILENAME]\r\n"
+		print("\r\n[Usage]:	"+sys.argv[0]+"  -w  [FILENAME]\r\n")
 		exit()
 	fajl = open(sys.argv[2], "r")
 	listic = fajl.readlines()
@@ -147,20 +147,20 @@ elif sys.argv[1] == '-w':
 	for x in listic:
 		listica += x.split()
 
-	print "\r\n      *************************************************"
-	print "      *                    \033[1;31mWARNING!!!\033[1;m                 *"
-	print "      *         Using large wordlists in some         *"
-	print "      *       options bellow is NOT recommended!      *"
-	print "      *************************************************\r\n"
+	print("\r\n      *************************************************")
+	print("      *                    \033[1;31mWARNING!!!\033[1;m                 *")
+	print("      *         Using large wordlists in some         *")
+	print("      *       options bellow is NOT recommended!      *")
+	print("      *************************************************\r\n")
 
-	conts = raw_input("> Do you want to concatenate all words from wordlist? Y/[N]: ").lower()
+	conts = input("> Do you want to concatenate all words from wordlist? Y/[N]: ").lower()
 
 
 
 	if conts == "y" and linije > threshold:
-		print "\r\n[-] Maximum number of words for concatenation is "+str(threshold)
-		print "[-] Check configuration file for increasing this number.\r\n"
-		conts = raw_input("> Do you want to concatenate all words from wordlist? Y/[N]: ").lower()
+		print("\r\n[-] Maximum number of words for concatenation is "+str(threshold))
+		print("[-] Check configuration file for increasing this number.\r\n")
+		conts = input("> Do you want to concatenate all words from wordlist? Y/[N]: ").lower()
 	conts = conts
 	cont = ['']
 	if conts == "y":
@@ -170,7 +170,7 @@ elif sys.argv[1] == '-w':
 					cont.append(cont1+cont2)
 
 	spechars = ['']
-	spechars1 = raw_input("> Do you want to add special chars at the end of words? Y/[N]: ").lower()
+	spechars1 = input("> Do you want to add special chars at the end of words? Y/[N]: ").lower()
 	if spechars1 == "y":
 		for spec1 in chars:
 			spechars.append(spec1)
@@ -179,8 +179,8 @@ elif sys.argv[1] == '-w':
 				for spec3 in chars:
 					spechars.append(spec1+spec2+spec3)
 
-	randnum = raw_input("> Do you want to add some random numbers at the end of words? Y/[N]:").lower()
-	leetmode = raw_input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
+	randnum = input("> Do you want to add some random numbers at the end of words? Y/[N]:").lower()
+	leetmode = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
 
 
 	kombinacija1 = list(komb(listica, years))
@@ -200,22 +200,22 @@ elif sys.argv[1] == '-w':
 		if conts == "y":
 			kombinacija6 = list(concats(cont, numfrom, numto))
 
-	print "\r\n[+] Now making a dictionary..."
+	print("\r\n[+] Now making a dictionary...")
 
-	print "[+] Sorting list and removing duplicates..."
+	print("[+] Sorting list and removing duplicates...")
 
-	komb_unique1 = dict.fromkeys(kombinacija1).keys()
-	komb_unique2 = dict.fromkeys(kombinacija2).keys()
-	komb_unique3 = dict.fromkeys(kombinacija3).keys()
-	komb_unique4 = dict.fromkeys(kombinacija4).keys()
-	komb_unique5 = dict.fromkeys(kombinacija5).keys()
-	komb_unique6 = dict.fromkeys(kombinacija6).keys()
-	komb_unique7 = dict.fromkeys(listica).keys()
-	komb_unique8 = dict.fromkeys(cont).keys()
+	komb_unique1 = list(dict.fromkeys(kombinacija1).keys())
+	komb_unique2 = list(dict.fromkeys(kombinacija2).keys())
+	komb_unique3 = list(dict.fromkeys(kombinacija3).keys())
+	komb_unique4 = list(dict.fromkeys(kombinacija4).keys())
+	komb_unique5 = list(dict.fromkeys(kombinacija5).keys())
+	komb_unique6 = list(dict.fromkeys(kombinacija6).keys())
+	komb_unique7 = list(dict.fromkeys(listica).keys())
+	komb_unique8 = list(dict.fromkeys(cont).keys())
 
 	uniqlist = komb_unique1+komb_unique2+komb_unique3+komb_unique4+komb_unique5+komb_unique6+komb_unique7+komb_unique8
 
-	unique_lista = dict.fromkeys(uniqlist).keys()
+	unique_lista = list(dict.fromkeys(uniqlist).keys())
 	unique_leet = []
 	if leetmode == "y":
 		for x in unique_lista: # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
@@ -243,58 +243,58 @@ elif sys.argv[1] == '-w':
 
 
 elif sys.argv[1] == '-i':
-	print "\r\n[+] Insert the information about the victim to make a dictionary"
-	print "[+] If you don't know all the info, just hit enter when asked! ;)\r\n"
+	print("\r\n[+] Insert the information about the victim to make a dictionary")
+	print("[+] If you don't know all the info, just hit enter when asked! ;)\r\n")
 
 # We need some information first!
 
-	name = raw_input("> First Name: ").lower()
+	name = input("> First Name: ").lower()
 	while len(name) == 0 or name == " " or name == "  " or name == "   ":
-		print "\r\n[-] You must enter a name at least!"
-		name = raw_input("> Name: ").lower()
+		print("\r\n[-] You must enter a name at least!")
+		name = input("> Name: ").lower()
 	name = str(name)
 
-	surname = raw_input("> Surname: ").lower()
-	nick = raw_input("> Nickname: ").lower()
-	birthdate = raw_input("> Birthdate (DDMMYYYY): ")
+	surname = input("> Surname: ").lower()
+	nick = input("> Nickname: ").lower()
+	birthdate = input("> Birthdate (DDMMYYYY): ")
 	while len(birthdate) != 0 and len(birthdate) != 8:
-		print "\r\n[-] You must enter 8 digits for birthday!"
-		birthdate = raw_input("> Birthdate (DDMMYYYY): ")
+		print("\r\n[-] You must enter 8 digits for birthday!")
+		birthdate = input("> Birthdate (DDMMYYYY): ")
 	birthdate = str(birthdate)
 
-	print "\r\n"
+	print("\r\n")
 
-	wife = raw_input("> Partners) name: ").lower()
-	wifen = raw_input("> Partners) nickname: ").lower()
-	wifeb = raw_input("> Partners) birthdate (DDMMYYYY): ")
+	wife = input("> Partners) name: ").lower()
+	wifen = input("> Partners) nickname: ").lower()
+	wifeb = input("> Partners) birthdate (DDMMYYYY): ")
 	while len(wifeb) != 0 and len(wifeb) != 8:
-		print "\r\n[-] You must enter 8 digits for birthday!"
-		wifeb = raw_input("> Partners birthdate (DDMMYYYY): ")
+		print("\r\n[-] You must enter 8 digits for birthday!")
+		wifeb = input("> Partners birthdate (DDMMYYYY): ")
 	wifeb = str(wifeb)
-	print "\r\n"
+	print("\r\n")
 
-	kid = raw_input("> Child's name: ").lower()
-	kidn = raw_input("> Child's nickname: ").lower()
-	kidb = raw_input("> Child's birthdate (DDMMYYYY): ")
+	kid = input("> Child's name: ").lower()
+	kidn = input("> Child's nickname: ").lower()
+	kidb = input("> Child's birthdate (DDMMYYYY): ")
 	while len(kidb) != 0 and len(kidb) != 8:
-		print "\r\n[-] You must enter 8 digits for birthday!"
-		kidb = raw_input("> Child's birthdate (DDMMYYYY): ")
+		print("\r\n[-] You must enter 8 digits for birthday!")
+		kidb = input("> Child's birthdate (DDMMYYYY): ")
 	kidb = str(kidb)
-	print "\r\n"
+	print("\r\n")
 
-	pet = raw_input("> Pet's name: ").lower()
-	company = raw_input("> Company name: ").lower()
-	print "\r\n"
+	pet = input("> Pet's name: ").lower()
+	company = input("> Company name: ").lower()
+	print("\r\n")
 
 	words = ['']
-	words1 = raw_input("> Do you want to add some key words about the victim? Y/[N]: ").lower()
+	words1 = input("> Do you want to add some key words about the victim? Y/[N]: ").lower()
 	words2 = ""
 	if words1 == "y":
-		words2 = raw_input("> Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed: ").replace(" ","")
+		words2 = input("> Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed: ").replace(" ","")
 	words = words2.split(",")
 
 	spechars = ['']
-	spechars1 = raw_input("> Do you want to add special chars at the end of words? Y/[N]: ").lower()
+	spechars1 = input("> Do you want to add special chars at the end of words? Y/[N]: ").lower()
 	if spechars1 == "y":
 		for spec1 in chars:
 			spechars.append(spec1)
@@ -303,11 +303,11 @@ elif sys.argv[1] == '-i':
 				for spec3 in chars:
 					spechars.append(spec1+spec2+spec3)
 
-	randnum = raw_input("> Do you want to add some random numbers at the end of words? Y/[N]:").lower()
-	leetmode = raw_input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
+	randnum = input("> Do you want to add some random numbers at the end of words? Y/[N]:").lower()
+	leetmode = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
 
 
-	print "\r\n[+] Now making a dictionary..."
+	print("\r\n[+] Now making a dictionary...")
 
 
 # Now me must do some string modifications...
@@ -352,7 +352,7 @@ elif sys.argv[1] == '-i':
 	companyup = company.title()
 
 	wordsup = []
-	wordsup = map(str.title, words)
+	wordsup = list(map(str.title, words))
 
 	word = words+wordsup
 
@@ -510,44 +510,44 @@ elif sys.argv[1] == '-i':
 		komb005 = list(komb(word, spechars))
 		komb006 = list(komb(reverse, spechars))
 
-	print "[+] Sorting list and removing duplicates..."
+	print("[+] Sorting list and removing duplicates...")
 
-	komb_unique1 = dict.fromkeys(komb1).keys()
-	komb_unique2 = dict.fromkeys(komb2).keys()
-	komb_unique3 = dict.fromkeys(komb3).keys()
-	komb_unique4 = dict.fromkeys(komb4).keys()
-	komb_unique5 = dict.fromkeys(komb5).keys()
-	komb_unique6 = dict.fromkeys(komb6).keys()
-	komb_unique7 = dict.fromkeys(komb7).keys()
-	komb_unique8 = dict.fromkeys(komb8).keys()
-	komb_unique9 = dict.fromkeys(komb9).keys()
-	komb_unique10 = dict.fromkeys(komb10).keys()
-	komb_unique11 = dict.fromkeys(komb11).keys()
-	komb_unique12 = dict.fromkeys(komb12).keys()
-	komb_unique13 = dict.fromkeys(komb13).keys()
-	komb_unique14 = dict.fromkeys(komb14).keys()
-	komb_unique15 = dict.fromkeys(komb15).keys()
-	komb_unique16 = dict.fromkeys(komb16).keys()
-	komb_unique17 = dict.fromkeys(komb17).keys()
-	komb_unique18 = dict.fromkeys(komb18).keys()
-	komb_unique19 = dict.fromkeys(komb19).keys()
-	komb_unique20 = dict.fromkeys(komb20).keys()
-	komb_unique21 = dict.fromkeys(komb21).keys()
-	komb_unique01 = dict.fromkeys(kombinaa).keys()
-	komb_unique02 = dict.fromkeys(kombinaac).keys()
-	komb_unique03 = dict.fromkeys(kombinaaw).keys()
-	komb_unique04 = dict.fromkeys(kombinaak).keys()
-	komb_unique05 = dict.fromkeys(word).keys()
-	komb_unique07 = dict.fromkeys(komb001).keys()
-	komb_unique08 = dict.fromkeys(komb002).keys()
-	komb_unique09 = dict.fromkeys(komb003).keys()
-	komb_unique010 = dict.fromkeys(komb004).keys()
-	komb_unique011 = dict.fromkeys(komb005).keys()
-	komb_unique012 = dict.fromkeys(komb006).keys()
+	komb_unique1 = list(dict.fromkeys(komb1).keys())
+	komb_unique2 = list(dict.fromkeys(komb2).keys())
+	komb_unique3 = list(dict.fromkeys(komb3).keys())
+	komb_unique4 = list(dict.fromkeys(komb4).keys())
+	komb_unique5 = list(dict.fromkeys(komb5).keys())
+	komb_unique6 = list(dict.fromkeys(komb6).keys())
+	komb_unique7 = list(dict.fromkeys(komb7).keys())
+	komb_unique8 = list(dict.fromkeys(komb8).keys())
+	komb_unique9 = list(dict.fromkeys(komb9).keys())
+	komb_unique10 = list(dict.fromkeys(komb10).keys())
+	komb_unique11 = list(dict.fromkeys(komb11).keys())
+	komb_unique12 = list(dict.fromkeys(komb12).keys())
+	komb_unique13 = list(dict.fromkeys(komb13).keys())
+	komb_unique14 = list(dict.fromkeys(komb14).keys())
+	komb_unique15 = list(dict.fromkeys(komb15).keys())
+	komb_unique16 = list(dict.fromkeys(komb16).keys())
+	komb_unique17 = list(dict.fromkeys(komb17).keys())
+	komb_unique18 = list(dict.fromkeys(komb18).keys())
+	komb_unique19 = list(dict.fromkeys(komb19).keys())
+	komb_unique20 = list(dict.fromkeys(komb20).keys())
+	komb_unique21 = list(dict.fromkeys(komb21).keys())
+	komb_unique01 = list(dict.fromkeys(kombinaa).keys())
+	komb_unique02 = list(dict.fromkeys(kombinaac).keys())
+	komb_unique03 = list(dict.fromkeys(kombinaaw).keys())
+	komb_unique04 = list(dict.fromkeys(kombinaak).keys())
+	komb_unique05 = list(dict.fromkeys(word).keys())
+	komb_unique07 = list(dict.fromkeys(komb001).keys())
+	komb_unique08 = list(dict.fromkeys(komb002).keys())
+	komb_unique09 = list(dict.fromkeys(komb003).keys())
+	komb_unique010 = list(dict.fromkeys(komb004).keys())
+	komb_unique011 = list(dict.fromkeys(komb005).keys())
+	komb_unique012 = list(dict.fromkeys(komb006).keys())
 
 	uniqlist = bdss+wbdss+kbdss+reverse+komb_unique01+komb_unique02+komb_unique03+komb_unique04+komb_unique05+komb_unique1+komb_unique2+komb_unique3+komb_unique4+komb_unique5+komb_unique6+komb_unique7+komb_unique8+komb_unique9+komb_unique10+komb_unique11+komb_unique12+komb_unique13+komb_unique14+komb_unique15+komb_unique16+komb_unique17+komb_unique18+komb_unique19+komb_unique20+komb_unique21+komb_unique07+komb_unique08+komb_unique09+komb_unique010+komb_unique011+komb_unique012
 
-	unique_lista = dict.fromkeys(uniqlist).keys()
+	unique_lista = list(dict.fromkeys(uniqlist).keys())
 	unique_leet = []
 	if leetmode == "y":
 		for x in unique_lista: # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
@@ -573,10 +573,10 @@ elif sys.argv[1] == '-i':
 elif sys.argv[1] == '-a':
 	url = config.get('alecto','alectourl')
 
-	print "\r\n[+] Checking if alectodb is not present..."
+	print("\r\n[+] Checking if alectodb is not present...")
 	if os.path.isfile('alectodb.csv.gz') == 0:
-		print "[+] Downloading alectodb.csv.gz..."
-		webFile = urllib.urlopen(url)
+		print("[+] Downloading alectodb.csv.gz...")
+		webFile = urllib.request.urlopen(url)
 		localFile = open(url.split('/')[-1], 'w')
 		localFile.write(webFile.read())
 		webFile.close()
@@ -597,7 +597,7 @@ elif sys.argv[1] == '-a':
 	gus.sort()
 	gpa.sort()
 
-	print "\r\n[+] Exporting to alectodb-usernames.txt and alectodb-passwords.txt\r\n[+] Done."
+	print("\r\n[+] Exporting to alectodb-usernames.txt and alectodb-passwords.txt\r\n[+] Done.")
 	f = open ( 'alectodb-usernames.txt', 'w' )
 	f.write (os.linesep.join(gus))
 	f.close()
@@ -624,39 +624,39 @@ elif sys.argv[1] == '-l':
 	if os.path.isdir('dictionaries') == 0:
 		os.mkdir('dictionaries')
 
-	print "	\r\n	Choose the section you want to download:\r\n"
+	print("	\r\n	Choose the section you want to download:\r\n")
 
-	print "     1   Moby            14      french          27      places"
-	print "     2   afrikaans       15      german          28      polish"
-	print "     3   american        16      hindi           29      random"
-	print "     4   aussie          17      hungarian       30      religion"
-	print "     5   chinese         18      italian         31      russian"
-	print "     6   computer        19      japanese        32      science"
-	print "     7   croatian        20      latin           33      spanish"
-	print "     8   czech           21      literature      34      swahili"
-	print "     9   danish          22      movieTV         35      swedish"
-	print "    10   databases       23      music           36      turkish"
-	print "    11   dictionaries    24      names           37      yiddish"
-	print "    12   dutch           25      net             38      exit program"
-	print "    13   finnish         26      norwegian       \r\n"
-	print "	\r\n	Files will be downloaded from "+ftpname+" repository"
-	print "	\r\n	Tip: After downloading wordlist, you can improve it with -w option\r\n"
+	print("     1   Moby            14      french          27      places")
+	print("     2   afrikaans       15      german          28      polish")
+	print("     3   american        16      hindi           29      random")
+	print("     4   aussie          17      hungarian       30      religion")
+	print("     5   chinese         18      italian         31      russian")
+	print("     6   computer        19      japanese        32      science")
+	print("     7   croatian        20      latin           33      spanish")
+	print("     8   czech           21      literature      34      swahili")
+	print("     9   danish          22      movieTV         35      swedish")
+	print("    10   databases       23      music           36      turkish")
+	print("    11   dictionaries    24      names           37      yiddish")
+	print("    12   dutch           25      net             38      exit program")
+	print("    13   finnish         26      norwegian       \r\n")
+	print("	\r\n	Files will be downloaded from "+ftpname+" repository")
+	print("	\r\n	Tip: After downloading wordlist, you can improve it with -w option\r\n")
 
-	filedown = raw_input("> Enter number: ")
+	filedown = input("> Enter number: ")
 	filedown.isdigit()
 	while filedown.isdigit() == 0:
-		print "\r\n[-] Wrong choice. "
-		filedown = raw_input("> Enter number: ")
+		print("\r\n[-] Wrong choice. ")
+		filedown = input("> Enter number: ")
 	filedown = str(filedown)
 	while int(filedown) > 38:
-		print "\r\n[-] Wrong choice. "
-		filedown = raw_input("> Enter number: ")
+		print("\r\n[-] Wrong choice. ")
+		filedown = input("> Enter number: ")
 	filedown = str(filedown)
 
 
 	def handleDownload(block):
 		file.write(block)
-		print ".",
+		print(".", end=' ')
 
 	def downloader():
 		ftp.login(ftpuser, ftppass)
@@ -664,11 +664,11 @@ elif sys.argv[1] == '-l':
 
 	def filequitter():
 		file.close()
-		print ' done.'
+		print(' done.')
 
 
 	if filedown == "1":
-		print "\r\n[+] connecting...\r\n"
+		print("\r\n[+] connecting...\r\n")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('Moby')
@@ -676,46 +676,46 @@ elif sys.argv[1] == '-l':
 			os.mkdir('dictionaries/Moby/')
 		dire = 'dictionaries/Moby/'
 		file = open(dire+'mhyph.tar.gz', 'wb')
-		print "\r\n[+] downloading mhyph.tar.gz..."
+		print("\r\n[+] downloading mhyph.tar.gz...")
 		ftp.retrbinary('RETR ' + 'mhyph.tar.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'mlang.tar.gz', 'wb')
-		print "\r\n[+] downloading mlang.tar.gz..."
+		print("\r\n[+] downloading mlang.tar.gz...")
 		ftp.retrbinary('RETR ' + 'mlang.tar.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'moby.tar.gz', 'wb')
-		print "\r\n[+] downloading moby.tar.gz..."
+		print("\r\n[+] downloading moby.tar.gz...")
 		ftp.retrbinary('RETR ' + 'moby.tar.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'mpos.tar.gz', 'wb')
-		print "\r\n[+] downloading mpos.tar.gz..."
+		print("\r\n[+] downloading mpos.tar.gz...")
 		ftp.retrbinary('RETR ' + 'mpos.tar.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'mpron.tar.gz', 'wb')
-		print "\r\n[+] downloading mpron.tar.gz..."
+		print("\r\n[+] downloading mpron.tar.gz...")
 		ftp.retrbinary('RETR ' + 'mpron.tar.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'mthes.tar.gz', 'wb')
-		print "\r\n[+] downloading mthes.tar.gz..."
+		print("\r\n[+] downloading mthes.tar.gz...")
 		ftp.retrbinary('RETR ' + 'mthes.tar.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'mwords.tar.gz', 'wb')
-		print "\r\n[+] downloading mwords.tar.gz..."
+		print("\r\n[+] downloading mwords.tar.gz...")
 		ftp.retrbinary('RETR ' + 'mwords.tar.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "2":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('afrikaans')
@@ -724,16 +724,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/afrikaans/'
 
 		file = open(dire+'afr_dbf.zip', 'wb')
-		print "\r\n[+] downloading afr_dbf.zip..."
+		print("\r\n[+] downloading afr_dbf.zip...")
 		ftp.retrbinary('RETR ' + 'afr_dbf.zip', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "3":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('american')
@@ -742,16 +742,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/american/'
 
 		file = open(dire+'dic-0294.tar.gz', 'wb')
-		print "\r\n[+] downloading dic-0294.tar.gz..."
+		print("\r\n[+] downloading dic-0294.tar.gz...")
 		ftp.retrbinary('RETR ' + 'dic-0294.tar.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "4":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('aussie')
@@ -760,17 +760,17 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/aussie/'
 
 		file = open(dire+'oz.gz', 'wb')
-		print "\r\n[+] downloading oz.gz..."
+		print("\r\n[+] downloading oz.gz...")
 		ftp.retrbinary('RETR ' + 'oz.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 
 	if filedown == "5":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('chinese')
@@ -779,16 +779,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/chinese/'
 
 		file = open(dire+'chinese.gz', 'wb')
-		print "\r\n[+] downloading chinese.gz..."
+		print("\r\n[+] downloading chinese.gz...")
 		ftp.retrbinary('RETR ' + 'chinese.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "6":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('computer')
@@ -797,56 +797,56 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/computer/'
 
 		file = open(dire+'Domains.gz', 'wb')
-		print "\r\n[+] downloading Domains.gz..."
+		print("\r\n[+] downloading Domains.gz...")
 		ftp.retrbinary('RETR ' + 'Domains.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Dosref.gz', 'wb')
-		print "\r\n[+] downloading Dosref.gz..."
+		print("\r\n[+] downloading Dosref.gz...")
 		ftp.retrbinary('RETR ' + 'Dosref.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Ftpsites.gz', 'wb')
-		print "\r\n[+] downloading Ftpsites.gz..."
+		print("\r\n[+] downloading Ftpsites.gz...")
 		ftp.retrbinary('RETR ' + 'Ftpsites.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Jargon.gz', 'wb')
-		print "\r\n[+] downloading Jargon.gz..."
+		print("\r\n[+] downloading Jargon.gz...")
 		ftp.retrbinary('RETR ' + 'Jargon.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'common-passwords.txt.gz', 'wb')
-		print "\r\n[+] downloading common-passwords.txt.gz..."
+		print("\r\n[+] downloading common-passwords.txt.gz...")
 		ftp.retrbinary('RETR ' + 'common-passwords.txt.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'etc-hosts.gz', 'wb')
-		print "\r\n[+] downloading etc-hosts.gz..."
+		print("\r\n[+] downloading etc-hosts.gz...")
 		ftp.retrbinary('RETR ' + 'etc-hosts.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'foldoc.gz', 'wb')
-		print "\r\n[+] downloading foldoc.gz..."
+		print("\r\n[+] downloading foldoc.gz...")
 		ftp.retrbinary('RETR ' + 'foldoc.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'language-list.gz', 'wb')
-		print "\r\n[+] downloading language-list.gz..."
+		print("\r\n[+] downloading language-list.gz...")
 		ftp.retrbinary('RETR ' + 'language-list.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'unix.gz', 'wb')
-		print "\r\n[+] downloading unix.gz..."
+		print("\r\n[+] downloading unix.gz...")
 		ftp.retrbinary('RETR ' + 'unix.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "7":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('croatian')
@@ -855,16 +855,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/croatian/'
 
 		file = open(dire+'croatian.gz', 'wb')
-		print "\r\n[+] downloading croatian.gz..."
+		print("\r\n[+] downloading croatian.gz...")
 		ftp.retrbinary('RETR ' + 'croatian.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "8":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('czech')
@@ -873,17 +873,17 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/czech/'
 
 		file = open(dire+'czech-wordlist-ascii-cstug-novak.gz', 'wb')
-		print "\r\n[+] downloading czech-wordlist-ascii-cstug-novak.gz..."
+		print("\r\n[+] downloading czech-wordlist-ascii-cstug-novak.gz...")
 		ftp.retrbinary('RETR ' + 'czech-wordlist-ascii-cstug-novak.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 
 	if filedown == "9":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('danish')
@@ -892,21 +892,21 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/danish/'
 
 		file = open(dire+'danish.words.gz', 'wb')
-		print "\r\n[+] downloading danish.words.gz..."
+		print("\r\n[+] downloading danish.words.gz...")
 		ftp.retrbinary('RETR ' + 'danish.words.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'dansk.zip', 'wb')
-		print "\r\n[+] downloading dansk.zip..."
+		print("\r\n[+] downloading dansk.zip...")
 		ftp.retrbinary('RETR ' + 'dansk.zip', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "10":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('databases')
@@ -915,31 +915,31 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/databases/'
 
 		file = open(dire+'acronyms.gz', 'wb')
-		print "\r\n[+] downloading acronyms.gz..."
+		print("\r\n[+] downloading acronyms.gz...")
 		ftp.retrbinary('RETR ' + 'acronyms.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'att800.gz', 'wb')
-		print "\r\n[+] downloading att800.gz..."
+		print("\r\n[+] downloading att800.gz...")
 		ftp.retrbinary('RETR ' + 'att800.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'computer-companies.gz', 'wb')
-		print "\r\n[+] downloading computer-companies.gz..."
+		print("\r\n[+] downloading computer-companies.gz...")
 		ftp.retrbinary('RETR ' + 'computer-companies.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'world_heritage.gz', 'wb')
-		print "\r\n[+] downloading world_heritage.gz..."
+		print("\r\n[+] downloading world_heritage.gz...")
 		ftp.retrbinary('RETR ' + 'world_heritage.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "11":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('dictionaries')
@@ -948,71 +948,71 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/dictionaries/'
 
 		file = open(dire+'Antworth.gz', 'wb')
-		print "\r\n[+] downloading Antworth.gz..."
+		print("\r\n[+] downloading Antworth.gz...")
 		ftp.retrbinary('RETR ' + 'Antworth.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'CRL.words.gz', 'wb')
-		print "\r\n[+] downloading CRL.words.gz..."
+		print("\r\n[+] downloading CRL.words.gz...")
 		ftp.retrbinary('RETR ' + 'CRL.words.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Roget.words.gz', 'wb')
-		print "\r\n[+] downloading Roget.words.gz..."
+		print("\r\n[+] downloading Roget.words.gz...")
 		ftp.retrbinary('RETR ' + 'Roget.words.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Unabr.dict.gz', 'wb')
-		print "\r\n[+] downloading Unabr.dict.gz..."
+		print("\r\n[+] downloading Unabr.dict.gz...")
 		ftp.retrbinary('RETR ' + 'Unabr.dict.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Unix.dict.gz', 'wb')
-		print "\r\n[+] downloading Unix.dict.gz..."
+		print("\r\n[+] downloading Unix.dict.gz...")
 		ftp.retrbinary('RETR ' + 'Unix.dict.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'englex-dict.gz', 'wb')
-		print "\r\n[+] downloading englex-dict.gz..."
+		print("\r\n[+] downloading englex-dict.gz...")
 		ftp.retrbinary('RETR ' + 'englex-dict.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'knuth_britsh.gz', 'wb')
-		print "\r\n[+] downloading knuth_britsh.gz..."
+		print("\r\n[+] downloading knuth_britsh.gz...")
 		ftp.retrbinary('RETR ' + 'knuth_britsh.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'knuth_words.gz', 'wb')
-		print "\r\n[+] downloading knuth_words.gz..."
+		print("\r\n[+] downloading knuth_words.gz...")
 		ftp.retrbinary('RETR ' + 'knuth_words.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'pocket-dic.gz', 'wb')
-		print "\r\n[+] downloading pocket-dic.gz..."
+		print("\r\n[+] downloading pocket-dic.gz...")
 		ftp.retrbinary('RETR ' + 'pocket-dic.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'shakesp-glossary.gz', 'wb')
-		print "\r\n[+] downloading shakesp-glossary.gz..."
+		print("\r\n[+] downloading shakesp-glossary.gz...")
 		ftp.retrbinary('RETR ' + 'shakesp-glossary.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'special.eng.gz', 'wb')
-		print "\r\n[+] downloading special.eng.gz..."
+		print("\r\n[+] downloading special.eng.gz...")
 		ftp.retrbinary('RETR ' + 'special.eng.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'words-english.gz', 'wb')
-		print "\r\n[+] downloading words-english.gz..."
+		print("\r\n[+] downloading words-english.gz...")
 		ftp.retrbinary('RETR ' + 'words-english.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "12":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('dutch')
@@ -1021,16 +1021,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/dutch/'
 
 		file = open(dire+'words.dutch.gz', 'wb')
-		print "\r\n[+] downloading words.dutch.gz..."
+		print("\r\n[+] downloading words.dutch.gz...")
 		ftp.retrbinary('RETR ' + 'words.dutch.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "13":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('finnish')
@@ -1039,26 +1039,26 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/finnish/'
 
 		file = open(dire+'finnish.gz', 'wb')
-		print "\r\n[+] downloading finnish.gz..."
+		print("\r\n[+] downloading finnish.gz...")
 		ftp.retrbinary('RETR ' + 'finnish.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'firstnames.finnish.gz', 'wb')
-		print "\r\n[+] downloading firstnames.finnish.gz..."
+		print("\r\n[+] downloading firstnames.finnish.gz...")
 		ftp.retrbinary('RETR ' + 'firstnames.finnish.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'words.finnish.FAQ.gz', 'wb')
-		print "\r\n[+] downloading words.finnish.FAQ.gz..."
+		print("\r\n[+] downloading words.finnish.FAQ.gz...")
 		ftp.retrbinary('RETR ' + 'words.finnish.FAQ.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "14":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('french')
@@ -1067,16 +1067,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/french/'
 
 		file = open(dire+'dico.gz', 'wb')
-		print "\r\n[+] downloading dico.gz..."
+		print("\r\n[+] downloading dico.gz...")
 		ftp.retrbinary('RETR ' + 'dico.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "15":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('german')
@@ -1085,26 +1085,26 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/german/'
 
 		file = open(dire+'deutsch.dic.gz', 'wb')
-		print "\r\n[+] downloading deutsch.dic.gz..."
+		print("\r\n[+] downloading deutsch.dic.gz...")
 		ftp.retrbinary('RETR ' + 'deutsch.dic.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'germanl.gz', 'wb')
-		print "\r\n[+] downloading germanl.gz..."
+		print("\r\n[+] downloading germanl.gz...")
 		ftp.retrbinary('RETR ' + 'germanl.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'words.german.gz', 'wb')
-		print "\r\n[+] downloading words.german.gz..."
+		print("\r\n[+] downloading words.german.gz...")
 		ftp.retrbinary('RETR ' + 'words.german.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "16":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('hindi')
@@ -1113,16 +1113,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/hindi/'
 
 		file = open(dire+'hindu-names.gz', 'wb')
-		print "\r\n[+] downloading hindu-names.gz..."
+		print("\r\n[+] downloading hindu-names.gz...")
 		ftp.retrbinary('RETR ' + 'hindu-names.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "17":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('hungarian')
@@ -1131,16 +1131,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/hungarian/'
 
 		file = open(dire+'hungarian.gz', 'wb')
-		print "\r\n[+] downloading hungarian.gz..."
+		print("\r\n[+] downloading hungarian.gz...")
 		ftp.retrbinary('RETR ' + 'hungarian.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "18":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('italian')
@@ -1149,16 +1149,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/italian/'
 
 		file = open(dire+'words.italian.gz', 'wb')
-		print "\r\n[+] downloading words.italian.gz..."
+		print("\r\n[+] downloading words.italian.gz...")
 		ftp.retrbinary('RETR ' + 'words.italian.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "19":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('japanese')
@@ -1167,16 +1167,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/japanese/'
 
 		file = open(dire+'words.japanese.gz', 'wb')
-		print "\r\n[+] downloading words.japanese.gz..."
+		print("\r\n[+] downloading words.japanese.gz...")
 		ftp.retrbinary('RETR ' + 'words.japanese.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "20":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('latin')
@@ -1185,16 +1185,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/latin/'
 
 		file = open(dire+'wordlist.aug.gz', 'wb')
-		print "\r\n[+] downloading wordlist.aug.gz..."
+		print("\r\n[+] downloading wordlist.aug.gz...")
 		ftp.retrbinary('RETR ' + 'wordlist.aug.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "21":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('literature')
@@ -1203,81 +1203,81 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/literature/'
 
 		file = open(dire+'LCarrol.gz', 'wb')
-		print "\r\n[+] downloading LCarrol.gz..."
+		print("\r\n[+] downloading LCarrol.gz...")
 		ftp.retrbinary('RETR ' + 'LCarrol.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Paradise.Lost.gz', 'wb')
-		print "\r\n[+] downloading Paradise.Lost.gz..."
+		print("\r\n[+] downloading Paradise.Lost.gz...")
 		ftp.retrbinary('RETR ' + 'Paradise.Lost.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'aeneid.gz', 'wb')
-		print "\r\n[+] downloading aeneid.gz..."
+		print("\r\n[+] downloading aeneid.gz...")
 		ftp.retrbinary('RETR ' + 'aeneid.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'arthur.gz', 'wb')
-		print "\r\n[+] downloading arthur.gz..."
+		print("\r\n[+] downloading arthur.gz...")
 		ftp.retrbinary('RETR ' + 'arthur.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'cartoon.gz', 'wb')
-		print "\r\n[+] downloading cartoon.gz..."
+		print("\r\n[+] downloading cartoon.gz...")
 		ftp.retrbinary('RETR ' + 'cartoon.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'cartoons-olivier.gz', 'wb')
-		print "\r\n[+] downloading cartoons-olivier.gz..."
+		print("\r\n[+] downloading cartoons-olivier.gz...")
 		ftp.retrbinary('RETR ' + 'cartoons-olivier.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'charlemagne.gz', 'wb')
-		print "\r\n[+] downloading charlemagne.gz..."
+		print("\r\n[+] downloading charlemagne.gz...")
 		ftp.retrbinary('RETR ' + 'charlemagne.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'fable.gz', 'wb')
-		print "\r\n[+] downloading fable.gz..."
+		print("\r\n[+] downloading fable.gz...")
 		ftp.retrbinary('RETR ' + 'fable.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'iliad.gz', 'wb')
-		print "\r\n[+] downloading iliad.gz..."
+		print("\r\n[+] downloading iliad.gz...")
 		ftp.retrbinary('RETR ' + 'iliad.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'myths-legends.gz', 'wb')
-		print "\r\n[+] downloading myths-legends.gz..."
+		print("\r\n[+] downloading myths-legends.gz...")
 		ftp.retrbinary('RETR ' + 'myths-legends.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'odyssey.gz', 'wb')
-		print "\r\n[+] downloading odyssey.gz..."
+		print("\r\n[+] downloading odyssey.gz...")
 		ftp.retrbinary('RETR ' + 'odyssey.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'sf.gz', 'wb')
-		print "\r\n[+] downloading sf.gz..."
+		print("\r\n[+] downloading sf.gz...")
 		ftp.retrbinary('RETR ' + 'sf.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'shakespeare.gz', 'wb')
-		print "\r\n[+] downloading shakespeare.gz..."
+		print("\r\n[+] downloading shakespeare.gz...")
 		ftp.retrbinary('RETR ' + 'shakespeare.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'tolkien.words.gz', 'wb')
-		print "\r\n[+] downloading tolkien.words.gz..."
+		print("\r\n[+] downloading tolkien.words.gz...")
 		ftp.retrbinary('RETR ' + 'tolkien.words.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "22":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('movieTV')
@@ -1286,26 +1286,26 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/movieTV/'
 
 		file = open(dire+'Movies.gz', 'wb')
-		print "\r\n[+] downloading Movies.gz..."
+		print("\r\n[+] downloading Movies.gz...")
 		ftp.retrbinary('RETR ' + 'Movies.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Python.gz', 'wb')
-		print "\r\n[+] downloading Python.gz..."
+		print("\r\n[+] downloading Python.gz...")
 		ftp.retrbinary('RETR ' + 'Python.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Trek.gz', 'wb')
-		print "\r\n[+] downloading Trek.gz..."
+		print("\r\n[+] downloading Trek.gz...")
 		ftp.retrbinary('RETR ' + 'Trek.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "23":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('music')
@@ -1314,46 +1314,46 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/music/'
 
 		file = open(dire+'music-classical.gz', 'wb')
-		print "\r\n[+] downloading music-classical.gz..."
+		print("\r\n[+] downloading music-classical.gz...")
 		ftp.retrbinary('RETR ' + 'music-classical.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'music-country.gz', 'wb')
-		print "\r\n[+] downloading music-country.gz..."
+		print("\r\n[+] downloading music-country.gz...")
 		ftp.retrbinary('RETR ' + 'music-country.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'music-jazz.gz', 'wb')
-		print "\r\n[+] downloading music-jazz.gz..."
+		print("\r\n[+] downloading music-jazz.gz...")
 		ftp.retrbinary('RETR ' + 'music-jazz.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'music-other.gz', 'wb')
-		print "\r\n[+] downloading music-other.gz..."
+		print("\r\n[+] downloading music-other.gz...")
 		ftp.retrbinary('RETR ' + 'music-other.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'music-rock.gz', 'wb')
-		print "\r\n[+] downloading music-rock.gz..."
+		print("\r\n[+] downloading music-rock.gz...")
 		ftp.retrbinary('RETR ' + 'music-rock.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'music-shows.gz', 'wb')
-		print "\r\n[+] downloading music-shows.gz..."
+		print("\r\n[+] downloading music-shows.gz...")
 		ftp.retrbinary('RETR ' + 'music-shows.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'rock-groups.gz', 'wb')
-		print "\r\n[+] downloading rock-groups.gz..."
+		print("\r\n[+] downloading rock-groups.gz...")
 		ftp.retrbinary('RETR ' + 'rock-groups.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "24":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('names')
@@ -1362,132 +1362,132 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/names/'
 
 		file = open(dire+'ASSurnames.gz', 'wb')
-		print "\r\n[+] downloading ASSurnames.gz..."
+		print("\r\n[+] downloading ASSurnames.gz...")
 		ftp.retrbinary('RETR ' + 'ASSurnames.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Congress.gz', 'wb')
-		print "\r\n[+] downloading Congress.gz..."
+		print("\r\n[+] downloading Congress.gz...")
 		ftp.retrbinary('RETR ' + 'Congress.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Family-Names.gz', 'wb')
-		print "\r\n[+] downloading Family-Names.gz..."
+		print("\r\n[+] downloading Family-Names.gz...")
 		ftp.retrbinary('RETR ' + 'Family-Names.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Given-Names.gz', 'wb')
-		print "\r\n[+] downloading Given-Names.gz..."
+		print("\r\n[+] downloading Given-Names.gz...")
 		ftp.retrbinary('RETR ' + 'Given-Names.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'actor-givenname.gz', 'wb')
-		print "\r\n[+] downloading actor-givenname.gz..."
+		print("\r\n[+] downloading actor-givenname.gz...")
 		ftp.retrbinary('RETR ' + 'actor-givenname.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'actor-surname.gz', 'wb')
-		print "\r\n[+] downloading actor-surname.gz..."
+		print("\r\n[+] downloading actor-surname.gz...")
 		ftp.retrbinary('RETR ' + 'actor-surname.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'cis-givenname.gz', 'wb')
-		print "\r\n[+] downloading cis-givenname.gz..."
+		print("\r\n[+] downloading cis-givenname.gz...")
 		ftp.retrbinary('RETR ' + 'cis-givenname.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'cis-surname.gz', 'wb')
-		print "\r\n[+] downloading cis-surname.gz..."
+		print("\r\n[+] downloading cis-surname.gz...")
 		ftp.retrbinary('RETR ' + 'cis-surname.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'crl-names.gz', 'wb')
-		print "\r\n[+] downloading crl-names.gz..."
+		print("\r\n[+] downloading crl-names.gz...")
 		ftp.retrbinary('RETR ' + 'crl-names.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'famous.gz', 'wb')
-		print "\r\n[+] downloading famous.gz..."
+		print("\r\n[+] downloading famous.gz...")
 		ftp.retrbinary('RETR ' + 'famous.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'fast-names.gz', 'wb')
-		print "\r\n[+] downloading fast-names.gz..."
+		print("\r\n[+] downloading fast-names.gz...")
 		ftp.retrbinary('RETR ' + 'fast-names.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'female-names-kantr.gz', 'wb')
-		print "\r\n[+] downloading female-names-kantr.gz..."
+		print("\r\n[+] downloading female-names-kantr.gz...")
 		ftp.retrbinary('RETR ' + 'female-names-kantr.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'female-names.gz', 'wb')
-		print "\r\n[+] downloading female-names.gz..."
+		print("\r\n[+] downloading female-names.gz...")
 		ftp.retrbinary('RETR ' + 'female-names.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'givennames-ol.gz', 'wb')
-		print "\r\n[+] downloading givennames-ol.gz..."
+		print("\r\n[+] downloading givennames-ol.gz...")
 		ftp.retrbinary('RETR ' + 'givennames-ol.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'male-names-kantr.gz', 'wb')
-		print "\r\n[+] downloading male-names-kantr.gz..."
+		print("\r\n[+] downloading male-names-kantr.gz...")
 		ftp.retrbinary('RETR ' + 'male-names-kantr.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'male-names.gz', 'wb')
-		print "\r\n[+] downloading male-names.gz..."
+		print("\r\n[+] downloading male-names.gz...")
 		ftp.retrbinary('RETR ' + 'male-names.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'movie-characters.gz', 'wb')
-		print "\r\n[+] downloading movie-characters.gz..."
+		print("\r\n[+] downloading movie-characters.gz...")
 		ftp.retrbinary('RETR ' + 'movie-characters.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'names.french.gz', 'wb')
-		print "\r\n[+] downloading names.french.gz..."
+		print("\r\n[+] downloading names.french.gz...")
 		ftp.retrbinary('RETR ' + 'names.french.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'names.hp.gz', 'wb')
-		print "\r\n[+] downloading names.hp.gz..."
+		print("\r\n[+] downloading names.hp.gz...")
 		ftp.retrbinary('RETR ' + 'names.hp.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'other-names.gz', 'wb')
-		print "\r\n[+] downloading other-names.gz..."
+		print("\r\n[+] downloading other-names.gz...")
 		ftp.retrbinary('RETR ' + 'other-names.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'shakesp-names.gz', 'wb')
-		print "\r\n[+] downloading shakesp-names.gz..."
+		print("\r\n[+] downloading shakesp-names.gz...")
 		ftp.retrbinary('RETR ' + 'shakesp-names.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'surnames-ol.gz', 'wb')
-		print "\r\n[+] downloading surnames-ol.gz..."
+		print("\r\n[+] downloading surnames-ol.gz...")
 		ftp.retrbinary('RETR ' + 'surnames-ol.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'surnames.finnish.gz', 'wb')
-		print "\r\n[+] downloading surnames.finnish.gz..."
+		print("\r\n[+] downloading surnames.finnish.gz...")
 		ftp.retrbinary('RETR ' + 'surnames.finnish.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'usenet-names.gz', 'wb')
-		print "\r\n[+] downloading usenet-names.gz..."
+		print("\r\n[+] downloading usenet-names.gz...")
 		ftp.retrbinary('RETR ' + 'usenet-names.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 
 	if filedown == "25":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('net')
@@ -1496,36 +1496,36 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/net/'
 
 		file = open(dire+'hosts-txt.gz', 'wb')
-		print "\r\n[+] downloading hosts-txt.gz..."
+		print("\r\n[+] downloading hosts-txt.gz...")
 		ftp.retrbinary('RETR ' + 'hosts-txt.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'inet-machines.gz', 'wb')
-		print "\r\n[+] downloading inet-machines.gz..."
+		print("\r\n[+] downloading inet-machines.gz...")
 		ftp.retrbinary('RETR ' + 'inet-machines.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'usenet-loginids.gz', 'wb')
-		print "\r\n[+] downloading usenet-loginids.gz..."
+		print("\r\n[+] downloading usenet-loginids.gz...")
 		ftp.retrbinary('RETR ' + 'usenet-loginids.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'usenet-machines.gz', 'wb')
-		print "\r\n[+] downloading usenet-machines.gz..."
+		print("\r\n[+] downloading usenet-machines.gz...")
 		ftp.retrbinary('RETR ' + 'usenet-machines.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'uunet-sites.gz', 'wb')
-		print "\r\n[+] downloading uunet-sites.gz..."
+		print("\r\n[+] downloading uunet-sites.gz...")
 		ftp.retrbinary('RETR ' + 'uunet-sites.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "26":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('norwegian')
@@ -1534,16 +1534,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/norwegian/'
 
 		file = open(dire+'words.norwegian.gz', 'wb')
-		print "\r\n[+] downloading words.norwegian.gz..."
+		print("\r\n[+] downloading words.norwegian.gz...")
 		ftp.retrbinary('RETR ' + 'words.norwegian.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "27":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('places')
@@ -1552,36 +1552,36 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/places/'
 
 		file = open(dire+'Colleges.gz', 'wb')
-		print "\r\n[+] downloading Colleges.gz..."
+		print("\r\n[+] downloading Colleges.gz...")
 		ftp.retrbinary('RETR ' + 'Colleges.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'US-counties.gz', 'wb')
-		print "\r\n[+] downloading US-counties.gz..."
+		print("\r\n[+] downloading US-counties.gz...")
 		ftp.retrbinary('RETR ' + 'US-counties.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'World.factbook.gz', 'wb')
-		print "\r\n[+] downloading World.factbook.gz..."
+		print("\r\n[+] downloading World.factbook.gz...")
 		ftp.retrbinary('RETR ' + 'World.factbook.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Zipcodes.gz', 'wb')
-		print "\r\n[+] downloading Zipcodes.gz..."
+		print("\r\n[+] downloading Zipcodes.gz...")
 		ftp.retrbinary('RETR ' + 'Zipcodes.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'places.gz', 'wb')
-		print "\r\n[+] downloading places.gz..."
+		print("\r\n[+] downloading places.gz...")
 		ftp.retrbinary('RETR ' + 'places.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "28":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('polish')
@@ -1590,16 +1590,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/polish/'
 
 		file = open(dire+'words.polish.gz', 'wb')
-		print "\r\n[+] downloading words.polish.gz..."
+		print("\r\n[+] downloading words.polish.gz...")
 		ftp.retrbinary('RETR ' + 'words.polish.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "29":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('random')
@@ -1608,61 +1608,61 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/random/'
 
 		file = open(dire+'Ethnologue.gz', 'wb')
-		print "\r\n[+] downloading Ethnologue.gz..."
+		print("\r\n[+] downloading Ethnologue.gz...")
 		ftp.retrbinary('RETR ' + 'Ethnologue.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'abbr.gz', 'wb')
-		print "\r\n[+] downloading abbr.gz..."
+		print("\r\n[+] downloading abbr.gz...")
 		ftp.retrbinary('RETR ' + 'abbr.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'chars.gz', 'wb')
-		print "\r\n[+] downloading chars.gz..."
+		print("\r\n[+] downloading chars.gz...")
 		ftp.retrbinary('RETR ' + 'chars.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'dogs.gz', 'wb')
-		print "\r\n[+] downloading dogs.gz..."
+		print("\r\n[+] downloading dogs.gz...")
 		ftp.retrbinary('RETR ' + 'dogs.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'drugs.gz', 'wb')
-		print "\r\n[+] downloading drugs.gz..."
+		print("\r\n[+] downloading drugs.gz...")
 		ftp.retrbinary('RETR ' + 'drugs.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'junk.gz', 'wb')
-		print "\r\n[+] downloading junk.gz..."
+		print("\r\n[+] downloading junk.gz...")
 		ftp.retrbinary('RETR ' + 'junk.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'numbers.gz', 'wb')
-		print "\r\n[+] downloading numbers.gz..."
+		print("\r\n[+] downloading numbers.gz...")
 		ftp.retrbinary('RETR ' + 'numbers.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'phrases.gz', 'wb')
-		print "\r\n[+] downloading phrases.gz..."
+		print("\r\n[+] downloading phrases.gz...")
 		ftp.retrbinary('RETR ' + 'phrases.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'sports.gz', 'wb')
-		print "\r\n[+] downloading sports.gz..."
+		print("\r\n[+] downloading sports.gz...")
 		ftp.retrbinary('RETR ' + 'sports.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'statistics.gz', 'wb')
-		print "\r\n[+] downloading statistics.gz..."
+		print("\r\n[+] downloading statistics.gz...")
 		ftp.retrbinary('RETR ' + 'statistics.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "30":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('religion')
@@ -1671,26 +1671,26 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/religion/'
 
 		file = open(dire+'Koran.gz', 'wb')
-		print "\r\n[+] downloading Koran.gz..."
+		print("\r\n[+] downloading Koran.gz...")
 		ftp.retrbinary('RETR ' + 'Koran.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'kjbible.gz', 'wb')
-		print "\r\n[+] downloading kjbible.gz..."
+		print("\r\n[+] downloading kjbible.gz...")
 		ftp.retrbinary('RETR ' + 'kjbible.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'norse.gz', 'wb')
-		print "\r\n[+] downloading norse.gz..."
+		print("\r\n[+] downloading norse.gz...")
 		ftp.retrbinary('RETR ' + 'norse.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "31":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('russian')
@@ -1699,21 +1699,21 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/russian/'
 
 		file = open(dire+'russian.lst.gz', 'wb')
-		print "\r\n[+] downloading russian.lst.gz..."
+		print("\r\n[+] downloading russian.lst.gz...")
 		ftp.retrbinary('RETR ' + 'russian.lst.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'russian_words.koi8.gz', 'wb')
-		print "\r\n[+] downloading russian_words.koi8.gz..."
+		print("\r\n[+] downloading russian_words.koi8.gz...")
 		ftp.retrbinary('RETR ' + 'russian_words.koi8.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "32":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('science')
@@ -1722,56 +1722,56 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/science/'
 
 		file = open(dire+'Acr-diagnosis.gz', 'wb')
-		print "\r\n[+] downloading Acr-diagnosis.gz..."
+		print("\r\n[+] downloading Acr-diagnosis.gz...")
 		ftp.retrbinary('RETR ' + 'Acr-diagnosis.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Algae.gz', 'wb')
-		print "\r\n[+] downloading Algae.gz..."
+		print("\r\n[+] downloading Algae.gz...")
 		ftp.retrbinary('RETR ' + 'Algae.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Bacteria.gz', 'wb')
-		print "\r\n[+] downloading Bacteria.gz..."
+		print("\r\n[+] downloading Bacteria.gz...")
 		ftp.retrbinary('RETR ' + 'Bacteria.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Fungi.gz', 'wb')
-		print "\r\n[+] downloading Fungi.gz..."
+		print("\r\n[+] downloading Fungi.gz...")
 		ftp.retrbinary('RETR ' + 'Fungi.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Microalgae.gz', 'wb')
-		print "\r\n[+] downloading Microalgae.gz..."
+		print("\r\n[+] downloading Microalgae.gz...")
 		ftp.retrbinary('RETR ' + 'Microalgae.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'Viruses.gz', 'wb')
-		print "\r\n[+] downloading Viruses.gz..."
+		print("\r\n[+] downloading Viruses.gz...")
 		ftp.retrbinary('RETR ' + 'Viruses.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'asteroids.gz', 'wb')
-		print "\r\n[+] downloading asteroids.gz..."
+		print("\r\n[+] downloading asteroids.gz...")
 		ftp.retrbinary('RETR ' + 'asteroids.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'biology.gz', 'wb')
-		print "\r\n[+] downloading biology.gz..."
+		print("\r\n[+] downloading biology.gz...")
 		ftp.retrbinary('RETR ' + 'biology.gz', handleDownload)
 		filequitter()
 
 		file = open(dire+'tech.gz', 'wb')
-		print "\r\n[+] downloading tech.gz..."
+		print("\r\n[+] downloading tech.gz...")
 		ftp.retrbinary('RETR ' + 'tech.gz', handleDownload)
 		filequitter()
 
-		print '[+] files saved to '+ dire
+		print('[+] files saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "33":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('spanish')
@@ -1780,16 +1780,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/spanish/'
 
 		file = open(dire+'words.spanish.gz', 'wb')
-		print "\r\n[+] downloading words.spanish.gz..."
+		print("\r\n[+] downloading words.spanish.gz...")
 		ftp.retrbinary('RETR ' + 'words.spanish.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "34":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('swahili')
@@ -1798,16 +1798,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/swahili/'
 
 		file = open(dire+'swahili.gz', 'wb')
-		print "\r\n[+] downloading swahili.gz..."
+		print("\r\n[+] downloading swahili.gz...")
 		ftp.retrbinary('RETR ' + 'swahili.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "35":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('swedish')
@@ -1816,16 +1816,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/swedish/'
 
 		file = open(dire+'words.swedish.gz', 'wb')
-		print "\r\n[+] downloading words.swedish.gz..."
+		print("\r\n[+] downloading words.swedish.gz...")
 		ftp.retrbinary('RETR ' + 'words.swedish.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "36":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('turkish')
@@ -1834,16 +1834,16 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/turkish/'
 
 		file = open(dire+'turkish.dict.gz', 'wb')
-		print "\r\n[+] downloading turkish.dict.gz..."
+		print("\r\n[+] downloading turkish.dict.gz...")
 		ftp.retrbinary('RETR ' + 'turkish.dict.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 	if filedown == "37":
-		print "[+] connecting..."
+		print("[+] connecting...")
 		ftp = ftplib.FTP(ftpurl)
 		downloader()
 		ftp.cwd('yiddish')
@@ -1852,22 +1852,22 @@ elif sys.argv[1] == '-l':
 		dire = 'dictionaries/yiddish/'
 
 		file = open(dire+'yiddish.gz', 'wb')
-		print "\r\n[+] downloading yiddish.gz..."
+		print("\r\n[+] downloading yiddish.gz...")
 		ftp.retrbinary('RETR ' + 'yiddish.gz', handleDownload)
 		filequitter()
 
-		print '[+] file saved to '+ dire
+		print('[+] file saved to '+ dire)
 		ftp.quit()
 		exit()
 
 
 
 	else:
-		print '[-] leaving.'
+		print('[-] leaving.')
 		exit()
 
 
 else:
-	print "\r\n[Usage]:	"+sys.argv[0] +"  [OPTIONS] \r\n"
-	print "[Help]:		"+sys.argv[0] +"  -h\r\n"
+	print("\r\n[Usage]:	"+sys.argv[0] +"  [OPTIONS] \r\n")
+	print("[Help]:		"+sys.argv[0] +"  -h\r\n")
 	exit()
