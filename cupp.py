@@ -656,7 +656,7 @@ elif sys.argv[1] == '-l':
 
 	def handleDownload(block):
 		file.write(block)
-		print(".", end=' ')
+		print(".", end=" ")
 
 	def downloader():
 		ftp.login(ftpuser, ftppass)
