@@ -577,13 +577,13 @@ elif sys.argv[1] == '-a':
 	if os.path.isfile('alectodb.csv.gz') == 0:
 		print("[+] Downloading alectodb.csv.gz...")
 		webFile = urllib.request.urlopen(url)
-		localFile = open(url.split('/')[-1], 'w')
+		localFile = open(url.split('/')[-1], 'wb')
 		localFile.write(webFile.read())
 		webFile.close()
 		localFile.close()
 
 
-	f = gzip.open('alectodb.csv.gz', 'rb')
+	f = gzip.open('alectodb.csv.gz', 'rt')
 
 	data = csv.reader(f)
 
