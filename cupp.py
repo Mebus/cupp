@@ -784,14 +784,19 @@ elif sys.argv[1] == "-l":
         for f in file_list:
             retr_binary_file(ftp, dire, f)
 
+    # create the directory if it doesn't exist
+    def mkdir_if_not_exists(dire):
+        if not os.path.isdir(dire):
+            os.mkdir(dire)
+
     if filedown == "1":
         print("\r\n[+] connecting...\r\n")
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("Moby")
-        if os.path.isdir("dictionaries/Moby/") == 0:
-            os.mkdir("dictionaries/Moby/")
+
         dire = "dictionaries/Moby/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "mhyph.tar.gz",
@@ -815,9 +820,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("afrikaans")
-        if os.path.isdir("dictionaries/afrikaans/") == 0:
-            os.mkdir("dictionaries/afrikaans/")
+
         dire = "dictionaries/afrikaans/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "afr_dbf.zip")
 
@@ -830,9 +835,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("american")
-        if os.path.isdir("dictionaries/american/") == 0:
-            os.mkdir("dictionaries/american/")
+
         dire = "dictionaries/american/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "dic-0294.tar.gz")
 
@@ -845,9 +850,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("aussie")
-        if os.path.isdir("dictionaries/aussie/") == 0:
-            os.mkdir("dictionaries/aussie/")
+
         dire = "dictionaries/aussie/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "oz.gz")
 
@@ -860,9 +865,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("chinese")
-        if os.path.isdir("dictionaries/chinese/") == 0:
-            os.mkdir("dictionaries/chinese/")
+
         dire = "dictionaries/chinese/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "chinese.gz")
 
@@ -875,9 +880,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("computer")
-        if os.path.isdir("dictionaries/computer/") == 0:
-            os.mkdir("dictionaries/computer/")
+
         dire = "dictionaries/computer/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "Domains.gz",
@@ -903,9 +908,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("croatian")
-        if os.path.isdir("dictionaries/croatian/") == 0:
-            os.mkdir("dictionaries/croatian/")
+
         dire = "dictionaries/croatian/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "croatian.gz")
 
@@ -918,9 +923,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("czech")
-        if os.path.isdir("dictionaries/czech/") == 0:
-            os.mkdir("dictionaries/czech/")
+
         dire = "dictionaries/czech/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "czech-wordlist-ascii-cstug-novak.gz")
 
@@ -933,9 +938,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("danish")
-        if os.path.isdir("dictionaries/danish/") == 0:
-            os.mkdir("dictionaries/danish/")
+
         dire = "dictionaries/danish/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "danish.words.gz")
         retr_binary_file(ftp, dire, "dansk.zip")
@@ -949,9 +954,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("databases")
-        if os.path.isdir("dictionaries/databases/") == 0:
-            os.mkdir("dictionaries/databases/")
+
         dire = "dictionaries/databases/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "acronyms.gz",
@@ -972,9 +977,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("dictionaries")
-        if os.path.isdir("dictionaries/dictionaries/") == 0:
-            os.mkdir("dictionaries/dictionaries/")
+
         dire = "dictionaries/dictionaries/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "Antworth.gz",
@@ -1003,9 +1008,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("dutch")
-        if os.path.isdir("dictionaries/dutch/") == 0:
-            os.mkdir("dictionaries/dutch/")
+
         dire = "dictionaries/dutch/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "words.dutch.gz")
 
@@ -1018,9 +1023,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("finnish")
-        if os.path.isdir("dictionaries/finnish/") == 0:
-            os.mkdir("dictionaries/finnish/")
+
         dire = "dictionaries/finnish/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "finnish.gz",
@@ -1040,9 +1045,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("french")
-        if os.path.isdir("dictionaries/french/") == 0:
-            os.mkdir("dictionaries/french/")
+
         dire = "dictionaries/french/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "dico.gz")
 
@@ -1055,9 +1060,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("german")
-        if os.path.isdir("dictionaries/german/") == 0:
-            os.mkdir("dictionaries/german/")
+
         dire = "dictionaries/german/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {"deutsch.dic.gz", "germanl.gz", "words.german.gz"}
 
@@ -1073,9 +1078,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("hindi")
-        if os.path.isdir("dictionaries/hindi/") == 0:
-            os.mkdir("dictionaries/hindi/")
+
         dire = "dictionaries/hindi/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "hindu-names.gz")
 
@@ -1088,9 +1093,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("hungarian")
-        if os.path.isdir("dictionaries/hungarian/") == 0:
-            os.mkdir("dictionaries/hungarian/")
+
         dire = "dictionaries/hungarian/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "hungarian.gz")
 
@@ -1103,9 +1108,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("italian")
-        if os.path.isdir("dictionaries/italian/") == 0:
-            os.mkdir("dictionaries/italian/")
+
         dire = "dictionaries/italian/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "words.italian.gz")
 
@@ -1118,9 +1123,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("japanese")
-        if os.path.isdir("dictionaries/japanese/") == 0:
-            os.mkdir("dictionaries/japanese/")
+
         dire = "dictionaries/japanese/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "words.japanese.gz")
 
@@ -1133,9 +1138,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("latin")
-        if os.path.isdir("dictionaries/latin/") == 0:
-            os.mkdir("dictionaries/latin/")
+
         dire = "dictionaries/latin/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "wordlist.aug.gz")
 
@@ -1148,9 +1153,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("literature")
-        if os.path.isdir("dictionaries/literature/") == 0:
-            os.mkdir("dictionaries/literature/")
+
         dire = "dictionaries/literature/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "LCarrol.gz",
@@ -1181,9 +1186,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("movieTV")
-        if os.path.isdir("dictionaries/movieTV/") == 0:
-            os.mkdir("dictionaries/movieTV/")
+
         dire = "dictionaries/movieTV/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {"Movies.gz", "Python.gz", "Trek.gz"}
 
@@ -1199,9 +1204,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("music")
-        if os.path.isdir("dictionaries/music/") == 0:
-            os.mkdir("dictionaries/music/")
+
         dire = "dictionaries/music/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "music-classical.gz",
@@ -1225,9 +1230,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("names")
-        if os.path.isdir("dictionaries/names/") == 0:
-            os.mkdir("dictionaries/names/")
+
         dire = "dictionaries/names/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "ASSurnames.gz",
@@ -1268,9 +1273,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("net")
-        if os.path.isdir("dictionaries/net/") == 0:
-            os.mkdir("dictionaries/net/")
+
         dire = "dictionaries/net/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "hosts-txt.gz",
@@ -1292,9 +1297,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("norwegian")
-        if os.path.isdir("dictionaries/norwegian/") == 0:
-            os.mkdir("dictionaries/norwegian/")
+
         dire = "dictionaries/norwegian/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "words.norwegian.gz")
 
@@ -1307,9 +1312,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("places")
-        if os.path.isdir("dictionaries/places/") == 0:
-            os.mkdir("dictionaries/places/")
+
         dire = "dictionaries/places/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "Colleges.gz",
@@ -1331,9 +1336,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("polish")
-        if os.path.isdir("dictionaries/polish/") == 0:
-            os.mkdir("dictionaries/polish/")
+
         dire = "dictionaries/polish/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "words.polish.gz")
 
@@ -1346,9 +1351,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("random")
-        if os.path.isdir("dictionaries/random/") == 0:
-            os.mkdir("dictionaries/random/")
+
         dire = "dictionaries/random/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "Ethnologue.gz",
@@ -1375,9 +1380,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("religion")
-        if os.path.isdir("dictionaries/religion/") == 0:
-            os.mkdir("dictionaries/religion/")
+
         dire = "dictionaries/religion/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {"Koran.gz", "kjbible.gz", "norse.gz"}
 
@@ -1393,9 +1398,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("russian")
-        if os.path.isdir("dictionaries/russian/") == 0:
-            os.mkdir("dictionaries/russian/")
+
         dire = "dictionaries/russian/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "russian.lst.gz")
         retr_binary_file(ftp, dire, "russian_words.koi8.gz")
@@ -1409,9 +1414,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("science")
-        if os.path.isdir("dictionaries/science/") == 0:
-            os.mkdir("dictionaries/science/")
+
         dire = "dictionaries/science/"
+        mkdir_if_not_exists(dire)
 
         files_to_download = {
             "Acr-diagnosis.gz",
@@ -1437,9 +1442,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("spanish")
-        if os.path.isdir("dictionaries/spanish/") == 0:
-            os.mkdir("dictionaries/spanish/")
+
         dire = "dictionaries/spanish/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "words.spanish.gz")
 
@@ -1452,9 +1457,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("swahili")
-        if os.path.isdir("dictionaries/swahili/") == 0:
-            os.mkdir("dictionaries/swahili/")
+
         dire = "dictionaries/swahili/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "swahili.gz")
 
@@ -1467,9 +1472,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("swedish")
-        if os.path.isdir("dictionaries/swedish/") == 0:
-            os.mkdir("dictionaries/swedish/")
+
         dire = "dictionaries/swedish/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "words.swedish.gz")
 
@@ -1482,9 +1487,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("turkish")
-        if os.path.isdir("dictionaries/turkish/") == 0:
-            os.mkdir("dictionaries/turkish/")
+
         dire = "dictionaries/turkish/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "turkish.dict.gz")
 
@@ -1497,9 +1502,9 @@ elif sys.argv[1] == "-l":
         ftp = ftplib.FTP(ftpurl)
         downloader()
         ftp.cwd("yiddish")
-        if os.path.isdir("dictionaries/yiddish/") == 0:
-            os.mkdir("dictionaries/yiddish/")
+
         dire = "dictionaries/yiddish/"
+        mkdir_if_not_exists(dire)
 
         retr_binary_file(ftp, dire, "yiddish.gz")
 
