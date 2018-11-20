@@ -3,3 +3,4 @@
 *.gz
 .vscode/
 dictionaries/
+.coverage

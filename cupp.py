@@ -703,7 +703,7 @@ def alectodb_download():
     url = CONFIG["global"]["alectourl"]
 
     print("\r\n[+] Checking if alectodb is not present...")
-    if os.path.isfile("alectodb.csv.gz") == 0:
+    if not os.path.isfile("alectodb.csv.gz"):
         print("[+] Downloading alectodb.csv.gz...")
         webFile = urllib.request.urlopen(url)
         localFile = open(url.split("/")[-1], "wb")
@@ -735,9 +735,6 @@ def alectodb_download():
     f = open("alectodb-passwords.txt", "w")
     f.write(os.linesep.join(gpa))
     f.close()
-
-    f.close()
-    sys.exit()
 
 
 def download_wordlist():

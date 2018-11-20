@@ -74,6 +74,23 @@ class TestCupp(unittest.TestCase):
 
         self.assertTrue(os.path.isfile(filename), "file " + filename + "exists")
 
+    def test_print_cow(self):
+        """ test the cow """
+        print_cow()
+
+    def test_alectodb_download(self):
+
+        alectodb_download()
+
+        self.assertTrue(
+            os.path.isfile("alectodb-usernames.txt"),
+            "file alectodb-usernames.txt exists",
+        )
+        self.assertTrue(
+            os.path.isfile("alectodb-passwords.txt"),
+            "file alectodb-passwords.txt exists",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
