@@ -1,3 +1,5 @@
 *.pyc
 *.txt
 *.gz
+.vscode/
+dictionaries/
