@@ -28,17 +28,19 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
-#  See 'docs/LICENSE' for more information.
+#  See 'LICENSE' for more information.
 
-import sys
-import os
+import argparse
+import configparser
+import csv
 import ftplib
 import functools
-import configparser
-import urllib.request, urllib.parse, urllib.error
 import gzip
-import csv
-import argparse
+import os
+import sys
+import urllib.error
+import urllib.parse
+import urllib.request
 
 __author__ = "Muris Kurgas"
 __license__ = "GPL"
@@ -118,6 +120,7 @@ def print_to_file(filename, unique_list_finished):
     f = open(filename, "w")
     unique_list_finished.sort()
     f.write(os.linesep.join(unique_list_finished))
+    f.close()
     f = open(filename, "r")
     lines = 0
     for line in f:
@@ -741,15 +744,6 @@ def download_wordlist():
     """Implementation of -l switch. Download wordlists from ftp repository as
     defined in the configuration file."""
 
-    ftpname = CONFIG["FTP"]["name"]
-    ftpurl = CONFIG["FTP"]["url"]
-    ftppath = CONFIG["FTP"]["path"]
-    ftpuser = CONFIG["FTP"]["user"]
-    ftppass = CONFIG["FTP"]["password"]
-
-    if os.path.isdir("dictionaries") == 0:
-        os.mkdir("dictionaries")
-
     print("	\r\n	Choose the section you want to download:\r\n")
 
     print("     1   Moby            14      french          27      places")
@@ -765,10 +759,39 @@ def download_wordlist():
     print("    11   dictionaries    24      names           37      yiddish")
     print("    12   dutch           25      net             38      exit program")
     print("    13   finnish         26      norwegian       \r\n")
-    print("	\r\n	Files will be downloaded from " + ftpname + " repository")
+    print(
+        "	\r\n	Files will be downloaded from " + CONFIG["FTP"]["name"] + " repository"
+    )
     print(
         "	\r\n	Tip: After downloading wordlist, you can improve it with -w option\r\n"
     )
+
+    filedown = input("> Enter number: ")
+    filedown.isdigit()
+    while filedown.isdigit() == 0:
+        print("\r\n[-] Wrong choice. ")
+        filedown = input("> Enter number: ")
+    filedown = str(filedown)
+    while int(filedown) > 38 or int(filedown) < 0:
+        print("\r\n[-] Wrong choice. ")
+        filedown = input("> Enter number: ")
+    filedown = str(filedown)
+
+    download_wordlist_ftp(filedown)
+    return filedown
+
+
+def download_wordlist_ftp(filedown):
+    """ do the FTP download of a wordlist """
+
+    ftpname = CONFIG["FTP"]["name"]
+    ftpurl = CONFIG["FTP"]["url"]
+    ftppath = CONFIG["FTP"]["path"]
+    ftpuser = CONFIG["FTP"]["user"]
+    ftppass = CONFIG["FTP"]["password"]
+
+    if os.path.isdir("dictionaries") == 0:
+        os.mkdir("dictionaries")
 
     # List of files to download:
     arguments = {
@@ -958,17 +981,6 @@ def download_wordlist():
         36: ("turkish", ("turkish.dict.gz",)),
         37: ("yiddish", ("yiddish.gz",)),
     }
-
-    filedown = input("> Enter number: ")
-    filedown.isdigit()
-    while filedown.isdigit() == 0:
-        print("\r\n[-] Wrong choice. ")
-        filedown = input("> Enter number: ")
-    filedown = str(filedown)
-    while int(filedown) > 38 or int(filedown) < 0:
-        print("\r\n[-] Wrong choice. ")
-        filedown = input("> Enter number: ")
-    filedown = str(filedown)
 
     def downloader():
         ftp.login(ftpuser, ftppass)
