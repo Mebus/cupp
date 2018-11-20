@@ -60,14 +60,15 @@ threshold = config.getint("nums", "threshold")
 
 # 1337 mode configs, well you can add more lines if you add it to config file too.
 # You will need to add more lines in two places in cupp.py code as well...
-a = config.get("leet", "a")
-i = config.get("leet", "i")
-e = config.get("leet", "e")
-t = config.get("leet", "t")
-o = config.get("leet", "o")
-s = config.get("leet", "s")
-g = config.get("leet", "g")
-z = config.get("leet", "z")
+leet = {}
+leet["a"] = config.get("leet", "a")
+leet["i"] = config.get("leet", "i")
+leet["e"] = config.get("leet", "e")
+leet["t"] = config.get("leet", "t")
+leet["o"] = config.get("leet", "o")
+leet["s"] = config.get("leet", "s")
+leet["g"] = config.get("leet", "g")
+leet["z"] = config.get("leet", "z")
 
 
 # for concatenations...
@@ -273,45 +274,47 @@ def interactive():
 
     # We need some information first!
 
+    profile = {}
+
     name = input("> First Name: ").lower()
     while len(name) == 0 or name == " " or name == "  " or name == "   ":
         print("\r\n[-] You must enter a name at least!")
         name = input("> Name: ").lower()
-    name = str(name)
+    profile["name"] = str(name)
 
-    surname = input("> Surname: ").lower()
-    nick = input("> Nickname: ").lower()
+    profile["surname"] = input("> Surname: ").lower()
+    profile["nick"] = input("> Nickname: ").lower()
     birthdate = input("> Birthdate (DDMMYYYY): ")
     while len(birthdate) != 0 and len(birthdate) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
         birthdate = input("> Birthdate (DDMMYYYY): ")
-    birthdate = str(birthdate)
+    profile["birthdate"] = str(birthdate)
 
     print("\r\n")
 
-    wife = input("> Partners) name: ").lower()
-    wifen = input("> Partners) nickname: ").lower()
+    profile["wife"] = input("> Partners) name: ").lower()
+    profile["wifen"] = input("> Partners) nickname: ").lower()
     wifeb = input("> Partners) birthdate (DDMMYYYY): ")
     while len(wifeb) != 0 and len(wifeb) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
         wifeb = input("> Partners birthdate (DDMMYYYY): ")
-    wifeb = str(wifeb)
+    profile["wifeb"] = str(wifeb)
     print("\r\n")
 
-    kid = input("> Child's name: ").lower()
-    kidn = input("> Child's nickname: ").lower()
+    profile["kid"] = input("> Child's name: ").lower()
+    profile["kidn"] = input("> Child's nickname: ").lower()
     kidb = input("> Child's birthdate (DDMMYYYY): ")
     while len(kidb) != 0 and len(kidb) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
         kidb = input("> Child's birthdate (DDMMYYYY): ")
-    kidb = str(kidb)
+    profile["kidb"] = str(kidb)
     print("\r\n")
 
-    pet = input("> Pet's name: ").lower()
-    company = input("> Company name: ").lower()
+    profile["pet"] = input("> Pet's name: ").lower()
+    profile["company"] = input("> Company name: ").lower()
     print("\r\n")
 
-    words = [""]
+    profile["words"] = [""]
     words1 = input(
         "> Do you want to add some key words about the victim? Y/[N]: "
     ).lower()
@@ -320,24 +323,32 @@ def interactive():
         words2 = input(
             "> Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed: "
         ).replace(" ", "")
-    words = words2.split(",")
+    profile["words"] = words2.split(",")
 
-    spechars = [""]
-    spechars1 = input(
+    profile["spechars1"] = input(
         "> Do you want to add special chars at the end of words? Y/[N]: "
     ).lower()
-    if spechars1 == "y":
-        for spec1 in chars:
-            spechars.append(spec1)
-            for spec2 in chars:
-                spechars.append(spec1 + spec2)
-                for spec3 in chars:
-                    spechars.append(spec1 + spec2 + spec3)
 
-    randnum = input(
+    profile["randnum"] = input(
         "> Do you want to add some random numbers at the end of words? Y/[N]:"
     ).lower()
-    leetmode = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
+    profile["leetmode"] = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
+
+    generate_wordlist_from_profile(profile)  # generate the wordlist
+
+
+def generate_wordlist_from_profile(profile):
+    """ Generates a wordlist from a given profile """
+
+    profile["spechars"] = []
+
+    if profile["spechars1"] == "y":
+        for spec1 in chars:
+            profile["spechars"].append(spec1)
+            for spec2 in chars:
+                profile["spechars"].append(spec1 + spec2)
+                for spec3 in chars:
+                    profile["spechars"].append(spec1 + spec2 + spec3)
 
     print("\r\n[+] Now making a dictionary...")
 
@@ -345,56 +356,56 @@ def interactive():
 
     # Birthdays first
 
-    birthdate_yy = birthdate[-2:]
-    birthdate_yyy = birthdate[-3:]
-    birthdate_yyyy = birthdate[-4:]
-    birthdate_xd = birthdate[1:2]
-    birthdate_xm = birthdate[3:4]
-    birthdate_dd = birthdate[:2]
-    birthdate_mm = birthdate[2:4]
+    birthdate_yy = profile["birthdate"][-2:]
+    birthdate_yyy = profile["birthdate"][-3:]
+    birthdate_yyyy = profile["birthdate"][-4:]
+    birthdate_xd = profile["birthdate"][1:2]
+    birthdate_xm = profile["birthdate"][3:4]
+    birthdate_dd = profile["birthdate"][:2]
+    birthdate_mm = profile["birthdate"][2:4]
 
-    wifeb_yy = wifeb[-2:]
-    wifeb_yyy = wifeb[-3:]
-    wifeb_yyyy = wifeb[-4:]
-    wifeb_xd = wifeb[1:2]
-    wifeb_xm = wifeb[3:4]
-    wifeb_dd = wifeb[:2]
-    wifeb_mm = wifeb[2:4]
+    wifeb_yy = profile["wifeb"][-2:]
+    wifeb_yyy = profile["wifeb"][-3:]
+    wifeb_yyyy = profile["wifeb"][-4:]
+    wifeb_xd = profile["wifeb"][1:2]
+    wifeb_xm = profile["wifeb"][3:4]
+    wifeb_dd = profile["wifeb"][:2]
+    wifeb_mm = profile["wifeb"][2:4]
 
-    kidb_yy = kidb[-2:]
-    kidb_yyy = kidb[-3:]
-    kidb_yyyy = kidb[-4:]
-    kidb_xd = kidb[1:2]
-    kidb_xm = kidb[3:4]
-    kidb_dd = kidb[:2]
-    kidb_mm = kidb[2:4]
+    kidb_yy = profile["kidb"][-2:]
+    kidb_yyy = profile["kidb"][-3:]
+    kidb_yyyy = profile["kidb"][-4:]
+    kidb_xd = profile["kidb"][1:2]
+    kidb_xm = profile["kidb"][3:4]
+    kidb_dd = profile["kidb"][:2]
+    kidb_mm = profile["kidb"][2:4]
 
     # Convert first letters to uppercase...
 
-    nameup = name.title()
-    surnameup = surname.title()
-    nickup = nick.title()
-    wifeup = wife.title()
-    wifenup = wifen.title()
-    kidup = kid.title()
-    kidnup = kidn.title()
-    petup = pet.title()
-    companyup = company.title()
+    nameup = profile["name"].title()
+    surnameup = profile["surname"].title()
+    nickup = profile["nick"].title()
+    wifeup = profile["wife"].title()
+    wifenup = profile["wifen"].title()
+    kidup = profile["kid"].title()
+    kidnup = profile["kidn"].title()
+    petup = profile["pet"].title()
+    companyup = profile["company"].title()
 
     wordsup = []
-    wordsup = list(map(str.title, words))
+    wordsup = list(map(str.title, profile["words"]))
 
-    word = words + wordsup
+    word = profile["words"] + wordsup
 
     # reverse a name
 
-    rev_name = name[::-1]
+    rev_name = profile["name"][::-1]
     rev_nameup = nameup[::-1]
-    rev_nick = nick[::-1]
+    rev_nick = profile["nick"][::-1]
     rev_nickup = nickup[::-1]
-    rev_wife = wife[::-1]
+    rev_wife = profile["wife"][::-1]
     rev_wifeup = wifeup[::-1]
-    rev_kid = kid[::-1]
+    rev_kid = profile["kid"][::-1]
     rev_kidup = kidup[::-1]
 
     reverse = [
@@ -477,13 +488,34 @@ def interactive():
 
                 # string combinations....
 
-    kombinaac = [pet, petup, company, companyup]
+    kombinaac = [profile["pet"], petup, profile["company"], companyup]
 
-    kombina = [name, surname, nick, nameup, surnameup, nickup]
+    kombina = [
+        profile["name"],
+        profile["surname"],
+        profile["nick"],
+        nameup,
+        surnameup,
+        nickup,
+    ]
 
-    kombinaw = [wife, wifen, wifeup, wifenup, surname, surnameup]
+    kombinaw = [
+        profile["wife"],
+        profile["wifen"],
+        wifeup,
+        wifenup,
+        profile["surname"],
+        surnameup,
+    ]
 
-    kombinak = [kid, kidn, kidup, kidnup, surname, surnameup]
+    kombinak = [
+        profile["kid"],
+        profile["kidn"],
+        kidup,
+        kidnup,
+        profile["surname"],
+        surnameup,
+    ]
 
     kombinaa = []
     for kombina1 in kombina:
@@ -541,7 +573,7 @@ def interactive():
     kombi[15] = [""]
     kombi[16] = [""]
     kombi[21] = [""]
-    if randnum == "y":
+    if profile["randnum"] == "y":
         kombi[12] = list(concats(word, numfrom, numto))
         kombi[13] = list(concats(kombinaa, numfrom, numto))
         kombi[14] = list(concats(kombinaac, numfrom, numto))
@@ -562,18 +594,18 @@ def interactive():
     komb004 = [""]
     komb005 = [""]
     komb006 = [""]
-    if spechars1 == "y":
-        komb001 = list(komb(kombinaa, spechars))
-        komb002 = list(komb(kombinaac, spechars))
-        komb003 = list(komb(kombinaaw, spechars))
-        komb004 = list(komb(kombinaak, spechars))
-        komb005 = list(komb(word, spechars))
-        komb006 = list(komb(reverse, spechars))
+    if len(profile["spechars"]) > 0:
+        komb001 = list(komb(kombinaa, profile["spechars"]))
+        komb002 = list(komb(kombinaac, profile["spechars"]))
+        komb003 = list(komb(kombinaaw, profile["spechars"]))
+        komb004 = list(komb(kombinaak, profile["spechars"]))
+        komb005 = list(komb(word, profile["spechars"]))
+        komb006 = list(komb(reverse, profile["spechars"]))
 
     print("[+] Sorting list and removing duplicates...")
 
     komb_unique = {}
-    for i in range(1,22):
+    for i in range(1, 22):
         komb_unique[i] = list(dict.fromkeys(kombi[i]).keys())
 
     komb_unique01 = list(dict.fromkeys(kombinaa).keys())
@@ -600,11 +632,11 @@ def interactive():
         + komb_unique05
     )
 
-    for i in range(1,21):
+    for i in range(1, 21):
         uniqlist += komb_unique[i]
 
     uniqlist += (
-          komb_unique07
+        komb_unique07
         + komb_unique08
         + komb_unique09
         + komb_unique010
@@ -613,20 +645,17 @@ def interactive():
     )
     unique_lista = list(dict.fromkeys(uniqlist).keys())
     unique_leet = []
-    if leetmode == "y":
+    if profile["leetmode"] == "y":
         for (
             x
         ) in (
             unique_lista
         ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
-            x = x.replace("a", a)
-            x = x.replace("i", i)
-            x = x.replace("e", e)
-            x = x.replace("t", t)
-            x = x.replace("o", o)
-            x = x.replace("s", s)
-            x = x.replace("g", g)
-            x = x.replace("z", z)
+
+            # transform to leet
+            for letter, leetletter in leet.items():
+                x.replace(letter, leetletter)
+
             unique_leet.append(x)
 
     unique_list = unique_lista + unique_leet
@@ -634,7 +663,7 @@ def interactive():
     unique_list_finished = []
     unique_list_finished = [x for x in unique_list if len(x) < wcto and len(x) > wcfrom]
 
-    print_to_file(name + ".txt", unique_list_finished)
+    print_to_file(profile["name"] + ".txt", unique_list_finished)
 
 
 def alectodb_download():
