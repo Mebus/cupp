@@ -751,13 +751,202 @@ elif sys.argv[1] == "-l":
         "	\r\n	Tip: After downloading wordlist, you can improve it with -w option\r\n"
     )
 
+    # List of files to download:
+    arguments = {
+        1: (
+            "Moby",
+            (
+                "mhyph.tar.gz",
+                "mlang.tar.gz",
+                "moby.tar.gz",
+                "mpos.tar.gz",
+                "mpron.tar.gz",
+                "mthes.tar.gz",
+                "mwords.tar.gz",
+            ),
+        ),
+        2: ("afrikaans", ("afr_dbf.zip",)),
+        3: ("american", ("dic-0294.tar.gz",)),
+        4: ("aussie", ("oz.gz",)),
+        5: ("chinese", ("chinese.gz",)),
+        6: (
+            "computer",
+            (
+                "Domains.gz",
+                "Dosref.gz",
+                "Ftpsites.gz",
+                "Jargon.gz",
+                "common-passwords.txt.gz",
+                "etc-hosts.gz",
+                "foldoc.gz",
+                "language-list.gz",
+                "unix.gz",
+            ),
+        ),
+        7: ("croatian", ("croatian.gz",)),
+        8: ("czech", ("czech-wordlist-ascii-cstug-novak.gz",)),
+        9: ("danish", ("danish.words.gz", "dansk.zip")),
+        10: (
+            "databases",
+            ("acronyms.gz", "att800.gz", "computer-companies.gz", "world_heritage.gz"),
+        ),
+        11: (
+            "dictionaries",
+            (
+                "Antworth.gz",
+                "CRL.words.gz",
+                "Roget.words.gz",
+                "Unabr.dict.gz",
+                "Unix.dict.gz",
+                "englex-dict.gz",
+                "knuth_britsh.gz",
+                "knuth_words.gz",
+                "pocket-dic.gz",
+                "shakesp-glossary.gz",
+                "special.eng.gz",
+                "words-english.gz",
+            ),
+        ),
+        12: ("dutch", ("words.dutch.gz",)),
+        13: (
+            "finnish",
+            ("finnish.gz", "firstnames.finnish.gz", "words.finnish.FAQ.gz"),
+        ),
+        14: ("french", ("dico.gz",)),
+        15: ("german", ("deutsch.dic.gz", "germanl.gz", "words.german.gz")),
+        16: ("hindi", ("hindu-names.gz",)),
+        17: ("hungarian", ("hungarian.gz",)),
+        18: ("italian", ("words.italian.gz",)),
+        19: ("japanese", ("words.japanese.gz",)),
+        20: ("latin", ("wordlist.aug.gz",)),
+        21: (
+            "literature",
+            (
+                "LCarrol.gz",
+                "Paradise.Lost.gz",
+                "aeneid.gz",
+                "arthur.gz",
+                "cartoon.gz",
+                "cartoons-olivier.gz",
+                "charlemagne.gz",
+                "fable.gz",
+                "iliad.gz",
+                "myths-legends.gz",
+                "odyssey.gz",
+                "sf.gz",
+                "shakespeare.gz",
+                "tolkien.words.gz",
+            ),
+        ),
+        22: ("movieTV", ("Movies.gz", "Python.gz", "Trek.gz")),
+        23: (
+            "music",
+            (
+                "music-classical.gz",
+                "music-country.gz",
+                "music-jazz.gz",
+                "music-other.gz",
+                "music-rock.gz",
+                "music-shows.gz",
+                "rock-groups.gz",
+            ),
+        ),
+        24: (
+            "names",
+            (
+                "ASSurnames.gz",
+                "Congress.gz",
+                "Family-Names.gz",
+                "Given-Names.gz",
+                "actor-givenname.gz",
+                "actor-surname.gz",
+                "cis-givenname.gz",
+                "cis-surname.gz",
+                "crl-names.gz",
+                "famous.gz",
+                "fast-names.gz",
+                "female-names-kantr.gz",
+                "female-names.gz",
+                "givennames-ol.gz",
+                "male-names-kantr.gz",
+                "male-names.gz",
+                "movie-characters.gz",
+                "names.french.gz",
+                "names.hp.gz",
+                "other-names.gz",
+                "shakesp-names.gz",
+                "surnames-ol.gz",
+                "surnames.finnish.gz",
+                "usenet-names.gz",
+            ),
+        ),
+        25: (
+            "net",
+            (
+                "hosts-txt.gz",
+                "inet-machines.gz",
+                "usenet-loginids.gz",
+                "usenet-machines.gz",
+                "uunet-sites.gz",
+            ),
+        ),
+        26: ("norwegian", ("words.norwegian.gz",)),
+        27: (
+            "places",
+            (
+                "Colleges.gz",
+                "US-counties.gz",
+                "World.factbook.gz",
+                "Zipcodes.gz",
+                "places.gz",
+            ),
+        ),
+        28: ("polish", ("words.polish.gz",)),
+        29: (
+            "random",
+            (
+                "Ethnologue.gz",
+                "abbr.gz",
+                "chars.gz",
+                "dogs.gz",
+                "drugs.gz",
+                "junk.gz",
+                "numbers.gz",
+                "phrases.gz",
+                "sports.gz",
+                "statistics.gz",
+            ),
+        ),
+        30: ("religion", ("Koran.gz", "kjbible.gz", "norse.gz")),
+        31: ("russian", ("russian.lst.gz", "russian_words.koi8.gz")),
+        32: (
+            "science",
+            (
+                "Acr-diagnosis.gz",
+                "Algae.gz",
+                "Bacteria.gz",
+                "Fungi.gz",
+                "Microalgae.gz",
+                "Viruses.gz",
+                "asteroids.gz",
+                "biology.gz",
+                "tech.gz",
+            ),
+        ),
+        33: ("spanish", ("words.spanish.gz",)),
+        34: ("swahili", ("swahili.gz",)),
+        35: ("swedish", ("words.swedish.gz",)),
+        36: ("turkish", ("turkish.dict.gz",)),
+        37: ("yiddish", ("yiddish.gz",)),
+    }
+
     filedown = input("> Enter number: ")
     filedown.isdigit()
     while filedown.isdigit() == 0:
         print("\r\n[-] Wrong choice. ")
         filedown = input("> Enter number: ")
     filedown = str(filedown)
-    while int(filedown) > 38:
+    while int(filedown) > 38 or int(filedown) < 0:
         print("\r\n[-] Wrong choice. ")
         filedown = input("> Enter number: ")
     filedown = str(filedown)
@@ -789,726 +978,27 @@ elif sys.argv[1] == "-l":
         if not os.path.isdir(dire):
             os.mkdir(dire)
 
-    if filedown == "1":
+    # download the files
+
+    intfiledown = int(filedown)
+
+    if intfiledown in arguments:
+
         print("\r\n[+] connecting...\r\n")
         ftp = ftplib.FTP(ftpurl)
         downloader()
-        ftp.cwd("Moby")
+        ftp.cwd(arguments[intfiledown][0])
 
-        dire = "dictionaries/Moby/"
+        dire = "dictionaries/" + arguments[intfiledown][0] + "/"
         mkdir_if_not_exists(dire)
 
-        files_to_download = {
-            "mhyph.tar.gz",
-            "mlang.tar.gz",
-            "moby.tar.gz",
-            "mpos.tar.gz",
-            "mpron.tar.gz",
-            "mthes.tar.gz",
-            "mwords.tar.gz",
-        }
+        print(arguments[int(filedown)][0])
+        files_to_download = arguments[intfiledown][1]
 
         # download the files
         retr_file_list(ftp, dire, files_to_download)
 
         print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "2":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("afrikaans")
-
-        dire = "dictionaries/afrikaans/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "afr_dbf.zip")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "3":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("american")
-
-        dire = "dictionaries/american/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "dic-0294.tar.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "4":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("aussie")
-
-        dire = "dictionaries/aussie/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "oz.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "5":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("chinese")
-
-        dire = "dictionaries/chinese/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "chinese.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "6":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("computer")
-
-        dire = "dictionaries/computer/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {
-            "Domains.gz",
-            "Dosref.gz",
-            "Ftpsites.gz",
-            "Jargon.gz",
-            "common-passwords.txt.gz",
-            "etc-hosts.gz",
-            "foldoc.gz",
-            "language-list.gz",
-            "unix.gz",
-        }
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "7":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("croatian")
-
-        dire = "dictionaries/croatian/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "croatian.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "8":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("czech")
-
-        dire = "dictionaries/czech/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "czech-wordlist-ascii-cstug-novak.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "9":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("danish")
-
-        dire = "dictionaries/danish/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "danish.words.gz")
-        retr_binary_file(ftp, dire, "dansk.zip")
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "10":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("databases")
-
-        dire = "dictionaries/databases/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {
-            "acronyms.gz",
-            "att800.gz",
-            "computer-companies.gz",
-            "world_heritage.gz",
-        }
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "11":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("dictionaries")
-
-        dire = "dictionaries/dictionaries/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {
-            "Antworth.gz",
-            "CRL.words.gz",
-            "Roget.words.gz",
-            "Unabr.dict.gz",
-            "Unix.dict.gz",
-            "englex-dict.gz",
-            "knuth_britsh.gz",
-            "knuth_words.gz",
-            "pocket-dic.gz",
-            "shakesp-glossary.gz",
-            "special.eng.gz",
-            "words-english.gz",
-        }
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "12":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("dutch")
-
-        dire = "dictionaries/dutch/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "words.dutch.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "13":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("finnish")
-
-        dire = "dictionaries/finnish/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {
-            "finnish.gz",
-            "firstnames.finnish.gz",
-            "words.finnish.FAQ.gz",
-        }
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "14":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("french")
-
-        dire = "dictionaries/french/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "dico.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "15":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("german")
-
-        dire = "dictionaries/german/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {"deutsch.dic.gz", "germanl.gz", "words.german.gz"}
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "16":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("hindi")
-
-        dire = "dictionaries/hindi/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "hindu-names.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "17":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("hungarian")
-
-        dire = "dictionaries/hungarian/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "hungarian.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "18":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("italian")
-
-        dire = "dictionaries/italian/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "words.italian.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "19":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("japanese")
-
-        dire = "dictionaries/japanese/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "words.japanese.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "20":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("latin")
-
-        dire = "dictionaries/latin/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "wordlist.aug.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "21":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("literature")
-
-        dire = "dictionaries/literature/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {
-            "LCarrol.gz",
-            "Paradise.Lost.gz",
-            "aeneid.gz",
-            "arthur.gz",
-            "cartoon.gz",
-            "cartoons-olivier.gz",
-            "charlemagne.gz",
-            "fable.gz",
-            "iliad.gz",
-            "myths-legends.gz",
-            "odyssey.gz",
-            "sf.gz",
-            "shakespeare.gz",
-            "tolkien.words.gz",
-        }
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "22":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("movieTV")
-
-        dire = "dictionaries/movieTV/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {"Movies.gz", "Python.gz", "Trek.gz"}
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "23":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("music")
-
-        dire = "dictionaries/music/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {
-            "music-classical.gz",
-            "music-country.gz",
-            "music-jazz.gz",
-            "music-other.gz",
-            "music-rock.gz",
-            "music-shows.gz",
-            "rock-groups.gz",
-        }
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "24":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("names")
-
-        dire = "dictionaries/names/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {
-            "ASSurnames.gz",
-            "Congress.gz",
-            "Family-Names.gz",
-            "Given-Names.gz",
-            "actor-givenname.gz",
-            "actor-surname.gz",
-            "cis-givenname.gz",
-            "cis-surname.gz",
-            "crl-names.gz",
-            "famous.gz",
-            "fast-names.gz",
-            "female-names-kantr.gz",
-            "female-names.gz",
-            "givennames-ol.gz",
-            "male-names-kantr.gz",
-            "male-names.gz",
-            "movie-characters.gz",
-            "names.french.gz",
-            "names.hp.gz",
-            "other-names.gz",
-            "shakesp-names.gz",
-            "surnames-ol.gz",
-            "surnames.finnish.gz",
-            "usenet-names.gz",
-        }
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "25":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("net")
-
-        dire = "dictionaries/net/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {
-            "hosts-txt.gz",
-            "inet-machines.gz",
-            "usenet-loginids.gz",
-            "usenet-machines.gz",
-            "uunet-sites.gz",
-        }
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "26":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("norwegian")
-
-        dire = "dictionaries/norwegian/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "words.norwegian.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "27":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("places")
-
-        dire = "dictionaries/places/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {
-            "Colleges.gz",
-            "US-counties.gz",
-            "World.factbook.gz",
-            "Zipcodes.gz",
-            "places.gz",
-        }
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "28":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("polish")
-
-        dire = "dictionaries/polish/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "words.polish.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "29":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("random")
-
-        dire = "dictionaries/random/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {
-            "Ethnologue.gz",
-            "abbr.gz",
-            "chars.gz",
-            "dogs.gz",
-            "drugs.gz",
-            "junk.gz",
-            "numbers.gz",
-            "phrases.gz",
-            "sports.gz",
-            "statistics.gz",
-        }
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "30":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("religion")
-
-        dire = "dictionaries/religion/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {"Koran.gz", "kjbible.gz", "norse.gz"}
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "31":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("russian")
-
-        dire = "dictionaries/russian/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "russian.lst.gz")
-        retr_binary_file(ftp, dire, "russian_words.koi8.gz")
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "32":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("science")
-
-        dire = "dictionaries/science/"
-        mkdir_if_not_exists(dire)
-
-        files_to_download = {
-            "Acr-diagnosis.gz",
-            "Algae.gz",
-            "Bacteria.gz",
-            "Fungi.gz",
-            "Microalgae.gz",
-            "Viruses.gz",
-            "asteroids.gz",
-            "biology.gz",
-            "tech.gz",
-        }
-
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
-
-        print("[+] files saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "33":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("spanish")
-
-        dire = "dictionaries/spanish/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "words.spanish.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "34":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("swahili")
-
-        dire = "dictionaries/swahili/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "swahili.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "35":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("swedish")
-
-        dire = "dictionaries/swedish/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "words.swedish.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "36":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("turkish")
-
-        dire = "dictionaries/turkish/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "turkish.dict.gz")
-
-        print("[+] file saved to " + dire)
-        ftp.quit()
-        exit()
-
-    elif filedown == "37":
-        print("[+] connecting...")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd("yiddish")
-
-        dire = "dictionaries/yiddish/"
-        mkdir_if_not_exists(dire)
-
-        retr_binary_file(ftp, dire, "yiddish.gz")
-
-        print("[+] file saved to " + dire)
         ftp.quit()
         exit()
 
