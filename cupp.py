@@ -2,10 +2,8 @@
 #
 #  [Program]
 #
-#  CUPP 3.2.2-alpha
+#  CUPP
 #  Common User Passwords Profiler
-#
-#
 #
 #  [Author]
 #
@@ -13,8 +11,6 @@
 #  j0rgan [at] remote-exploit [dot] org
 #  http://www.remote-exploit.org
 #  http://www.azuzi.me
-#
-#
 #
 #  [License]
 #
@@ -41,7 +37,11 @@ import configparser
 import urllib.request, urllib.parse, urllib.error
 import gzip
 import csv
+import argparse
 
+__author__ = "Muris Kurgas"
+__license__ = "GPL"
+__version__ = "3.2.3-alpha"
 
 # Reading configuration file...
 config = configparser.ConfigParser()
@@ -114,7 +114,7 @@ def print_to_file(filename, unique_list_finished):
     )
 
 
-if len(sys.argv) < 2 or sys.argv[1] == "-h":
+def print_cow():
     print(" ___________ ")
     print(" \033[07m  cupp.py! \033[27m                # Common")
     print("      \                     # User")
@@ -122,39 +122,28 @@ if len(sys.argv) < 2 or sys.argv[1] == "-h":
     print("        \  \033[1;31m(\033[1;moo\033[1;31m)____\033[1;m         # Profiler")
     print("           \033[1;31m(__)    )\ \033[1;m  ")
     print(
-        "           \033[1;31m   ||--|| \033[1;m\033[05m*\033[25m\033[1;m      [ Muris Kurgas | j0rgan@remote-exploit.org ]\r\n\r\n"
+        "           \033[1;31m   ||--|| \033[1;m\033[05m*\033[25m\033[1;m      [ Muris Kurgas | j0rgan@remote-exploit.org ]"
     )
+    print(28 * " " + "[ Mebus | https://github.com/Mebus/]\r\n")
 
-    print("	[ Options ]\r\n")
-    print("	-h	You are looking at it baby! :)")
-    print(" 		 For more help take a look in docs/README")
-    print("		 Global configuration file is cupp.cfg\n")
 
-    print("	-i	Interactive questions for user password profiling\r\n")
+def version():
+    """Display version"""
 
-    print("	-w	Use this option to improve existing dictionary,")
-    print("		 or WyD.pl output to make some pwnsauce\r\n")
-
-    print("	-l	Download huge wordlists from repository\r\n")
-    print("	-a	Parse default usernames and passwords directly from Alecto DB.")
-    print("		 Project Alecto uses purified databases of Phenoelit and CIRT")
-    print("		 which where merged and enhanced.\r\n")
-    print("	-v	Version of the program\r\n")
-    exit()
-
-elif sys.argv[1] == "-v":
-    print("\r\n	\033[1;31m[ cupp.py ]  v3.2.2-alpha\033[1;m\r\n")
+    print("\r\n	\033[1;31m[ cupp.py ]  " + __version__ + "\033[1;m\r\n")
     print("	* Hacked up by j0rgan - j0rgan@remote-exploit.org")
     print("	* http://www.remote-exploit.org\r\n")
     print("	Take a look ./README.md file for more info about the program\r\n")
-    exit()
 
 
-elif sys.argv[1] == "-w":
-    if len(sys.argv) < 3:
-        print("\r\n[Usage]:	" + sys.argv[0] + "  -w  [FILENAME]\r\n")
-        exit()
-    fajl = open(sys.argv[2], "r")
+def improve_dictionary(file_to_open):
+    """Implementation of the -w option. Improve a dictionary by
+    interactively questioning the user."""
+
+    if not os.path.isfile(file_to_open):
+        exit("Error: file " + file_to_open + " does not exist.")
+
+    fajl = open(file_to_open, "r")
     listic = fajl.readlines()
     linije = 0
     for line in listic:
@@ -273,10 +262,12 @@ elif sys.argv[1] == "-w":
     print_to_file(sys.argv[2] + ".cupp.txt", unique_list_finished)
 
     fajl.close()
-    exit()
 
 
-elif sys.argv[1] == "-i":
+def interactive():
+    """Implementation of the -i switch. Interactively question the user and
+    create a password dictionary file based on the answer."""
+
     print("\r\n[+] Insert the information about the victim to make a dictionary")
     print("[+] If you don't know all the info, just hit enter when asked! ;)\r\n")
 
@@ -676,10 +667,12 @@ elif sys.argv[1] == "-i":
     unique_list_finished = [x for x in unique_list if len(x) < wcto and len(x) > wcfrom]
 
     print_to_file(name + ".txt", unique_list_finished)
-    exit()
 
 
-elif sys.argv[1] == "-a":
+def alectodb_download():
+    """Download csv from alectodb and save into local file as a list of
+    usernames and passwords"""
+
     url = config.get("alecto", "alectourl")
 
     print("\r\n[+] Checking if alectodb is not present...")
@@ -720,7 +713,9 @@ elif sys.argv[1] == "-a":
     sys.exit()
 
 
-elif sys.argv[1] == "-l":
+def download_wordlist():
+    """Implementation of -l switch. Download wordlists from ftp repository as
+    defined in the configuration file."""
 
     ftpname = config.get("downloader", "ftpname")
     ftpurl = config.get("downloader", "ftpurl")
@@ -1000,14 +995,78 @@ elif sys.argv[1] == "-l":
 
         print("[+] files saved to " + dire)
         ftp.quit()
-        exit()
 
     else:
         print("[-] leaving.")
-        exit()
 
 
-else:
-    print("\r\n[Usage]:	" + sys.argv[0] + "  [OPTIONS] \r\n")
-    print("[Help]:		" + sys.argv[0] + "  -h\r\n")
-    exit()
+# the main function
+def main():
+    """Command-line interface to the cupp utility"""
+
+    parser = get_parser()
+    args = parser.parse_args()
+
+    if not args.quiet:
+        print_cow()
+
+    if args.version:
+        version()
+    elif args.interactive:
+        interactive()
+    elif args.download_wordlist:
+        download_wordlist()
+    elif args.alecto:
+        alectodb_download()
+    elif args.improve:
+        improve_dictionary(args.improve)
+    else:
+        parser.print_help()
+
+
+# Separate into a function for testing purposes
+def get_parser():
+    """Create and return a parser (argparse.ArgumentParser instance) for main()
+    to use"""
+    parser = argparse.ArgumentParser(description="Common User Passwords Profiler")
+    group = parser.add_mutually_exclusive_group(required=False)
+    group.add_argument(
+        "-i",
+        "--interactive",
+        action="store_true",
+        help="Interactive questions for user password profiling",
+    )
+    group.add_argument(
+        "-w",
+        dest="improve",
+        metavar="FILENAME",
+        help="Use this option to improve existing dictionary,"
+        " or WyD.pl output to make some pwnsauce",
+    )
+    group.add_argument(
+        "-l",
+        dest="download_wordlist",
+        action="store_true",
+        help="Download huge wordlists from repository",
+    )
+    group.add_argument(
+        "-a",
+        dest="alecto",
+        action="store_true",
+        help="Parse default usernames and passwords directly"
+        " from Alecto DB. Project Alecto uses purified"
+        " databases of Phenoelit and CIRT which were merged"
+        " and enhanced",
+    )
+    group.add_argument(
+        "-v", "--version", action="store_true", help="Show the version of this program."
+    )
+    parser.add_argument(
+        "-q", "--quiet", action="store_true", help="Quiet mode (don't print banner)"
+    )
+
+    return parser
+
+
+if __name__ == "__main__":
+    main()
