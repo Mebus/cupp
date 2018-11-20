@@ -512,49 +512,50 @@ def interactive():
             ) != kombinak.index(kombina2.title()):
                 kombinaak.append(kombina1 + kombina2)
 
-    komb1 = list(komb(kombinaa, bdss))
-    komb1 += list(komb(kombinaa, bdss, "_"))
-    komb2 = list(komb(kombinaaw, wbdss))
-    komb2 += list(komb(kombinaaw, wbdss, "_"))
-    komb3 = list(komb(kombinaak, kbdss))
-    komb3 += list(komb(kombinaak, kbdss, "_"))
-    komb4 = list(komb(kombinaa, years))
-    komb4 += list(komb(kombinaa, years, "_"))
-    komb5 = list(komb(kombinaac, years))
-    komb5 += list(komb(kombinaac, years, "_"))
-    komb6 = list(komb(kombinaaw, years))
-    komb6 += list(komb(kombinaaw, years, "_"))
-    komb7 = list(komb(kombinaak, years))
-    komb7 += list(komb(kombinaak, years, "_"))
-    komb8 = list(komb(word, bdss))
-    komb8 += list(komb(word, bdss, "_"))
-    komb9 = list(komb(word, wbdss))
-    komb9 += list(komb(word, wbdss, "_"))
-    komb10 = list(komb(word, kbdss))
-    komb10 += list(komb(word, kbdss, "_"))
-    komb11 = list(komb(word, years))
-    komb11 += list(komb(word, years, "_"))
-    komb12 = [""]
-    komb13 = [""]
-    komb14 = [""]
-    komb15 = [""]
-    komb16 = [""]
-    komb21 = [""]
+    kombi = {}
+    kombi[1] = list(komb(kombinaa, bdss))
+    kombi[1] += list(komb(kombinaa, bdss, "_"))
+    kombi[2] = list(komb(kombinaaw, wbdss))
+    kombi[2] += list(komb(kombinaaw, wbdss, "_"))
+    kombi[3] = list(komb(kombinaak, kbdss))
+    kombi[3] += list(komb(kombinaak, kbdss, "_"))
+    kombi[4] = list(komb(kombinaa, years))
+    kombi[4] += list(komb(kombinaa, years, "_"))
+    kombi[5] = list(komb(kombinaac, years))
+    kombi[5] += list(komb(kombinaac, years, "_"))
+    kombi[6] = list(komb(kombinaaw, years))
+    kombi[6] += list(komb(kombinaaw, years, "_"))
+    kombi[7] = list(komb(kombinaak, years))
+    kombi[7] += list(komb(kombinaak, years, "_"))
+    kombi[8] = list(komb(word, bdss))
+    kombi[8] += list(komb(word, bdss, "_"))
+    kombi[9] = list(komb(word, wbdss))
+    kombi[9] += list(komb(word, wbdss, "_"))
+    kombi[10] = list(komb(word, kbdss))
+    kombi[10] += list(komb(word, kbdss, "_"))
+    kombi[11] = list(komb(word, years))
+    kombi[11] += list(komb(word, years, "_"))
+    kombi[12] = [""]
+    kombi[13] = [""]
+    kombi[14] = [""]
+    kombi[15] = [""]
+    kombi[16] = [""]
+    kombi[21] = [""]
     if randnum == "y":
-        komb12 = list(concats(word, numfrom, numto))
-        komb13 = list(concats(kombinaa, numfrom, numto))
-        komb14 = list(concats(kombinaac, numfrom, numto))
-        komb15 = list(concats(kombinaaw, numfrom, numto))
-        komb16 = list(concats(kombinaak, numfrom, numto))
-        komb21 = list(concats(reverse, numfrom, numto))
-    komb17 = list(komb(reverse, years))
-    komb17 += list(komb(reverse, years, "_"))
-    komb18 = list(komb(rev_w, wbdss))
-    komb18 += list(komb(rev_w, wbdss, "_"))
-    komb19 = list(komb(rev_k, kbdss))
-    komb19 += list(komb(rev_k, kbdss, "_"))
-    komb20 = list(komb(rev_n, bdss))
-    komb20 += list(komb(rev_n, bdss, "_"))
+        kombi[12] = list(concats(word, numfrom, numto))
+        kombi[13] = list(concats(kombinaa, numfrom, numto))
+        kombi[14] = list(concats(kombinaac, numfrom, numto))
+        kombi[15] = list(concats(kombinaaw, numfrom, numto))
+        kombi[16] = list(concats(kombinaak, numfrom, numto))
+        kombi[21] = list(concats(reverse, numfrom, numto))
+    kombi[17] = list(komb(reverse, years))
+    kombi[17] += list(komb(reverse, years, "_"))
+    kombi[18] = list(komb(rev_w, wbdss))
+    kombi[18] += list(komb(rev_w, wbdss, "_"))
+    kombi[19] = list(komb(rev_k, kbdss))
+    kombi[19] += list(komb(rev_k, kbdss, "_"))
+    kombi[20] = list(komb(rev_n, bdss))
+    kombi[20] += list(komb(rev_n, bdss, "_"))
     komb001 = [""]
     komb002 = [""]
     komb003 = [""]
@@ -571,27 +572,10 @@ def interactive():
 
     print("[+] Sorting list and removing duplicates...")
 
-    komb_unique1 = list(dict.fromkeys(komb1).keys())
-    komb_unique2 = list(dict.fromkeys(komb2).keys())
-    komb_unique3 = list(dict.fromkeys(komb3).keys())
-    komb_unique4 = list(dict.fromkeys(komb4).keys())
-    komb_unique5 = list(dict.fromkeys(komb5).keys())
-    komb_unique6 = list(dict.fromkeys(komb6).keys())
-    komb_unique7 = list(dict.fromkeys(komb7).keys())
-    komb_unique8 = list(dict.fromkeys(komb8).keys())
-    komb_unique9 = list(dict.fromkeys(komb9).keys())
-    komb_unique10 = list(dict.fromkeys(komb10).keys())
-    komb_unique11 = list(dict.fromkeys(komb11).keys())
-    komb_unique12 = list(dict.fromkeys(komb12).keys())
-    komb_unique13 = list(dict.fromkeys(komb13).keys())
-    komb_unique14 = list(dict.fromkeys(komb14).keys())
-    komb_unique15 = list(dict.fromkeys(komb15).keys())
-    komb_unique16 = list(dict.fromkeys(komb16).keys())
-    komb_unique17 = list(dict.fromkeys(komb17).keys())
-    komb_unique18 = list(dict.fromkeys(komb18).keys())
-    komb_unique19 = list(dict.fromkeys(komb19).keys())
-    komb_unique20 = list(dict.fromkeys(komb20).keys())
-    komb_unique21 = list(dict.fromkeys(komb21).keys())
+    komb_unique = {}
+    for i in range(1,22):
+        komb_unique[i] = list(dict.fromkeys(kombi[i]).keys())
+
     komb_unique01 = list(dict.fromkeys(kombinaa).keys())
     komb_unique02 = list(dict.fromkeys(kombinaac).keys())
     komb_unique03 = list(dict.fromkeys(kombinaaw).keys())
@@ -614,35 +598,19 @@ def interactive():
         + komb_unique03
         + komb_unique04
         + komb_unique05
-        + komb_unique1
-        + komb_unique2
-        + komb_unique3
-        + komb_unique4
-        + komb_unique5
-        + komb_unique6
-        + komb_unique7
-        + komb_unique8
-        + komb_unique9
-        + komb_unique10
-        + komb_unique11
-        + komb_unique12
-        + komb_unique13
-        + komb_unique14
-        + komb_unique15
-        + komb_unique16
-        + komb_unique17
-        + komb_unique18
-        + komb_unique19
-        + komb_unique20
-        + komb_unique21
-        + komb_unique07
+    )
+
+    for i in range(1,21):
+        uniqlist += komb_unique[i]
+
+    uniqlist += (
+          komb_unique07
         + komb_unique08
         + komb_unique09
         + komb_unique010
         + komb_unique011
         + komb_unique012
     )
-
     unique_lista = list(dict.fromkeys(uniqlist).keys())
     unique_leet = []
     if leetmode == "y":
