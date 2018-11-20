@@ -68,9 +68,9 @@ class TestCupp(unittest.TestCase):
     def test_parser(self):
         """ downloads a file and checks if it exists """
 
-        download_wordlist_ftp("31")
+        download_wordlist_ftp("16")
 
-        filename = "dictionaries/russian/russian.lst.gz"
+        filename = "dictionaries/hindi/hindu-names.gz"
 
         self.assertTrue(os.path.isfile(filename), "file " + filename + "exists")
 
