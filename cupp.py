@@ -33,6 +33,7 @@
 import sys
 import os
 import ftplib
+import functools
 import configparser
 import urllib.request, urllib.parse, urllib.error
 import gzip
@@ -41,39 +42,62 @@ import argparse
 
 __author__ = "Muris Kurgas"
 __license__ = "GPL"
-__version__ = "3.2.3-alpha"
+__version__ = "3.2.4-alpha"
 
-# Reading configuration file...
-config = configparser.ConfigParser()
-config.read(os.path.join(os.path.dirname(__file__), "cupp.cfg"))
+CONFIG = {}
 
-years = config.get("years", "years").split(",")
-chars = config.get("specialchars", "chars").split(",")
 
-numfrom = config.getint("nums", "from")
-numto = config.getint("nums", "to")
+def read_config(filename="cupp.cfg"):
+    """Read the given configuration file and update global variables to reflect
+    changes (CONFIG)."""
 
-wcfrom = config.getint("nums", "wcfrom")
-wcto = config.getint("nums", "wcto")
+    # global CONFIG
 
-threshold = config.getint("nums", "threshold")
+    # Reading configuration file
+    config = configparser.ConfigParser()
+    config.read(filename)
 
-# 1337 mode configs, well you can add more lines if you add it to config file too.
-# You will need to add more lines in two places in cupp.py code as well...
-leet = {}
-leet["a"] = config.get("leet", "a")
-leet["i"] = config.get("leet", "i")
-leet["e"] = config.get("leet", "e")
-leet["t"] = config.get("leet", "t")
-leet["o"] = config.get("leet", "o")
-leet["s"] = config.get("leet", "s")
-leet["g"] = config.get("leet", "g")
-leet["z"] = config.get("leet", "z")
+    CONFIG["global"] = {
+        "years": config.get("years", "years").split(","),
+        "chars": config.get("specialchars", "chars").split(","),
+        "numfrom": config.getint("nums", "from"),
+        "numto": config.getint("nums", "to"),
+        "wcfrom": config.getint("nums", "wcfrom"),
+        "wcto": config.getint("nums", "wcto"),
+        "threshold": config.getint("nums", "threshold"),
+        "alectourl": config.get("alecto", "alectourl"),
+    }
+
+    # 1337 mode configs, well you can add more lines if you add it to the
+    # config file too.
+    leet = functools.partial(config.get, "leet")
+    leetc = {}
+    letters = {"a", "i", "e", "t", "o", "s", "g", "z"}
+
+    for letter in letters:
+        leetc[letter] = config.get("leet", letter)
+
+    CONFIG["LEET"] = leetc
+
+    ftp_config = functools.partial(config.get, "downloader")
+
+    CONFIG["FTP"] = dict(
+        name=ftp_config("ftpname"),
+        url=ftp_config("ftpurl"),
+        path=ftp_config("ftppath"),
+        user=ftp_config("ftpuser"),
+        password=ftp_config("ftppass"),
+    )
+
+
+def make_leet(x):
+    """convert string to leet"""
+    for letter, leetletter in CONFIG["LEET"].items():
+        x.replace(letter, leetletter)
+    return x
 
 
 # for concatenations...
-
-
 def concats(seq, start, stop):
     for mystr in seq:
         for num in range(start, stop):
@@ -81,8 +105,6 @@ def concats(seq, start, stop):
 
 
 # for sorting and making combinations...
-
-
 def komb(seq, start, special=""):
     for mystr in seq:
         for mystr1 in start:
@@ -144,6 +166,14 @@ def improve_dictionary(file_to_open):
     if not os.path.isfile(file_to_open):
         exit("Error: file " + file_to_open + " does not exist.")
 
+    chars = CONFIG["global"]["chars"]
+    years = CONFIG["global"]["years"]
+    numfrom = CONFIG["global"]["numfrom"]
+    numto = CONFIG["global"]["numto"]
+    wcto = CONFIG["global"]["wcto"]
+    wcfrom = CONFIG["global"]["wcfrom"]
+    threshold = CONFIG["global"]["threshold"]
+
     fajl = open(file_to_open, "r")
     listic = fajl.readlines()
     linije = 0
@@ -170,7 +200,7 @@ def improve_dictionary(file_to_open):
         conts = input(
             "> Do you want to concatenate all words from wordlist? Y/[N]: "
         ).lower()
-    conts = conts
+
     cont = [""]
     if conts == "y":
         for cont1 in listica:
@@ -244,14 +274,7 @@ def improve_dictionary(file_to_open):
         ) in (
             unique_lista
         ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
-            x = x.replace("a", a)
-            x = x.replace("i", i)
-            x = x.replace("e", e)
-            x = x.replace("t", t)
-            x = x.replace("o", o)
-            x = x.replace("s", s)
-            x = x.replace("g", g)
-            x = x.replace("z", z)
+            x = make_leet(x)  # convert to leet
             unique_leet.append(x)
 
     unique_list = unique_lista + unique_leet
@@ -339,6 +362,13 @@ def interactive():
 
 def generate_wordlist_from_profile(profile):
     """ Generates a wordlist from a given profile """
+
+    chars = CONFIG["global"]["chars"]
+    years = CONFIG["global"]["years"]
+    numfrom = CONFIG["global"]["numfrom"]
+    numto = CONFIG["global"]["numto"]
+    wcto = CONFIG["global"]["wcto"]
+    wcfrom = CONFIG["global"]["wcfrom"]
 
     profile["spechars"] = []
 
@@ -652,10 +682,7 @@ def generate_wordlist_from_profile(profile):
             unique_lista
         ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
 
-            # transform to leet
-            for letter, leetletter in leet.items():
-                x.replace(letter, leetletter)
-
+            x = make_leet(x)  # convert to leet
             unique_leet.append(x)
 
     unique_list = unique_lista + unique_leet
@@ -670,7 +697,7 @@ def alectodb_download():
     """Download csv from alectodb and save into local file as a list of
     usernames and passwords"""
 
-    url = config.get("alecto", "alectourl")
+    url = CONFIG["global"]["alectourl"]
 
     print("\r\n[+] Checking if alectodb is not present...")
     if os.path.isfile("alectodb.csv.gz") == 0:
@@ -714,11 +741,11 @@ def download_wordlist():
     """Implementation of -l switch. Download wordlists from ftp repository as
     defined in the configuration file."""
 
-    ftpname = config.get("downloader", "ftpname")
-    ftpurl = config.get("downloader", "ftpurl")
-    ftppath = config.get("downloader", "ftppath")
-    ftpuser = config.get("downloader", "ftpuser")
-    ftppass = config.get("downloader", "ftppass")
+    ftpname = CONFIG["FTP"]["name"]
+    ftpurl = CONFIG["FTP"]["url"]
+    ftppath = CONFIG["FTP"]["path"]
+    ftpuser = CONFIG["FTP"]["user"]
+    ftppass = CONFIG["FTP"]["password"]
 
     if os.path.isdir("dictionaries") == 0:
         os.mkdir("dictionaries")
@@ -1000,6 +1027,8 @@ def download_wordlist():
 # the main function
 def main():
     """Command-line interface to the cupp utility"""
+
+    read_config()
 
     parser = get_parser()
     args = parser.parse_args()
