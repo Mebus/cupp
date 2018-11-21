@@ -28,6 +28,7 @@
 
 import os
 import unittest
+from unittest.mock import patch
 
 from cupp import *
 
@@ -103,6 +104,42 @@ class TestCupp(unittest.TestCase):
         download_wordlist()
         filename = "dictionaries/russian/russian.lst.gz"
         self.assertTrue(os.path.isfile(filename), "file " + filename + "exists")
+
+    def test_interactive(self):
+        """ Tests the interactive menu """
+
+        expected_filename = "julian.txt"
+        string_to_test = "Julian30771"
+
+        user_input = [
+            "Julian",  # First Name
+            "Assange",  # Surname
+            "Mendax",  # Nickname
+            "03071971",  # Birthdate
+            "",  # Partner
+            "",  # Partner nick
+            "",  # Partner birthdate
+            "",  # Child name
+            "",  # Child nick
+            "",  # Child birthdate
+            "",  # Pet's name
+            "",  # Company name
+            "N",  # keywords
+            "Y",  # Special chars
+            "N",  # Random
+            "N",  # Leet mode
+        ]
+
+        test_ok = False
+
+        if os.path.isfile(expected_filename):
+            if string_to_test in open(expected_filename).read():
+                test_ok = True
+
+        with patch("builtins.input", side_effect=user_input):
+            stacks = interactive()
+
+        self.assertTrue(test_ok, "interactive generation works")
 
 
 if __name__ == "__main__":
