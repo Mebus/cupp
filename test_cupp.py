@@ -145,6 +145,10 @@ class TestCupp(unittest.TestCase):
 
         self.assertTrue(test_ok, "interactive generation works")
 
+    def test_main(self):
+        """ test run for the main function """
+        main()
+
 
 if __name__ == "__main__":
     unittest.main()
