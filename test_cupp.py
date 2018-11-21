@@ -63,12 +63,11 @@ class TestCupp(unittest.TestCase):
         }
         read_config()
         generate_wordlist_from_profile(profile)
-        pass
 
     def test_parser(self):
         """ downloads a file and checks if it exists """
 
-        download_wordlist_ftp("16")
+        download_wordlist_http("16")
 
         filename = "dictionaries/hindi/hindu-names.gz"
 

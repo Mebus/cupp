@@ -33,7 +33,6 @@
 import argparse
 import configparser
 import csv
-import ftplib
 import functools
 import gzip
 import os
@@ -44,7 +43,7 @@ import urllib.request
 
 __author__ = "Muris Kurgas"
 __license__ = "GPL"
-__version__ = "3.2.4-alpha"
+__version__ = "3.2.5-alpha"
 
 CONFIG = {}
 
@@ -68,6 +67,7 @@ def read_config(filename="cupp.cfg"):
         "wcto": config.getint("nums", "wcto"),
         "threshold": config.getint("nums", "threshold"),
         "alectourl": config.get("alecto", "alectourl"),
+        "dicturl": config.get("downloader", "dicturl"),
     }
 
     # 1337 mode configs, well you can add more lines if you add it to the
@@ -80,16 +80,6 @@ def read_config(filename="cupp.cfg"):
         leetc[letter] = config.get("leet", letter)
 
     CONFIG["LEET"] = leetc
-
-    ftp_config = functools.partial(config.get, "downloader")
-
-    CONFIG["FTP"] = dict(
-        name=ftp_config("ftpname"),
-        url=ftp_config("ftpurl"),
-        path=ftp_config("ftppath"),
-        user=ftp_config("ftpuser"),
-        password=ftp_config("ftppass"),
-    )
 
 
 def make_leet(x):
@@ -696,6 +686,15 @@ def generate_wordlist_from_profile(profile):
     print_to_file(profile["name"] + ".txt", unique_list_finished)
 
 
+def download_http(url, targetfile):
+    print("[+] Downloading " + targetfile + " from " + url + " ... ")
+    webFile = urllib.request.urlopen(url)
+    localFile = open(targetfile, "wb")
+    localFile.write(webFile.read())
+    webFile.close()
+    localFile.close()
+
+
 def alectodb_download():
     """Download csv from alectodb and save into local file as a list of
     usernames and passwords"""
@@ -703,15 +702,14 @@ def alectodb_download():
     url = CONFIG["global"]["alectourl"]
 
     print("\r\n[+] Checking if alectodb is not present...")
-    if not os.path.isfile("alectodb.csv.gz"):
-        print("[+] Downloading alectodb.csv.gz...")
-        webFile = urllib.request.urlopen(url)
-        localFile = open(url.split("/")[-1], "wb")
-        localFile.write(webFile.read())
-        webFile.close()
-        localFile.close()
 
-    f = gzip.open("alectodb.csv.gz", "rt")
+    targetfile = "alectodb.csv.gz"
+
+    if not os.path.isfile(targetfile):
+
+        download_http(url, targetfile)
+
+    f = gzip.open(targetfile, "rt")
 
     data = csv.reader(f)
 
@@ -738,7 +736,7 @@ def alectodb_download():
 
 
 def download_wordlist():
-    """Implementation of -l switch. Download wordlists from ftp repository as
+    """Implementation of -l switch. Download wordlists from http repository as
     defined in the configuration file."""
 
     print("	\r\n	Choose the section you want to download:\r\n")
@@ -757,7 +755,9 @@ def download_wordlist():
     print("    12   dutch           25      net             38      exit program")
     print("    13   finnish         26      norwegian       \r\n")
     print(
-        "	\r\n	Files will be downloaded from " + CONFIG["FTP"]["name"] + " repository"
+        "	\r\n	Files will be downloaded from "
+        + CONFIG["global"]["dicturl"]
+        + " repository"
     )
     print(
         "	\r\n	Tip: After downloading wordlist, you can improve it with -w option\r\n"
@@ -774,21 +774,14 @@ def download_wordlist():
         filedown = input("> Enter number: ")
     filedown = str(filedown)
 
-    download_wordlist_ftp(filedown)
+    download_wordlist_http(filedown)
     return filedown
 
 
-def download_wordlist_ftp(filedown):
-    """ do the FTP download of a wordlist """
+def download_wordlist_http(filedown):
+    """ do the HTTP download of a wordlist """
 
-    ftpname = CONFIG["FTP"]["name"]
-    ftpurl = CONFIG["FTP"]["url"]
-    ftppath = CONFIG["FTP"]["path"]
-    ftpuser = CONFIG["FTP"]["user"]
-    ftppass = CONFIG["FTP"]["password"]
-
-    if os.path.isdir("dictionaries") == 0:
-        os.mkdir("dictionaries")
+    mkdir_if_not_exists("dictionaries")
 
     # List of files to download:
     arguments = {
@@ -979,58 +972,31 @@ def download_wordlist_ftp(filedown):
         37: ("yiddish", ("yiddish.gz",)),
     }
 
-    def downloader():
-        ftp.login(ftpuser, ftppass)
-        ftp.cwd(ftppath)
-
-    # retrieve a file from FTP
-    def retr_binary_file(ftp, dire, filename):
-        def handleDownload(block):
-            f.write(block)
-            print(".", end="")
-
-        f = open(dire + filename, "wb")
-        print("\r\n[+] downloading " + filename + "...")
-        # ftp.retrbinary("RETR " + filename, f.write)
-        ftp.retrbinary("RETR " + filename, handleDownload)
-        f.close()
-        print(" done.")
-
-    # retrieve a list of files
-    def retr_file_list(ftp, dire, file_list):
-        for f in file_list:
-            retr_binary_file(ftp, dire, f)
-
-    # create the directory if it doesn't exist
-    def mkdir_if_not_exists(dire):
-        if not os.path.isdir(dire):
-            os.mkdir(dire)
-
     # download the files
 
     intfiledown = int(filedown)
 
     if intfiledown in arguments:
 
-        print("\r\n[+] connecting...\r\n")
-        ftp = ftplib.FTP(ftpurl)
-        downloader()
-        ftp.cwd(arguments[intfiledown][0])
-
         dire = "dictionaries/" + arguments[intfiledown][0] + "/"
         mkdir_if_not_exists(dire)
-
-        print(arguments[int(filedown)][0])
         files_to_download = arguments[intfiledown][1]
 
-        # download the files
-        retr_file_list(ftp, dire, files_to_download)
+        for fi in files_to_download:
+            url = CONFIG["global"]["dicturl"] + arguments[intfiledown][0] + "/" + fi
+            tgt = dire + fi
+            download_http(url, tgt)
 
         print("[+] files saved to " + dire)
-        ftp.quit()
 
     else:
         print("[-] leaving.")
+
+
+# create the directory if it doesn't exist
+def mkdir_if_not_exists(dire):
+    if not os.path.isdir(dire):
+        os.mkdir(dire)
 
 
 # the main function
