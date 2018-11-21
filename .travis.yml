@@ -1,5 +1,10 @@
   language: python
   python:
     - "3.6"
+  install:
+    - pip install coverage python-coveralls
   script:
-    - python test_cupp.py
+    - coverage run ./test_cupp.py
+  after_success:
+    - coverage report
+    - coveralls
