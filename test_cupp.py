@@ -111,6 +111,10 @@ class TestCupp(unittest.TestCase):
         expected_filename = "julian.txt"
         string_to_test = "Julian30771"
 
+        # delete the file if it already exists
+        if os.path.isfile(expected_filename):
+            os.remove(expected_filename)
+
         user_input = [
             "Julian",  # First Name
             "Assange",  # Surname
@@ -132,12 +136,12 @@ class TestCupp(unittest.TestCase):
 
         test_ok = False
 
+        with patch("builtins.input", side_effect=user_input):
+            stacks = interactive()
+
         if os.path.isfile(expected_filename):
             if string_to_test in open(expected_filename).read():
                 test_ok = True
-
-        with patch("builtins.input", side_effect=user_input):
-            stacks = interactive()
 
         self.assertTrue(test_ok, "interactive generation works")
 
