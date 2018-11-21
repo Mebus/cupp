@@ -276,7 +276,7 @@ def improve_dictionary(file_to_open):
 
     unique_list_finished = [x for x in unique_list if len(x) > wcfrom and len(x) < wcto]
 
-    print_to_file(sys.argv[2] + ".cupp.txt", unique_list_finished)
+    print_to_file(file_to_open + ".cupp.txt", unique_list_finished)
 
     fajl.close()
 

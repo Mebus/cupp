@@ -70,7 +70,6 @@ class TestCupp(unittest.TestCase):
         download_wordlist_http("16")
 
         filename = "dictionaries/hindi/hindu-names.gz"
-
         self.assertTrue(os.path.isfile(filename), "file " + filename + "exists")
 
     def test_print_cow(self):
@@ -89,6 +88,21 @@ class TestCupp(unittest.TestCase):
             os.path.isfile("alectodb-passwords.txt"),
             "file alectodb-passwords.txt exists",
         )
+
+    def test_improve_dictionary(self):
+
+        filename = "improveme.txt"
+        open(filename, "a").write("password123\n2018password\npassword\n")
+
+        __builtins__.input = lambda _: "Y"  # Mock
+        improve_dictionary(filename)
+
+    def test_download_wordlist(self):
+        """ Download wordlists via menu """
+        __builtins__.input = lambda _: "31"  # Mock
+        download_wordlist()
+        filename = "dictionaries/russian/russian.lst.gz"
+        self.assertTrue(os.path.isfile(filename), "file " + filename + "exists")
 
 
 if __name__ == "__main__":
