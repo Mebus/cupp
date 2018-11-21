@@ -156,6 +156,9 @@ def improve_dictionary(file_to_open):
     """Implementation of the -w option. Improve a dictionary by
     interactively questioning the user."""
 
+    kombinacija = {}
+    komb_unique = {}
+
     if not os.path.isfile(file_to_open):
         exit("Error: file " + file_to_open + " does not exist.")
 
@@ -163,16 +166,9 @@ def improve_dictionary(file_to_open):
     years = CONFIG["global"]["years"]
     numfrom = CONFIG["global"]["numfrom"]
     numto = CONFIG["global"]["numto"]
-    wcto = CONFIG["global"]["wcto"]
-    wcfrom = CONFIG["global"]["wcfrom"]
-    threshold = CONFIG["global"]["threshold"]
 
     fajl = open(file_to_open, "r")
     listic = fajl.readlines()
-    linije = 0
-    for line in listic:
-        linije += 1
-
     listica = []
     for x in listic:
         listica += x.split()
@@ -187,8 +183,11 @@ def improve_dictionary(file_to_open):
         "> Do you want to concatenate all words from wordlist? Y/[N]: "
     ).lower()
 
-    if conts == "y" and linije > threshold:
-        print("\r\n[-] Maximum number of words for concatenation is " + str(threshold))
+    if conts == "y" and len(listic) > CONFIG["global"]["threshold"]:
+        print(
+            "\r\n[-] Maximum number of words for concatenation is "
+            + str(CONFIG["global"]["threshold"])
+        )
         print("[-] Check configuration file for increasing this number.\r\n")
         conts = input(
             "> Do you want to concatenate all words from wordlist? Y/[N]: "
@@ -218,46 +217,36 @@ def improve_dictionary(file_to_open):
     ).lower()
     leetmode = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
 
-    kombinacija1 = list(komb(listica, years))
-    kombinacija2 = [""]
+    # init
+    for i in range(6):
+        kombinacija[i] = [""]
+
+    kombinacija[0] = list(komb(listica, years))
     if conts == "y":
-        kombinacija2 = list(komb(cont, years))
-    kombinacija3 = [""]
-    kombinacija4 = [""]
+        kombinacija[1] = list(komb(cont, years))
     if spechars1 == "y":
-        kombinacija3 = list(komb(listica, spechars))
+        kombinacija[2] = list(komb(listica, spechars))
         if conts == "y":
-            kombinacija4 = list(komb(cont, spechars))
-    kombinacija5 = [""]
-    kombinacija6 = [""]
+            kombinacija[3] = list(komb(cont, spechars))
     if randnum == "y":
-        kombinacija5 = list(concats(listica, numfrom, numto))
+        kombinacija[4] = list(concats(listica, numfrom, numto))
         if conts == "y":
-            kombinacija6 = list(concats(cont, numfrom, numto))
+            kombinacija[5] = list(concats(cont, numfrom, numto))
 
     print("\r\n[+] Now making a dictionary...")
 
     print("[+] Sorting list and removing duplicates...")
 
-    komb_unique1 = list(dict.fromkeys(kombinacija1).keys())
-    komb_unique2 = list(dict.fromkeys(kombinacija2).keys())
-    komb_unique3 = list(dict.fromkeys(kombinacija3).keys())
-    komb_unique4 = list(dict.fromkeys(kombinacija4).keys())
-    komb_unique5 = list(dict.fromkeys(kombinacija5).keys())
-    komb_unique6 = list(dict.fromkeys(kombinacija6).keys())
-    komb_unique7 = list(dict.fromkeys(listica).keys())
-    komb_unique8 = list(dict.fromkeys(cont).keys())
+    for i in range(6):
+        komb_unique[i] = list(dict.fromkeys(kombinacija[i]).keys())
 
-    uniqlist = (
-        komb_unique1
-        + komb_unique2
-        + komb_unique3
-        + komb_unique4
-        + komb_unique5
-        + komb_unique6
-        + komb_unique7
-        + komb_unique8
-    )
+    komb_unique[6] = list(dict.fromkeys(listica).keys())
+    komb_unique[7] = list(dict.fromkeys(cont).keys())
+
+    # join the lists
+    uniqlist = []
+    for i in range(8):
+        uniqlist += komb_unique[i]
 
     unique_lista = list(dict.fromkeys(uniqlist).keys())
     unique_leet = []
@@ -274,7 +263,11 @@ def improve_dictionary(file_to_open):
 
     unique_list_finished = []
 
-    unique_list_finished = [x for x in unique_list if len(x) > wcfrom and len(x) < wcto]
+    unique_list_finished = [
+        x
+        for x in unique_list
+        if len(x) > CONFIG["global"]["wcfrom"] and len(x) < CONFIG["global"]["wcto"]
+    ]
 
     print_to_file(file_to_open + ".cupp.txt", unique_list_finished)
 
@@ -360,8 +353,6 @@ def generate_wordlist_from_profile(profile):
     years = CONFIG["global"]["years"]
     numfrom = CONFIG["global"]["numfrom"]
     numto = CONFIG["global"]["numto"]
-    wcto = CONFIG["global"]["wcto"]
-    wcfrom = CONFIG["global"]["wcfrom"]
 
     profile["spechars"] = []
 
@@ -681,7 +672,11 @@ def generate_wordlist_from_profile(profile):
     unique_list = unique_lista + unique_leet
 
     unique_list_finished = []
-    unique_list_finished = [x for x in unique_list if len(x) < wcto and len(x) > wcfrom]
+    unique_list_finished = [
+        x
+        for x in unique_list
+        if len(x) < CONFIG["global"]["wcto"] and len(x) > CONFIG["global"]["wcfrom"]
+    ]
 
     print_to_file(profile["name"] + ".txt", unique_list_finished)
 
