@@ -646,8 +646,8 @@ def generate_wordlist_from_profile(profile):
     komb_unique010 = list(dict.fromkeys(komb004).keys())
     komb_unique011 = list(dict.fromkeys(komb005).keys())
     komb_unique012 = list(dict.fromkeys(komb006).keys())
-    komb_unique013 = dict.fromkeys(komb007).keys()
-    komb_unique014 = dict.fromkeys(komb008).keys()
+    komb_unique013 = list(dict.fromkeys(komb007).keys())
+    komb_unique014 = list(dict.fromkeys(komb008).keys())
 
     uniqlist = (
         bdss
