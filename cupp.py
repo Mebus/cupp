@@ -48,38 +48,48 @@ __version__ = "3.2.5-alpha"
 CONFIG = {}
 
 
-def read_config(filename="cupp.cfg"):
+def read_config(filename):
     """Read the given configuration file and update global variables to reflect
     changes (CONFIG)."""
 
-    # global CONFIG
+    if os.path.isfile(filename):
 
-    # Reading configuration file
-    config = configparser.ConfigParser()
-    config.read(filename)
+        # global CONFIG
 
-    CONFIG["global"] = {
-        "years": config.get("years", "years").split(","),
-        "chars": config.get("specialchars", "chars").split(","),
-        "numfrom": config.getint("nums", "from"),
-        "numto": config.getint("nums", "to"),
-        "wcfrom": config.getint("nums", "wcfrom"),
-        "wcto": config.getint("nums", "wcto"),
-        "threshold": config.getint("nums", "threshold"),
-        "alectourl": config.get("alecto", "alectourl"),
-        "dicturl": config.get("downloader", "dicturl"),
-    }
+        # Reading configuration file
+        config = configparser.ConfigParser()
+        config.read(filename)
 
-    # 1337 mode configs, well you can add more lines if you add it to the
-    # config file too.
-    leet = functools.partial(config.get, "leet")
-    leetc = {}
-    letters = {"a", "i", "e", "t", "o", "s", "g", "z"}
+        CONFIG["global"] = {
+            "years": config.get("years", "years").split(","),
+            "chars": config.get("specialchars", "chars").split(","),
+            "numfrom": config.getint("nums", "from"),
+            "numto": config.getint("nums", "to"),
+            "wcfrom": config.getint("nums", "wcfrom"),
+            "wcto": config.getint("nums", "wcto"),
+            "threshold": config.getint("nums", "threshold"),
+            "alectourl": config.get("alecto", "alectourl"),
+            "dicturl": config.get("downloader", "dicturl"),
+        }
 
-    for letter in letters:
-        leetc[letter] = config.get("leet", letter)
+        # 1337 mode configs, well you can add more lines if you add it to the
+        # config file too.
+        leet = functools.partial(config.get, "leet")
+        leetc = {}
+        letters = {"a", "i", "e", "t", "o", "s", "g", "z"}
 
-    CONFIG["LEET"] = leetc
+        for letter in letters:
+            leetc[letter] = config.get("leet", letter)
+
+        CONFIG["LEET"] = leetc
+
+        return True
+
+    else:
+        print("Configuration file " + filename + " not found!")
+        sys.exit("Exiting.")
+
+        return False
 
 
 def make_leet(x):
@@ -998,7 +1008,7 @@ def mkdir_if_not_exists(dire):
 def main():
     """Command-line interface to the cupp utility"""
 
-    read_config()
+    read_config(os.path.join(os.path.dirname(os.path.realpath(__file__)), "cupp.cfg"))
 
     parser = get_parser()
     args = parser.parse_args()
