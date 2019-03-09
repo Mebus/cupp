@@ -687,8 +687,15 @@ def generate_wordlist_from_profile(profile):
         for x in unique_list
         if len(x) < CONFIG["global"]["wcto"] and len(x) > CONFIG["global"]["wcfrom"]
     ]
-
+    defaultdir= os.getcwd()
+    dirName = "wordlists"
+    dirtogo = (defaultdir + "/" + dirName)
+    if not os.path.exists(dirName):
+        os.mkdir(dirName)
+    print("dirtogo variable equals ", dirtogo)
+    os.chdir(dirtogo)
     print_to_file(profile["name"] + ".txt", unique_list_finished)
+    os.chdir(defaultdir)
 
 
 def download_http(url, targetfile):
