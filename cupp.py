@@ -692,7 +692,6 @@ def generate_wordlist_from_profile(profile):
     dirtogo = (defaultdir + "/" + dirName)
     if not os.path.exists(dirName):
         os.mkdir(dirName)
-    print("dirtogo variable equals ", dirtogo)
     os.chdir(dirtogo)
     print_to_file(profile["name"] + ".txt", unique_list_finished)
     os.chdir(defaultdir)
