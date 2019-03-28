@@ -95,7 +95,7 @@ def read_config(filename):
 def make_leet(x):
     """convert string to leet"""
     for letter, leetletter in CONFIG["LEET"].items():
-        x.replace(letter, leetletter)
+        x = x.replace(letter, leetletter)
     return x
 
 
