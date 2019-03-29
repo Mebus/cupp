@@ -689,12 +689,7 @@ def generate_wordlist_from_profile(profile):
     ]
     defaultdir= os.getcwd()
     dirName = "wordlists"
-    dirtogo = (defaultdir + "/" + dirName)
-    if not os.path.exists(dirName):
-        os.mkdir(dirName)
-    os.chdir(dirtogo)
-    print_to_file(profile["name"] + ".txt", unique_list_finished)
-    os.chdir(defaultdir)
+    print_to_file("wordlists/" + profile["name"] + ".txt", unique_list_finished)
 
 
 def download_http(url, targetfile):
