@@ -116,7 +116,7 @@ def komb(seq, start, special=""):
 # print list to file counting words
 
 
-def print_to_file(filename, unique_list_finished):
+def print_to_file(filename, unique_list_finished): 
     f = open(filename, "w")
     unique_list_finished.sort()
     f.write(os.linesep.join(unique_list_finished))
@@ -133,6 +133,20 @@ def print_to_file(filename, unique_list_finished):
         + str(lines)
         + " words.\033[1;m"
     )
+    inspect = input("> Hyperspeed Print? (Y/n) : ").lower()
+    if(inspect == "y"):
+	try:
+	    with open(filename, "r+") as wlist:
+                 data = wlist.readlines()
+                  for line in data:
+		  	time.sleep(00.1)
+                        print("["+filename+"]" + line)
+                        os.system("clear")
+        except Exception as e:
+	    print("[ERROR]: " +str(e))
+    else:
+	pass
+
     print(
         "[+] Now load your pistolero with \033[1;31m"
         + filename
@@ -142,15 +156,16 @@ def print_to_file(filename, unique_list_finished):
 
 def print_cow():
     print(" ___________ ")
-    print(" \033[07m  cupp.py! \033[27m                # Common")
-    print("      \                     # User")
-    print("       \   \033[1;31m,__,\033[1;m             # Passwords")
-    print("        \  \033[1;31m(\033[1;moo\033[1;31m)____\033[1;m         # Profiler")
+    print(" \033[07m  cupp.py! \033[27m                # \033[07mC\033[27mommon")
+    print("      \                     # \033[07mU\033[27mser")
+    print("       \   \033[1;31m,__,\033[1;m             # \033[07mP\033[27masswords")
+    print("        \  \033[1;31m(\033[1;moo\033[1;31m)____\033[1;m         # \033[07mP\033[27mrofiler")
     print("           \033[1;31m(__)    )\ \033[1;m  ")
     print(
         "           \033[1;31m   ||--|| \033[1;m\033[05m*\033[25m\033[1;m      [ Muris Kurgas | j0rgan@remote-exploit.org ]"
     )
     print(28 * " " + "[ Mebus | https://github.com/Mebus/]\r\n")
+    print("\033[27m\nYou are using Modified and Improved Version of CUPP.\n [ Fahad Mustafa | https://github.com/lynxmk ]")
 
 
 def version():
