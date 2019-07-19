@@ -40,6 +40,7 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+import time
 
 __author__ = "Muris Kurgas"
 __license__ = "GPL"
@@ -135,17 +136,17 @@ def print_to_file(filename, unique_list_finished):
     )
     inspect = input("> Hyperspeed Print? (Y/n) : ").lower()
     if(inspect == "y"):
-	try:
-	    with open(filename, "r+") as wlist:
-                 data = wlist.readlines()
-                  for line in data:
-		  	time.sleep(00.1)
-                        print("["+filename+"]" + line)
-                        os.system("clear")
+        try:
+            with open(filename, "r+") as wlist:
+                        data = wlist.readlines()
+                        for line in data:
+                            print("\033[1;32m["+filename+"] \033[1;33m" + line)
+                            time.sleep(0000.1)
+                            os.system("clear")
         except Exception as e:
-	    print("[ERROR]: " +str(e))
+            print("[ERROR]: " +str(e))
     else:
-	pass
+        pass
 
     print(
         "[+] Now load your pistolero with \033[1;31m"
