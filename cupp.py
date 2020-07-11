@@ -44,7 +44,7 @@ import time
 
 __author__ = "Mebus"
 __license__ = "GPL"
-__version__ = "3.2.5"
+__version__ = "3.3.0"
 
 CONFIG = {}
 
