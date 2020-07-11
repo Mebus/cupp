@@ -40,10 +40,11 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+import time
 
-__author__ = "Muris Kurgas"
+__author__ = "Mebus"
 __license__ = "GPL"
-__version__ = "3.2.5-alpha"
+__version__ = "3.3.0"
 
 CONFIG = {}
 
@@ -133,6 +134,20 @@ def print_to_file(filename, unique_list_finished):
         + str(lines)
         + " words.\033[1;m"
     )
+    inspect = input("> Hyperspeed Print? (Y/n) : ").lower()
+    if inspect == "y":
+        try:
+            with open(filename, "r+") as wlist:
+                data = wlist.readlines()
+                for line in data:
+                    print("\033[1;32m[" + filename + "] \033[1;33m" + line)
+                    time.sleep(0000.1)
+                    os.system("clear")
+        except Exception as e:
+            print("[ERROR]: " + str(e))
+    else:
+        pass
+
     print(
         "[+] Now load your pistolero with \033[1;31m"
         + filename
@@ -142,10 +157,12 @@ def print_to_file(filename, unique_list_finished):
 
 def print_cow():
     print(" ___________ ")
-    print(" \033[07m  cupp.py! \033[27m                # Common")
-    print("      \                     # User")
-    print("       \   \033[1;31m,__,\033[1;m             # Passwords")
-    print("        \  \033[1;31m(\033[1;moo\033[1;31m)____\033[1;m         # Profiler")
+    print(" \033[07m  cupp.py! \033[27m                # \033[07mC\033[27mommon")
+    print("      \                     # \033[07mU\033[27mser")
+    print("       \   \033[1;31m,__,\033[1;m             # \033[07mP\033[27masswords")
+    print(
+        "        \  \033[1;31m(\033[1;moo\033[1;31m)____\033[1;m         # \033[07mP\033[27mrofiler"
+    )
     print("           \033[1;31m(__)    )\ \033[1;m  ")
     print(
         "           \033[1;31m   ||--|| \033[1;m\033[05m*\033[25m\033[1;m      [ Muris Kurgas | j0rgan@remote-exploit.org ]"

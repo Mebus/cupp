@@ -58,6 +58,9 @@ Quick start
 
    CUPP has configuration file cupp.cfg with instructions.
 
+## Example (Fast forwarded)
+
+![cupp-example](screenshots/cupp-example.gif)
 
 ## License
 
@@ -107,4 +110,8 @@ to encourage further development of the tool.
 
   * Andrea Giacomo  
     https://github.com/codepr
+
+  * quantumcore  
+    https://github.com/quantumcore
+    
 
