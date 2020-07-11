@@ -42,9 +42,9 @@ import urllib.parse
 import urllib.request
 import time
 
-__author__ = "Muris Kurgas"
+__author__ = "Mebus"
 __license__ = "GPL"
-__version__ = "3.2.5-alpha"
+__version__ = "3.2.5"
 
 CONFIG = {}
 
