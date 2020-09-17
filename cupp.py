@@ -704,8 +704,8 @@ def generate_wordlist_from_profile(profile):
         for x in unique_list
         if len(x) < CONFIG["global"]["wcto"] and len(x) > CONFIG["global"]["wcfrom"]
     ]
-
-    print_to_file(profile["name"] + ".txt", unique_list_finished)
+    dirname = "wordlists"
+    print_to_file(dirname + "/" + profile["name"] + ".txt", unique_list_finished)
 
 
 def download_http(url, targetfile):
