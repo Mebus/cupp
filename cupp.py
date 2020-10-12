@@ -317,7 +317,7 @@ def interactive():
         print("\r\n[-] You must enter a name at least!")
         name = input("> Name: ").lower()
     profile["name"] = str(name)
-
+    profile["middle"] = input("> Middle name: ").lower()
     profile["surname"] = input("> Surname: ").lower()
     profile["nick"] = input("> Nickname: ").lower()
     birthdate = input("> Birthdate (DDMMYYYY): ")
@@ -424,6 +424,7 @@ def generate_wordlist_from_profile(profile):
     # Convert first letters to uppercase...
 
     nameup = profile["name"].title()
+    middleup = profile["middle"].title()
     surnameup = profile["surname"].title()
     nickup = profile["nick"].title()
     wifeup = profile["wife"].title()
@@ -533,9 +534,11 @@ def generate_wordlist_from_profile(profile):
 
     kombina = [
         profile["name"],
+        profile["middle"],
         profile["surname"],
         profile["nick"],
         nameup,
+        middleup,
         surnameup,
         nickup,
     ]
