@@ -118,6 +118,14 @@ def komb(seq, start, special=""):
 
 
 def print_to_file(filename, unique_list_finished):
+
+    def clear_screen():
+        if(os.name == "nt"):
+            os.system("cls")
+        else:
+            os.system("clear")
+
+
     f = open(filename, "w")
     unique_list_finished.sort()
     f.write(os.linesep.join(unique_list_finished))
@@ -140,6 +148,13 @@ def print_to_file(filename, unique_list_finished):
             with open(filename, "r+") as wlist:
                 data = wlist.readlines()
                 for line in data:
+
+                    try:
+                        print("\033[1;32m[" + filename + "] \033[1;33m" + line)
+                        time.sleep(0000.1)
+                        clear_screen()
+                    except KeyboardInterrupt:
+                        break
                     print("\033[1;32m[" + filename + "] \033[1;33m" + line)
                     time.sleep(0000.1)
                     os.system("clear")
