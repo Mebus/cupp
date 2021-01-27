@@ -75,7 +75,6 @@ def read_config(filename):
 
         # 1337 mode configs, well you can add more lines if you add it to the
         # config file too.
-        leet = functools.partial(config.get, "leet")
         leetc = {}
         letters = {"a", "i", "e", "t", "o", "s", "g", "z"}
 
