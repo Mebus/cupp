@@ -95,7 +95,7 @@ def replace_str(in_str: str, pattern: str, indices: [int], char_replacer: {str: 
     assert len(pattern) == len(indices)
     result_str = list(in_str)
     for patt_index in range(len(indices)):
-        if pattern[patt_index] == '1':
+        if pattern[patt_index] == "1":
             str_index = indices[patt_index]
             result_str[str_index] = str(char_replacer[result_str[str_index]])
     return "".join(result_str)
@@ -107,7 +107,7 @@ def make_leet(in_str: str) -> [str]:
     # map to replace a singe char with it's leet equivalent
     char_replacer = {
         letter: leet_letter
-        for letter, leet_letter in CONFIG['LEET'].items()
+        for letter, leet_letter in CONFIG["LEET"].items()
     }
     # list of indices of replaceable chars
     indices = [
@@ -116,8 +116,8 @@ def make_leet(in_str: str) -> [str]:
         if in_str[index] in char_replacer.keys()
     ]
     ind_len = len(indices)
-    # A replacement could be representet by a binary number
-    # E.g. 1001 woud mean that the first and the last replaceable char is replaced.
+    # A replacement could be represented by a binary number
+    # E.g. 1001 would mean that the first and the last replaceable char is replaced.
     # Such a Number has 2^len(indices) possibilities and the 000... possibility is not fulfilled,
     # because it has no leet replaced chars in it.
     count_of_replaced_strings = 2**ind_len
