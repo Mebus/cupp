@@ -90,8 +90,6 @@ def read_config(filename):
         print("Configuration file " + filename + " not found!")
         sys.exit("Exiting.")
 
-        return False
-
 
 def replace_str(in_str: str, pattern: str, indices: [int], char_replacer: {str: int}) -> str:
     assert len(pattern) == len(indices)
@@ -318,12 +316,10 @@ def improve_dictionary(file_to_open):
 
     unique_list = unique_lista + unique_leet
 
-    unique_list_finished = []
-
     unique_list_finished = [
         x
         for x in unique_list
-        if len(x) > CONFIG["global"]["wcfrom"] and len(x) < CONFIG["global"]["wcto"]
+        if CONFIG["global"]["wcfrom"] < len(x) < CONFIG["global"]["wcto"]
     ]
 
     print_to_file(file_to_open + ".cupp.txt", unique_list_finished)
@@ -463,7 +459,6 @@ def generate_wordlist_from_profile(profile):
     petup = profile["pet"].title()
     companyup = profile["company"].title()
 
-    wordsup = []
     wordsup = list(map(str.title, profile["words"]))
 
     word = profile["words"] + wordsup
@@ -732,7 +727,7 @@ def generate_wordlist_from_profile(profile):
     unique_list_finished = [
         x
         for x in unique_list
-        if len(x) < CONFIG["global"]["wcto"] and len(x) > CONFIG["global"]["wcfrom"]
+        if CONFIG["global"]["wcto"] > len(x) > CONFIG["global"]["wcfrom"]
     ]
 
     print_to_file(profile["name"] + ".txt", unique_list_finished)
