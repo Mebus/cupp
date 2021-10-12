@@ -312,7 +312,7 @@ def improve_dictionary(file_to_open):
             unique_lista
         ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
             x = make_leet(x)  # convert to leet
-            unique_leet.append(x)
+            unique_leet.extend(x)
 
     unique_list = unique_lista + unique_leet
 
@@ -719,7 +719,7 @@ def generate_wordlist_from_profile(profile):
         ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
 
             x = make_leet(x)  # convert to leet
-            unique_leet.append(x)
+            unique_leet.extend(x)
 
     unique_list = unique_lista + unique_leet
 
