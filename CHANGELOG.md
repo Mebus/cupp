@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.1
+- fixed hashtag symbol outputting quote symbol
+- fixed hyperspeed printing failure in test_cupp.py
+- added support for windows clearing terminal on hyperspeed print
+
 ## 3.2.0-alpha
 
  - ran 2to3 on cupp.py to make it Python3 compatible
