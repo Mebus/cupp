@@ -142,7 +142,10 @@ def print_to_file(filename, unique_list_finished):
                 for line in data:
                     print("\033[1;32m[" + filename + "] \033[1;33m" + line)
                     time.sleep(0000.1)
-                    os.system("clear")
+                    if os.name == "nt":
+                        os.system("cls")
+                    else:
+                        os.system("clear")
         except Exception as e:
             print("[ERROR]: " + str(e))
     else:
