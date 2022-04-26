@@ -151,7 +151,7 @@ def print_to_file(filename, unique_list_finished):
     print(
         "[+] Now load your pistolero with \033[1;31m"
         + filename
-        + "\033[1;m and shoot! Good luck!"
+        + "\033[1;m and shoot! Good luck!\033[0m"
     )
 
 
