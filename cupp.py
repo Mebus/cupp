@@ -301,16 +301,25 @@ def improve_dictionary(file_to_open):
     fajl.close()
 
 
-def interactive():
+def interactive(**kwargs):
     """Implementation of the -i switch. Interactively question the user and
     create a password dictionary file based on the answer."""
+
+    profile = {"output": os.path.dirname(os.path.realpath(__file__)) + os.sep }
+
+    if "output" and kwargs:
+        if not os.path.isdir(kwargs["output"]):
+            print("\033[1;31m[-] Error Invalid Path, ensure path exists or check spelling.\033[1;0m")
+            exit(1)
+
+        profile["output"] = kwargs["output"]
+        
 
     print("\r\n[+] Insert the information about the victim to make a dictionary")
     print("[+] If you don't know all the info, just hit enter when asked! ;)\r\n")
 
     # We need some information first!
 
-    profile = {}
 
     name = input("> First Name: ").lower()
     while len(name) == 0 or name == " " or name == "  " or name == "   ":
@@ -705,7 +714,7 @@ def generate_wordlist_from_profile(profile):
         if len(x) < CONFIG["global"]["wcto"] and len(x) > CONFIG["global"]["wcfrom"]
     ]
 
-    print_to_file(profile["name"] + ".txt", unique_list_finished)
+    print_to_file(profile["output"] + profile["name"] + ".txt", unique_list_finished)
 
 
 def download_http(url, targetfile):
@@ -1036,7 +1045,9 @@ def main():
     if args.version:
         version()
     elif args.interactive:
-        interactive()
+        # If Path is passed when running the program use parameter else call with no parameters
+        interactive(output=args.output) if args.output else interactive()
+    
     elif args.download_wordlist:
         download_wordlist()
     elif args.alecto:
@@ -1065,6 +1076,14 @@ def get_parser():
         metavar="FILENAME",
         help="Use this option to improve existing dictionary,"
         " or WyD.pl output to make some pwnsauce",
+    )
+    parser.add_argument(
+        "-o",
+        dest="output",
+        metavar="PATH",
+        type=str,
+        required=False,
+        help="Sepcify path where wordlist should be stored cupp -i -o ./PATH/"
     )
     group.add_argument(
         "-l",
