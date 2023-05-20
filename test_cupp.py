@@ -61,6 +61,7 @@ class TestCupp(unittest.TestCase):
             "randnum": "y",
             "leetmode": "y",
             "spechars": [],
+            "output" : os.path.dirname(os.path.realpath(__file__)) + os.sep,
         }
         read_config("cupp.cfg")
         generate_wordlist_from_profile(profile)
