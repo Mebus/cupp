@@ -307,7 +307,7 @@ def interactive(**kwargs):
 
     profile = {"output": os.path.dirname(os.path.realpath(__file__)) + os.sep }
 
-    if "output" and kwargs:
+    if "output" in kwargs:
         if not os.path.isdir(kwargs["output"]):
             print("\033[1;31m[-] Error Invalid Path, ensure path exists or check spelling.\033[1;0m")
             exit(1)
