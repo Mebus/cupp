@@ -279,9 +279,9 @@ def improve_dictionary(file_to_open):
     unique_leet = []
     if leetmode == "y":
         for (
-            x
+                x
         ) in (
-            unique_lista
+                unique_lista
         ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
             x = make_leet(x)  # convert to leet
             unique_leet.append(x)
@@ -348,6 +348,16 @@ def interactive():
 
     profile["pet"] = input("> Pet's name: ").lower()
     profile["company"] = input("> Company name: ").lower()
+    print("\r\n")
+
+    # Other information about the company
+    profile["job"] = input("> Job Title: ").lower().split(" ")
+    hird = input("> Hired date (DDMMYYYY): ").lower()
+    while len(hird) != 0 and len(hird) != 8:
+        print("\r\n[-] You must enter 8 digits for hired date!")
+        hird = input("> Hired date (DDMMYYYY): ").lower()
+    profile["hird"] = str(hird)
+    profile["cID"] = input("> Company Id: ").lower().replace(" ", "")
     print("\r\n")
 
     profile["words"] = [""]
@@ -421,6 +431,15 @@ def generate_wordlist_from_profile(profile):
     kidb_dd = profile["kidb"][:2]
     kidb_mm = profile["kidb"][2:4]
 
+    # Hired date
+    hird_yy = profile["hird"][-2:]
+    hird_yyy = profile["hird"][-3:]
+    hird_yyyy = profile["hird"][-4:]
+    hird_xd = profile["hird"][1:2]
+    hird_xm = profile["hird"][3:4]
+    hird_dd = profile["hird"][:2]
+    hird_mm = profile["hird"][2:4]
+
     # Convert first letters to uppercase...
 
     nameup = profile["name"].title()
@@ -432,11 +451,17 @@ def generate_wordlist_from_profile(profile):
     kidnup = profile["kidn"].title()
     petup = profile["pet"].title()
     companyup = profile["company"].title()
+    companyidup = profile["cID"].title()
+
+    # Job named
+    jobtitle = []
+    jobtitle = list(map(str.title, profile["job"]))
 
     wordsup = []
     wordsup = list(map(str.title, profile["words"]))
 
     word = profile["words"] + wordsup
+    jobs = profile["job"] + jobtitle
 
     # reverse a name
 
@@ -448,6 +473,8 @@ def generate_wordlist_from_profile(profile):
     rev_wifeup = wifeup[::-1]
     rev_kid = profile["kid"][::-1]
     rev_kidup = kidup[::-1]
+    rev_cid = profile["cID"][::-1]
+    rev_cidup = companyidup[::-1]
 
     reverse = [
         rev_name,
@@ -458,10 +485,14 @@ def generate_wordlist_from_profile(profile):
         rev_wifeup,
         rev_kid,
         rev_kidup,
+        rev_cid,
+        rev_cidup
     ]
     rev_n = [rev_name, rev_nameup, rev_nick, rev_nickup]
     rev_w = [rev_wife, rev_wifeup]
     rev_k = [rev_kid, rev_kidup]
+    rev_c = [rev_cid, rev_cidup]
+
     # Let's do some serious work! This will be a mess of code, but... who cares? :)
 
     # Birthdays combinations
@@ -485,9 +516,9 @@ def generate_wordlist_from_profile(profile):
                 bdss.append(bds1 + bds2)
                 for bds3 in bds:
                     if (
-                        bds.index(bds1) != bds.index(bds2)
-                        and bds.index(bds2) != bds.index(bds3)
-                        and bds.index(bds1) != bds.index(bds3)
+                            bds.index(bds1) != bds.index(bds2)
+                            and bds.index(bds2) != bds.index(bds3)
+                            and bds.index(bds1) != bds.index(bds3)
                     ):
                         bdss.append(bds1 + bds2 + bds3)
 
@@ -503,9 +534,9 @@ def generate_wordlist_from_profile(profile):
                 wbdss.append(wbds1 + wbds2)
                 for wbds3 in wbds:
                     if (
-                        wbds.index(wbds1) != wbds.index(wbds2)
-                        and wbds.index(wbds2) != wbds.index(wbds3)
-                        and wbds.index(wbds1) != wbds.index(wbds3)
+                            wbds.index(wbds1) != wbds.index(wbds2)
+                            and wbds.index(wbds2) != wbds.index(wbds3)
+                            and wbds.index(wbds1) != wbds.index(wbds3)
                     ):
                         wbdss.append(wbds1 + wbds2 + wbds3)
 
@@ -521,15 +552,32 @@ def generate_wordlist_from_profile(profile):
                 kbdss.append(kbds1 + kbds2)
                 for kbds3 in kbds:
                     if (
-                        kbds.index(kbds1) != kbds.index(kbds2)
-                        and kbds.index(kbds2) != kbds.index(kbds3)
-                        and kbds.index(kbds1) != kbds.index(kbds3)
+                            kbds.index(kbds1) != kbds.index(kbds2)
+                            and kbds.index(kbds2) != kbds.index(kbds3)
+                            and kbds.index(kbds1) != kbds.index(kbds3)
                     ):
                         kbdss.append(kbds1 + kbds2 + kbds3)
 
+    # Finally, for hired company
+
+    hirs = [hird_yy, hird_yyy, hird_yyyy, hird_xd, hird_xm, hird_dd, hird_mm]
+
+    hirss = []
+
+    for hirs1 in hirs:
+        hirss.append(hirs1)
+        for hirs2 in hirs:
+            if hirs.index(hirs1) != hirs.index(hirs2):
+                hirss.append(hirs1 + hirs2)
+                for hirs3 in hirs :
+                    if( hirs.index(hirs1) != hirs.index(hirs2)
+                    and hirs.index(hirs2) != hirs.index(hirs3)
+                    and hirs.index(hirs1) != hirs.index(hirs3)):
+                        hirss.append( hirs1 + hirs2 + hirs3)
+
                 # string combinations....
 
-    kombinaac = [profile["pet"], petup, profile["company"], companyup]
+    kombinaac = [profile["pet"], petup, profile["company"], companyup, profile["cID"], companyidup]
 
     kombina = [
         profile["name"],
@@ -563,7 +611,7 @@ def generate_wordlist_from_profile(profile):
         kombinaa.append(kombina1)
         for kombina2 in kombina:
             if kombina.index(kombina1) != kombina.index(kombina2) and kombina.index(
-                kombina1.title()
+                    kombina1.title()
             ) != kombina.index(kombina2.title()):
                 kombinaa.append(kombina1 + kombina2)
 
@@ -572,7 +620,7 @@ def generate_wordlist_from_profile(profile):
         kombinaaw.append(kombina1)
         for kombina2 in kombinaw:
             if kombinaw.index(kombina1) != kombinaw.index(kombina2) and kombinaw.index(
-                kombina1.title()
+                    kombina1.title()
             ) != kombinaw.index(kombina2.title()):
                 kombinaaw.append(kombina1 + kombina2)
 
@@ -581,7 +629,7 @@ def generate_wordlist_from_profile(profile):
         kombinaak.append(kombina1)
         for kombina2 in kombinak:
             if kombinak.index(kombina1) != kombinak.index(kombina2) and kombinak.index(
-                kombina1.title()
+                    kombina1.title()
             ) != kombinak.index(kombina2.title()):
                 kombinaak.append(kombina1 + kombina2)
 
@@ -608,12 +656,30 @@ def generate_wordlist_from_profile(profile):
     kombi[10] += list(komb(word, kbdss, "_"))
     kombi[11] = list(komb(word, years))
     kombi[11] += list(komb(word, years, "_"))
+    kombi[23] = list(komb(word, hirss))
+    kombi[23] += list(komb(word, hirss, "_"))
     kombi[12] = [""]
     kombi[13] = [""]
     kombi[14] = [""]
     kombi[15] = [""]
     kombi[16] = [""]
     kombi[21] = [""]
+    kombi[22] = list(komb(kombinaa, hirss))
+    kombi[22] += list(komb(kombinaa, hirss, "_"))
+
+    # Job title
+
+    kombi[24] = list(komb(jobs, bdss))
+    kombi[24] += list(komb(jobs, bdss, "_"))
+    kombi[25] = list(komb(jobs, wbdss))
+    kombi[25] += list(komb(jobs, wbdss, "_"))
+    kombi[26] = list(komb(jobs, kbdss))
+    kombi[26] += list(komb(jobs, kbdss, "_"))
+    kombi[27] = list(komb(jobs, years))
+    kombi[27] += list(komb(jobs, years, "_"))
+    kombi[28] = list(komb(jobs, hirss))
+    kombi[28] += list(komb(jobs, hirss, "_"))
+
     if profile["randnum"] == "y":
         kombi[12] = list(concats(word, numfrom, numto))
         kombi[13] = list(concats(kombinaa, numfrom, numto))
@@ -629,6 +695,8 @@ def generate_wordlist_from_profile(profile):
     kombi[19] += list(komb(rev_k, kbdss, "_"))
     kombi[20] = list(komb(rev_n, bdss))
     kombi[20] += list(komb(rev_n, bdss, "_"))
+    kombi[29] = list(komb(rev_c, hirss))
+    kombi[29] += list(komb(rev_c, hirss, "_"))
     komb001 = [""]
     komb002 = [""]
     komb003 = [""]
@@ -646,7 +714,7 @@ def generate_wordlist_from_profile(profile):
     print("[+] Sorting list and removing duplicates...")
 
     komb_unique = {}
-    for i in range(1, 22):
+    for i in range(1, 30):
         komb_unique[i] = list(dict.fromkeys(kombi[i]).keys())
 
     komb_unique01 = list(dict.fromkeys(kombinaa).keys())
@@ -662,35 +730,36 @@ def generate_wordlist_from_profile(profile):
     komb_unique012 = list(dict.fromkeys(komb006).keys())
 
     uniqlist = (
-        bdss
-        + wbdss
-        + kbdss
-        + reverse
-        + komb_unique01
-        + komb_unique02
-        + komb_unique03
-        + komb_unique04
-        + komb_unique05
+            bdss
+            + wbdss
+            + kbdss
+            + hirss
+            + reverse
+            + komb_unique01
+            + komb_unique02
+            + komb_unique03
+            + komb_unique04
+            + komb_unique05
     )
 
-    for i in range(1, 21):
+    for i in range(1, 30):
         uniqlist += komb_unique[i]
 
     uniqlist += (
-        komb_unique07
-        + komb_unique08
-        + komb_unique09
-        + komb_unique010
-        + komb_unique011
-        + komb_unique012
+            komb_unique07
+            + komb_unique08
+            + komb_unique09
+            + komb_unique010
+            + komb_unique011
+            + komb_unique012
     )
     unique_lista = list(dict.fromkeys(uniqlist).keys())
     unique_leet = []
     if profile["leetmode"] == "y":
         for (
-            x
+                x
         ) in (
-            unique_lista
+                unique_lista
         ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
 
             x = make_leet(x)  # convert to leet
@@ -728,7 +797,6 @@ def alectodb_download():
     targetfile = "alectodb.csv.gz"
 
     if not os.path.isfile(targetfile):
-
         download_http(url, targetfile)
 
     f = gzip.open(targetfile, "rt")
@@ -1064,7 +1132,7 @@ def get_parser():
         dest="improve",
         metavar="FILENAME",
         help="Use this option to improve existing dictionary,"
-        " or WyD.pl output to make some pwnsauce",
+             " or WyD.pl output to make some pwnsauce",
     )
     group.add_argument(
         "-l",
@@ -1077,9 +1145,9 @@ def get_parser():
         dest="alecto",
         action="store_true",
         help="Parse default usernames and passwords directly"
-        " from Alecto DB. Project Alecto uses purified"
-        " databases of Phenoelit and CIRT which were merged"
-        " and enhanced",
+             " from Alecto DB. Project Alecto uses purified"
+             " databases of Phenoelit and CIRT which were merged"
+             " and enhanced",
     )
     group.add_argument(
         "-v", "--version", action="store_true", help="Show the version of this program."
