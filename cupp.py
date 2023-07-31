@@ -75,7 +75,6 @@ def read_config(filename):
 
         # 1337 mode configs, well you can add more lines if you add it to the
         # config file too.
-        leet = functools.partial(config.get, "leet")
         leetc = {}
         letters = {"a", "i", "e", "t", "o", "s", "g", "z"}
 
@@ -89,9 +88,6 @@ def read_config(filename):
     else:
         print("Configuration file " + filename + " not found!")
         sys.exit("Exiting.")
-
-        return False
-
 
 def make_leet(x):
     """convert string to leet"""
@@ -134,7 +130,7 @@ def print_to_file(filename, unique_list_finished):
         + str(lines)
         + " words.\033[1;m"
     )
-    inspect = input("> Hyperspeed Print? (Y/n) : ").lower()
+    inspect = input("> Hyperspeed print? (Y/n) : ").lower()
     if inspect == "y":
         try:
             with open(filename, "r+") as wlist:
@@ -302,24 +298,24 @@ def improve_dictionary(file_to_open):
 
 
 def interactive():
-    """Implementation of the -i switch. Interactively question the user and
-    create a password dictionary file based on the answer."""
+    """
+    Implementation of the -i switch. Interactively question the user and
+    create a password dictionary file based on the answer.
+    """
 
     print("\r\n[+] Insert the information about the victim to make a dictionary")
     print("[+] If you don't know all the info, just hit enter when asked! ;)\r\n")
 
-    # We need some information first!
-
     profile = {}
 
-    name = input("> First Name: ").lower()
+    name = input("> First name: ").lower()
     while len(name) == 0 or name == " " or name == "  " or name == "   ":
         print("\r\n[-] You must enter a name at least!")
         name = input("> Name: ").lower()
     profile["name"] = str(name)
 
     profile["surname"] = input("> Surname: ").lower()
-    profile["nick"] = input("> Nickname: ").lower()
+    profile["nickname"] = input("> Nickname: ").lower()
     birthdate = input("> Birthdate (DDMMYYYY): ")
     while len(birthdate) != 0 and len(birthdate) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
@@ -328,22 +324,22 @@ def interactive():
 
     print("\r\n")
 
-    profile["wife"] = input("> Partners) name: ").lower()
-    profile["wifen"] = input("> Partners) nickname: ").lower()
-    wifeb = input("> Partners) birthdate (DDMMYYYY): ")
+    profile["wife_name"] = input("> Partner's name: ").lower()
+    profile["wife_nickname"] = input("> Partner's nickname: ").lower()
+    wifeb = input("> Partner's birthdate (DDMMYYYY): ")
     while len(wifeb) != 0 and len(wifeb) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
-        wifeb = input("> Partners birthdate (DDMMYYYY): ")
-    profile["wifeb"] = str(wifeb)
+        wifeb = input("> Partner's birthdate (DDMMYYYY): ")
+    profile["wife_birthdate"] = str(wifeb)
     print("\r\n")
 
     profile["kid"] = input("> Child's name: ").lower()
-    profile["kidn"] = input("> Child's nickname: ").lower()
+    profile["kid_nickname"] = input("> Child's nickname: ").lower()
     kidb = input("> Child's birthdate (DDMMYYYY): ")
     while len(kidb) != 0 and len(kidb) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
         kidb = input("> Child's birthdate (DDMMYYYY): ")
-    profile["kidb"] = str(kidb)
+    profile["kid_birthdate"] = str(kidb)
     print("\r\n")
 
     profile["pet"] = input("> Pet's name: ").lower()
@@ -370,11 +366,13 @@ def interactive():
     ).lower()
     profile["leetmode"] = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
 
-    generate_wordlist_from_profile(profile)  # generate the wordlist
+    generate_wordlist_from_profile(profile)
 
 
-def generate_wordlist_from_profile(profile):
-    """ Generates a wordlist from a given profile """
+def generate_wordlist_from_profile(profile:dict):
+    """
+    Generates a wordlist from a given profile
+    """
 
     chars = CONFIG["global"]["chars"]
     years = CONFIG["global"]["years"]
@@ -405,31 +403,31 @@ def generate_wordlist_from_profile(profile):
     birthdate_dd = profile["birthdate"][:2]
     birthdate_mm = profile["birthdate"][2:4]
 
-    wifeb_yy = profile["wifeb"][-2:]
-    wifeb_yyy = profile["wifeb"][-3:]
-    wifeb_yyyy = profile["wifeb"][-4:]
-    wifeb_xd = profile["wifeb"][1:2]
-    wifeb_xm = profile["wifeb"][3:4]
-    wifeb_dd = profile["wifeb"][:2]
-    wifeb_mm = profile["wifeb"][2:4]
+    wifeb_yy = profile["wife_birthdate"][-2:]
+    wifeb_yyy = profile["wife_birthdate"][-3:]
+    wifeb_yyyy = profile["wife_birthdate"][-4:]
+    wifeb_xd = profile["wife_birthdate"][1:2]
+    wifeb_xm = profile["wife_birthdate"][3:4]
+    wifeb_dd = profile["wife_birthdate"][:2]
+    wifeb_mm = profile["wife_birthdate"][2:4]
 
-    kidb_yy = profile["kidb"][-2:]
-    kidb_yyy = profile["kidb"][-3:]
-    kidb_yyyy = profile["kidb"][-4:]
-    kidb_xd = profile["kidb"][1:2]
-    kidb_xm = profile["kidb"][3:4]
-    kidb_dd = profile["kidb"][:2]
-    kidb_mm = profile["kidb"][2:4]
+    kidb_yy = profile["kid_birthdate"][-2:]
+    kidb_yyy = profile["kid_birthdate"][-3:]
+    kidb_yyyy = profile["kid_birthdate"][-4:]
+    kidb_xd = profile["kid_birthdate"][1:2]
+    kidb_xm = profile["kid_birthdate"][3:4]
+    kidb_dd = profile["kid_birthdate"][:2]
+    kidb_mm = profile["kid_birthdate"][2:4]
 
     # Convert first letters to uppercase...
 
     nameup = profile["name"].title()
     surnameup = profile["surname"].title()
-    nickup = profile["nick"].title()
-    wifeup = profile["wife"].title()
-    wifenup = profile["wifen"].title()
+    nickup = profile["nickname"].title()
+    wifeup = profile["wife_name"].title()
+    wifenup = profile["wife_nickname"].title()
     kidup = profile["kid"].title()
-    kidnup = profile["kidn"].title()
+    kidnup = profile["kid_nickname"].title()
     petup = profile["pet"].title()
     companyup = profile["company"].title()
 
@@ -442,9 +440,9 @@ def generate_wordlist_from_profile(profile):
 
     rev_name = profile["name"][::-1]
     rev_nameup = nameup[::-1]
-    rev_nick = profile["nick"][::-1]
+    rev_nick = profile["nickname"][::-1]
     rev_nickup = nickup[::-1]
-    rev_wife = profile["wife"][::-1]
+    rev_wife = profile["wife_name"][::-1]
     rev_wifeup = wifeup[::-1]
     rev_kid = profile["kid"][::-1]
     rev_kidup = kidup[::-1]
@@ -534,15 +532,15 @@ def generate_wordlist_from_profile(profile):
     kombina = [
         profile["name"],
         profile["surname"],
-        profile["nick"],
+        profile["nickname"],
         nameup,
         surnameup,
         nickup,
     ]
 
     kombinaw = [
-        profile["wife"],
-        profile["wifen"],
+        profile["wife_name"],
+        profile["wife_nickname"],
         wifeup,
         wifenup,
         profile["surname"],
@@ -551,7 +549,7 @@ def generate_wordlist_from_profile(profile):
 
     kombinak = [
         profile["kid"],
-        profile["kidn"],
+        profile["kid_nickname"],
         kidup,
         kidnup,
         profile["surname"],
