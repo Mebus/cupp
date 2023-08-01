@@ -33,7 +33,6 @@
 import argparse
 import configparser
 import csv
-import functools
 import gzip
 import os
 import sys
@@ -49,49 +48,42 @@ __version__ = "3.3.0"
 CONFIG = {}
 
 
-def read_config(filename):
-    """Read the given configuration file and update global variables to reflect
-    changes (CONFIG)."""
+def read_config(filename: str):
+    """Read the given configuration file and update global variable CONFIG to
+    reflect changes."""
 
-    if os.path.isfile(filename):
+    if not os.path.isfile(filename):
+        sys.exit(f"Configuration file {filename} not found!. Exiting.")
 
-        # global CONFIG
+    config = configparser.ConfigParser()
+    config.read(filename)
 
-        # Reading configuration file
-        config = configparser.ConfigParser()
-        config.read(filename)
+    CONFIG["global"] = {
+        "years": config.get("years", "years").split(","),
+        "chars": config.get("specialchars", "chars").split(","),
+        "numfrom": config.getint("nums", "from"),
+        "numto": config.getint("nums", "to"),
+        "wcfrom": config.getint("nums", "wcfrom"),
+        "wcto": config.getint("nums", "wcto"),
+        "threshold": config.getint("nums", "threshold"),
+        "alectourl": config.get("alecto", "alectourl"),
+        "dicturl": config.get("downloader", "dicturl"),
+    }
 
-        CONFIG["global"] = {
-            "years": config.get("years", "years").split(","),
-            "chars": config.get("specialchars", "chars").split(","),
-            "numfrom": config.getint("nums", "from"),
-            "numto": config.getint("nums", "to"),
-            "wcfrom": config.getint("nums", "wcfrom"),
-            "wcto": config.getint("nums", "wcto"),
-            "threshold": config.getint("nums", "threshold"),
-            "alectourl": config.get("alecto", "alectourl"),
-            "dicturl": config.get("downloader", "dicturl"),
-        }
+    alphabet = config.get("leet", "alphabet")
 
-        # 1337 mode configs, well you can add more lines if you add it to the
-        # config file too.
-        leetc = {}
-        letters = {"a", "i", "e", "t", "o", "s", "g", "z"}
+    leet_dict = {}
+    for pair in alphabet.split(","):
+        item = pair.split("-")
+        leet_dict[item[0]] = item[1]
 
-        for letter in letters:
-            leetc[letter] = config.get("leet", letter)
+    CONFIG["leet"] = leet_dict
 
-        CONFIG["LEET"] = leetc
-
-        return True
-
-    else:
-        print("Configuration file " + filename + " not found!")
-        sys.exit("Exiting.")
+    return True
 
 def make_leet(x):
     """convert string to leet"""
-    for letter, leetletter in CONFIG["LEET"].items():
+    for letter, leetletter in CONFIG["leet"].items():
         x = x.replace(letter, leetletter)
     return x
 
@@ -108,9 +100,6 @@ def komb(seq, start, special=""):
     for mystr in seq:
         for mystr1 in start:
             yield mystr + special + mystr1
-
-
-# print list to file counting words
 
 
 def print_to_file(filename, unique_list_finished):
