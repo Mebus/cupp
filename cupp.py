@@ -96,13 +96,24 @@ def concats(seq, start, stop):
             yield mystr + str(num)
 
 
-def permute_list(chars: list, length: int = 3) -> list:
+def list_product(chars: list, length: int = 3) -> list:
     result = []
     for x in range(length):
         result += [
             "".join(combination)
             for combination in itertools.product(chars, repeat=x + 1)
         ]
+    result.sort()
+    return result
+
+def list_permutation(chars: list, length: int = 3) -> list:
+    result = []
+    for x in range(length):
+        result += [
+            "".join(combination)
+            for combination in itertools.permutations(chars, r=x + 1)
+        ]
+    result = list(set(result))
     result.sort()
     return result
 
@@ -381,34 +392,27 @@ def generate_wordlist_from_profile(profile: dict):
 
     profile["spechars"] = []
     if profile["spechars_switch"] == "y":
-        profile["spechars"] = permute_list(spechars)
+        profile["spechars"] = list_product(spechars)
 
     print("\r\n[+] Now making a dictionary...")
 
-    # Birthdates first
-    birthdate_yy = profile["birthdate"][-2:]
-    birthdate_yyy = profile["birthdate"][-3:]
-    birthdate_yyyy = profile["birthdate"][-4:]
-    birthdate_xd = profile["birthdate"][1:2]
-    birthdate_xm = profile["birthdate"][3:4]
-    birthdate_dd = profile["birthdate"][:2]
-    birthdate_mm = profile["birthdate"][2:4]
+    def get_birthdates(birthdate: str) -> list:
+        result = []
 
-    wifeb_yy = profile["wife_birthdate"][-2:]
-    wifeb_yyy = profile["wife_birthdate"][-3:]
-    wifeb_yyyy = profile["wife_birthdate"][-4:]
-    wifeb_xd = profile["wife_birthdate"][1:2]
-    wifeb_xm = profile["wife_birthdate"][3:4]
-    wifeb_dd = profile["wife_birthdate"][:2]
-    wifeb_mm = profile["wife_birthdate"][2:4]
+        result.append(birthdate[-2:])  # yy
+        result.append(birthdate[-3:])  # yyy
+        result.append(birthdate[-4:])  # yyyy
+        result.append(birthdate[1:2])  # xd
+        result.append(birthdate[3:4])  # xm
+        result.append(birthdate[:2])  # dd
+        result.append(birthdate[2:4])  # mm
 
-    kidb_yy = profile["kid_birthdate"][-2:]
-    kidb_yyy = profile["kid_birthdate"][-3:]
-    kidb_yyyy = profile["kid_birthdate"][-4:]
-    kidb_xd = profile["kid_birthdate"][1:2]
-    kidb_xm = profile["kid_birthdate"][3:4]
-    kidb_dd = profile["kid_birthdate"][:2]
-    kidb_mm = profile["kid_birthdate"][2:4]
+        return result
+
+
+    bds = get_birthdates(profile["birthdate"])
+    wbds = get_birthdates(profile["wife_birthdate"])
+    kbds = get_birthdates(profile["kid_birthdate"])
 
     # Convert to Title Case
     nameup = profile["name"].title()
@@ -453,69 +457,11 @@ def generate_wordlist_from_profile(profile: dict):
     # Let's do some serious work! This will be a mess of code, but... who cares? :)
 
     # Birthdates combinations
-    bds = [
-        birthdate_yy,
-        birthdate_yyy,
-        birthdate_yyyy,
-        birthdate_xd,
-        birthdate_xm,
-        birthdate_dd,
-        birthdate_mm,
-    ]
+    bdss = list_permutation(bds)
+    wbdss = list_permutation(wbds)
+    kbdss = list_permutation(kbds)
 
-    bdss = []
-
-    for bds1 in bds:
-        bdss.append(bds1)
-        for bds2 in bds:
-            if bds.index(bds1) != bds.index(bds2):
-                bdss.append(bds1 + bds2)
-                for bds3 in bds:
-                    if (
-                        bds.index(bds1) != bds.index(bds2)
-                        and bds.index(bds2) != bds.index(bds3)
-                        and bds.index(bds1) != bds.index(bds3)
-                    ):
-                        bdss.append(bds1 + bds2 + bds3)
-
-                # For a woman...
-    wbds = [wifeb_yy, wifeb_yyy, wifeb_yyyy, wifeb_xd, wifeb_xm, wifeb_dd, wifeb_mm]
-
-    wbdss = []
-
-    for wbds1 in wbds:
-        wbdss.append(wbds1)
-        for wbds2 in wbds:
-            if wbds.index(wbds1) != wbds.index(wbds2):
-                wbdss.append(wbds1 + wbds2)
-                for wbds3 in wbds:
-                    if (
-                        wbds.index(wbds1) != wbds.index(wbds2)
-                        and wbds.index(wbds2) != wbds.index(wbds3)
-                        and wbds.index(wbds1) != wbds.index(wbds3)
-                    ):
-                        wbdss.append(wbds1 + wbds2 + wbds3)
-
-                # and a child...
-    kbds = [kidb_yy, kidb_yyy, kidb_yyyy, kidb_xd, kidb_xm, kidb_dd, kidb_mm]
-
-    kbdss = []
-
-    for kbds1 in kbds:
-        kbdss.append(kbds1)
-        for kbds2 in kbds:
-            if kbds.index(kbds1) != kbds.index(kbds2):
-                kbdss.append(kbds1 + kbds2)
-                for kbds3 in kbds:
-                    if (
-                        kbds.index(kbds1) != kbds.index(kbds2)
-                        and kbds.index(kbds2) != kbds.index(kbds3)
-                        and kbds.index(kbds1) != kbds.index(kbds3)
-                    ):
-                        kbdss.append(kbds1 + kbds2 + kbds3)
-
-                # string combinations....
-
+    # string combinations....
     kombinaac = [profile["pet_name"], petup, profile["company"], companyup]
 
     kombina = [
