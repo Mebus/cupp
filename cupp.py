@@ -82,20 +82,22 @@ def read_config(filename: str):
 
     return True
 
-def make_leet(x):
-    """convert string to leet"""
+def make_leet(input: str):
+    """Convert input to leet."""
     for letter, leetletter in CONFIG["leet"].items():
-        x = x.replace(letter, leetletter)
-    return x
+        input = input.replace(letter, leetletter)
+    return input
 
 
-def add_randnum(seq, start, stop):
-    for mystr in seq:
+def add_randnum(input: list, start: int, stop: int):
+    """Adds numbers within range to items of input."""
+    for str in input:
         for num in range(start, stop):
-            yield mystr + str(num)
+            yield str + str(num)
 
 
 def list_product(input: list, length: int) -> list:
+    """Calculate cartesian product of input."""
     result = []
     for x in range(length):
         result += [
@@ -106,7 +108,9 @@ def list_product(input: list, length: int) -> list:
     result.sort()
     return result
 
+
 def list_permutation(input: list, length: int) -> list:
+    """Calculate permutation of input."""
     result = []
     for x in range(length):
         result += [
@@ -117,11 +121,11 @@ def list_permutation(input: list, length: int) -> list:
     result.sort()
     return result
 
-# for sorting and making combinations...
-def combine(list1: list, list2: list, separator: list = [""]):
+
+def combine(input1: list, input2: list, separator: list = [""]):
     for sep in separator:
-        for str1 in list1:
-            for str2 in list2:
+        for str1 in input1:
+            for str2 in input2:
                 yield str1 + sep + str2
 
 
@@ -488,120 +492,74 @@ def generate_wordlist_from_profile(profile: dict):
     kombinaaw = list_product(kombinaw, 2)
     kombinaak = list_product(kombinak, 2)
 
-    kombi = {}
+    kombi = []
+
+    kombi += kombinaa
+    kombi += kombinaac
+    kombi += kombinaaw
+    kombi += kombinaak
+    kombi += word
+    kombi += bdss
+    kombi += wbdss
+    kombi += kbdss
+    kombi += reverse
     # person + birthdate
-    kombi[1] = list(combine(kombinaa, bdss, ["", "_"]))
-    kombi[2] = list(combine(kombinaaw, wbdss, ["", "_"]))
-    kombi[3] = list(combine(kombinaak, kbdss, ["", "_"]))
+    kombi += combine(kombinaa, bdss, ["", "_"])
+    kombi += combine(kombinaaw, wbdss, ["", "_"])
+    kombi += combine(kombinaak, kbdss, ["", "_"])
     # person/(pet/company) + years
-    kombi[4] = list(combine(kombinaa, years, ["", "_"]))
-    kombi[5] = list(combine(kombinaac, years, ["", "_"]))
-    kombi[6] = list(combine(kombinaaw, years, ["", "_"]))
-    kombi[7] = list(combine(kombinaak, years, ["", "_"]))
+    kombi += combine(kombinaa, years, ["", "_"])
+    kombi += combine(kombinaac, years, ["", "_"])
+    kombi += combine(kombinaaw, years, ["", "_"])
+    kombi += combine(kombinaak, years, ["", "_"])
     # words + birthdates
-    kombi[8] = list(combine(word, bdss, ["", "_"]))
-    kombi[9] = list(combine(word, wbdss, ["", "_"]))
-    kombi[10] = list(combine(word, kbdss, ["", "_"]))
+    kombi += combine(word, bdss, ["", "_"])
+    kombi += combine(word, wbdss, ["", "_"])
+    kombi += combine(word, kbdss, ["", "_"])
     # words + years
-    kombi[11] = list(combine(word, years, ["", "_"]))
+    kombi += combine(word, years, ["", "_"])
     # random number
-    kombi[12] = [""]
-    kombi[13] = [""]
-    kombi[14] = [""]
-    kombi[15] = [""]
-    kombi[16] = [""]
-    kombi[21] = [""]
     if profile["randnum_switch"] == "y":
-        kombi[12] = list(add_randnum(word, numfrom, numto))
-        kombi[13] = list(add_randnum(kombinaa, numfrom, numto))
-        kombi[14] = list(add_randnum(kombinaac, numfrom, numto))
-        kombi[15] = list(add_randnum(kombinaaw, numfrom, numto))
-        kombi[16] = list(add_randnum(kombinaak, numfrom, numto))
-        kombi[21] = list(add_randnum(reverse, numfrom, numto))
+        kombi += add_randnum(word, numfrom, numto)
+        kombi += add_randnum(kombinaa, numfrom, numto)
+        kombi += add_randnum(kombinaac, numfrom, numto)
+        kombi += add_randnum(kombinaaw, numfrom, numto)
+        kombi += add_randnum(kombinaak, numfrom, numto)
+        kombi += add_randnum(reverse, numfrom, numto)
     # reverse + years
-    kombi[17] = list(combine(reverse, years, ["", "_"]))
+    kombi += combine(reverse, years, ["", "_"])
     # reverse + birthdates
-    kombi[18] = list(combine(rev_w, wbdss, ["", "_"]))
-    kombi[19] = list(combine(rev_k, kbdss, ["", "_"]))
-    kombi[20] = list(combine(rev_n, bdss, ["", "_"]))
+    kombi += combine(rev_w, wbdss, ["", "_"])
+    kombi += combine(rev_k, kbdss, ["", "_"])
+    kombi += combine(rev_n, bdss, ["", "_"])
     # special chars
-    komb001 = [""]
-    komb002 = [""]
-    komb003 = [""]
-    komb004 = [""]
-    komb005 = [""]
-    komb006 = [""]
     if len(profile["spechars"]) > 0:
-        komb001 = list(combine(kombinaa, profile["spechars"]))
-        komb002 = list(combine(kombinaac, profile["spechars"]))
-        komb003 = list(combine(kombinaaw, profile["spechars"]))
-        komb004 = list(combine(kombinaak, profile["spechars"]))
-        komb005 = list(combine(word, profile["spechars"]))
-        komb006 = list(combine(reverse, profile["spechars"]))
+        kombi += combine(kombinaa, profile["spechars"])
+        kombi += combine(kombinaac, profile["spechars"])
+        kombi += combine(kombinaaw, profile["spechars"])
+        kombi += combine(kombinaak, profile["spechars"])
+        kombi += combine(word, profile["spechars"])
+        kombi += combine(reverse, profile["spechars"])
 
     print("[+] Sorting list and removing duplicates...")
 
-    komb_unique = {}
-    for i in range(1, 22):
-        komb_unique[i] = list(dict.fromkeys(kombi[i]).keys())
+    # just to make sure there are really no duplicates!
+    kombi = list(set(kombi))
 
-    komb_unique01 = list(dict.fromkeys(kombinaa).keys())
-    komb_unique02 = list(dict.fromkeys(kombinaac).keys())
-    komb_unique03 = list(dict.fromkeys(kombinaaw).keys())
-    komb_unique04 = list(dict.fromkeys(kombinaak).keys())
-    komb_unique05 = list(dict.fromkeys(word).keys())
-    komb_unique07 = list(dict.fromkeys(komb001).keys())
-    komb_unique08 = list(dict.fromkeys(komb002).keys())
-    komb_unique09 = list(dict.fromkeys(komb003).keys())
-    komb_unique010 = list(dict.fromkeys(komb004).keys())
-    komb_unique011 = list(dict.fromkeys(komb005).keys())
-    komb_unique012 = list(dict.fromkeys(komb006).keys())
-
-    uniqlist = (
-        bdss
-        + wbdss
-        + kbdss
-        + reverse
-        + komb_unique01
-        + komb_unique02
-        + komb_unique03
-        + komb_unique04
-        + komb_unique05
-    )
-
-    for i in range(1, 21):
-        uniqlist += komb_unique[i]
-
-    uniqlist += (
-        komb_unique07
-        + komb_unique08
-        + komb_unique09
-        + komb_unique010
-        + komb_unique011
-        + komb_unique012
-    )
-    unique_lista = list(dict.fromkeys(uniqlist).keys())
-    unique_leet = []
+    leet = []
     if profile["leetmode_switch"] == "y":
-        for (
-            x
-        ) in (
-            unique_lista
-        ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
+        for x in kombi:
+            leet.append(make_leet(x))
 
-            x = make_leet(x)  # convert to leet
-            unique_leet.append(x)
+    unique_list = kombi + leet
 
-    unique_list = unique_lista + unique_leet
-
-    unique_list_finished = []
-    unique_list_finished = [
+    result = [
         x
         for x in unique_list
         if len(x) < CONFIG["global"]["wcto"] and len(x) > CONFIG["global"]["wcfrom"]
     ]
 
-    print_to_file(profile["name"] + ".txt", unique_list_finished)
+    print_to_file(profile["name"] + ".txt", result)
 
 
 def download_http(url, targetfile):
