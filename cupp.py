@@ -89,8 +89,7 @@ def make_leet(x):
     return x
 
 
-# for concatenations...
-def concats(seq, start, stop):
+def add_randnum(seq, start, stop):
     for mystr in seq:
         for num in range(start, stop):
             yield mystr + str(num)
@@ -119,10 +118,11 @@ def list_permutation(input: list, length: int) -> list:
     return result
 
 # for sorting and making combinations...
-def komb(seq, start, special=""):
-    for mystr in seq:
-        for mystr1 in start:
-            yield mystr + special + mystr1
+def combine(list1: list, list2: list, separator: list = [""]):
+    for sep in separator:
+        for str1 in list1:
+            for str2 in list2:
+                yield str1 + sep + str2
 
 
 def print_to_file(filename, unique_list_finished):
@@ -256,17 +256,17 @@ def improve_dictionary(file_to_open):
     for i in range(6):
         kombinacija[i] = [""]
 
-    kombinacija[0] = list(komb(listica, years))
+    kombinacija[0] = list(combine(listica, years))
     if conts == "y":
-        kombinacija[1] = list(komb(cont, years))
+        kombinacija[1] = list(combine(cont, years))
     if spechars1 == "y":
-        kombinacija[2] = list(komb(listica, spechars))
+        kombinacija[2] = list(combine(listica, spechars))
         if conts == "y":
-            kombinacija[3] = list(komb(cont, spechars))
+            kombinacija[3] = list(combine(cont, spechars))
     if randnum == "y":
-        kombinacija[4] = list(concats(listica, numfrom, numto))
+        kombinacija[4] = list(add_randnum(listica, numfrom, numto))
         if conts == "y":
-            kombinacija[5] = list(concats(cont, numfrom, numto))
+            kombinacija[5] = list(add_randnum(cont, numfrom, numto))
 
     print("\r\n[+] Now making a dictionary...")
 
@@ -441,19 +441,11 @@ def generate_wordlist_from_profile(profile: dict):
     rev_kid = profile["kid_name"][::-1]
     rev_kidup = kidup[::-1]
 
-    reverse = [
-        rev_name,
-        rev_nameup,
-        rev_nick,
-        rev_nickup,
-        rev_wife,
-        rev_wifeup,
-        rev_kid,
-        rev_kidup,
-    ]
     rev_n = [rev_name, rev_nameup, rev_nick, rev_nickup]
     rev_w = [rev_wife, rev_wifeup]
     rev_k = [rev_kid, rev_kidup]
+
+    reverse = rev_n + rev_w + rev_k
 
     # Let's do some serious work! This will be a mess of code, but... who cares? :)
 
@@ -497,28 +489,22 @@ def generate_wordlist_from_profile(profile: dict):
     kombinaak = list_product(kombinak, 2)
 
     kombi = {}
-    kombi[1] = list(komb(kombinaa, bdss))
-    kombi[1] += list(komb(kombinaa, bdss, "_"))
-    kombi[2] = list(komb(kombinaaw, wbdss))
-    kombi[2] += list(komb(kombinaaw, wbdss, "_"))
-    kombi[3] = list(komb(kombinaak, kbdss))
-    kombi[3] += list(komb(kombinaak, kbdss, "_"))
-    kombi[4] = list(komb(kombinaa, years))
-    kombi[4] += list(komb(kombinaa, years, "_"))
-    kombi[5] = list(komb(kombinaac, years))
-    kombi[5] += list(komb(kombinaac, years, "_"))
-    kombi[6] = list(komb(kombinaaw, years))
-    kombi[6] += list(komb(kombinaaw, years, "_"))
-    kombi[7] = list(komb(kombinaak, years))
-    kombi[7] += list(komb(kombinaak, years, "_"))
-    kombi[8] = list(komb(word, bdss))
-    kombi[8] += list(komb(word, bdss, "_"))
-    kombi[9] = list(komb(word, wbdss))
-    kombi[9] += list(komb(word, wbdss, "_"))
-    kombi[10] = list(komb(word, kbdss))
-    kombi[10] += list(komb(word, kbdss, "_"))
-    kombi[11] = list(komb(word, years))
-    kombi[11] += list(komb(word, years, "_"))
+    # person + birthdate
+    kombi[1] = list(combine(kombinaa, bdss, ["", "_"]))
+    kombi[2] = list(combine(kombinaaw, wbdss, ["", "_"]))
+    kombi[3] = list(combine(kombinaak, kbdss, ["", "_"]))
+    # person/(pet/company) + years
+    kombi[4] = list(combine(kombinaa, years, ["", "_"]))
+    kombi[5] = list(combine(kombinaac, years, ["", "_"]))
+    kombi[6] = list(combine(kombinaaw, years, ["", "_"]))
+    kombi[7] = list(combine(kombinaak, years, ["", "_"]))
+    # words + birthdates
+    kombi[8] = list(combine(word, bdss, ["", "_"]))
+    kombi[9] = list(combine(word, wbdss, ["", "_"]))
+    kombi[10] = list(combine(word, kbdss, ["", "_"]))
+    # words + years
+    kombi[11] = list(combine(word, years, ["", "_"]))
+    # random number
     kombi[12] = [""]
     kombi[13] = [""]
     kombi[14] = [""]
@@ -526,20 +512,19 @@ def generate_wordlist_from_profile(profile: dict):
     kombi[16] = [""]
     kombi[21] = [""]
     if profile["randnum_switch"] == "y":
-        kombi[12] = list(concats(word, numfrom, numto))
-        kombi[13] = list(concats(kombinaa, numfrom, numto))
-        kombi[14] = list(concats(kombinaac, numfrom, numto))
-        kombi[15] = list(concats(kombinaaw, numfrom, numto))
-        kombi[16] = list(concats(kombinaak, numfrom, numto))
-        kombi[21] = list(concats(reverse, numfrom, numto))
-    kombi[17] = list(komb(reverse, years))
-    kombi[17] += list(komb(reverse, years, "_"))
-    kombi[18] = list(komb(rev_w, wbdss))
-    kombi[18] += list(komb(rev_w, wbdss, "_"))
-    kombi[19] = list(komb(rev_k, kbdss))
-    kombi[19] += list(komb(rev_k, kbdss, "_"))
-    kombi[20] = list(komb(rev_n, bdss))
-    kombi[20] += list(komb(rev_n, bdss, "_"))
+        kombi[12] = list(add_randnum(word, numfrom, numto))
+        kombi[13] = list(add_randnum(kombinaa, numfrom, numto))
+        kombi[14] = list(add_randnum(kombinaac, numfrom, numto))
+        kombi[15] = list(add_randnum(kombinaaw, numfrom, numto))
+        kombi[16] = list(add_randnum(kombinaak, numfrom, numto))
+        kombi[21] = list(add_randnum(reverse, numfrom, numto))
+    # reverse + years
+    kombi[17] = list(combine(reverse, years, ["", "_"]))
+    # reverse + birthdates
+    kombi[18] = list(combine(rev_w, wbdss, ["", "_"]))
+    kombi[19] = list(combine(rev_k, kbdss, ["", "_"]))
+    kombi[20] = list(combine(rev_n, bdss, ["", "_"]))
+    # special chars
     komb001 = [""]
     komb002 = [""]
     komb003 = [""]
@@ -547,12 +532,12 @@ def generate_wordlist_from_profile(profile: dict):
     komb005 = [""]
     komb006 = [""]
     if len(profile["spechars"]) > 0:
-        komb001 = list(komb(kombinaa, profile["spechars"]))
-        komb002 = list(komb(kombinaac, profile["spechars"]))
-        komb003 = list(komb(kombinaaw, profile["spechars"]))
-        komb004 = list(komb(kombinaak, profile["spechars"]))
-        komb005 = list(komb(word, profile["spechars"]))
-        komb006 = list(komb(reverse, profile["spechars"]))
+        komb001 = list(combine(kombinaa, profile["spechars"]))
+        komb002 = list(combine(kombinaac, profile["spechars"]))
+        komb003 = list(combine(kombinaaw, profile["spechars"]))
+        komb004 = list(combine(kombinaak, profile["spechars"]))
+        komb005 = list(combine(word, profile["spechars"]))
+        komb006 = list(combine(reverse, profile["spechars"]))
 
     print("[+] Sorting list and removing duplicates...")
 
