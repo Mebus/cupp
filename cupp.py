@@ -96,22 +96,23 @@ def concats(seq, start, stop):
             yield mystr + str(num)
 
 
-def list_product(chars: list, length: int = 3) -> list:
+def list_product(input: list, length: int) -> list:
     result = []
     for x in range(length):
         result += [
             "".join(combination)
-            for combination in itertools.product(chars, repeat=x + 1)
+            for combination in itertools.product(input, repeat=x + 1)
         ]
+    result = list(set(result))
     result.sort()
     return result
 
-def list_permutation(chars: list, length: int = 3) -> list:
+def list_permutation(input: list, length: int) -> list:
     result = []
     for x in range(length):
         result += [
             "".join(combination)
-            for combination in itertools.permutations(chars, r=x + 1)
+            for combination in itertools.permutations(input, r=x + 1)
         ]
     result = list(set(result))
     result.sort()
@@ -392,7 +393,7 @@ def generate_wordlist_from_profile(profile: dict):
 
     profile["spechars"] = []
     if profile["spechars_switch"] == "y":
-        profile["spechars"] = list_product(spechars)
+        profile["spechars"] = list_product(spechars, 3)
 
     print("\r\n[+] Now making a dictionary...")
 
@@ -457,9 +458,9 @@ def generate_wordlist_from_profile(profile: dict):
     # Let's do some serious work! This will be a mess of code, but... who cares? :)
 
     # Birthdates combinations
-    bdss = list_permutation(bds)
-    wbdss = list_permutation(wbds)
-    kbdss = list_permutation(kbds)
+    bdss = list_permutation(bds, 3)
+    wbdss = list_permutation(wbds, 3)
+    kbdss = list_permutation(kbds, 3)
 
     # string combinations....
     kombinaac = [profile["pet_name"], petup, profile["company"], companyup]
@@ -491,32 +492,9 @@ def generate_wordlist_from_profile(profile: dict):
         surnameup,
     ]
 
-    kombinaa = []
-    for kombina1 in kombina:
-        kombinaa.append(kombina1)
-        for kombina2 in kombina:
-            if kombina.index(kombina1) != kombina.index(kombina2) and kombina.index(
-                kombina1.title()
-            ) != kombina.index(kombina2.title()):
-                kombinaa.append(kombina1 + kombina2)
-
-    kombinaaw = []
-    for kombina1 in kombinaw:
-        kombinaaw.append(kombina1)
-        for kombina2 in kombinaw:
-            if kombinaw.index(kombina1) != kombinaw.index(kombina2) and kombinaw.index(
-                kombina1.title()
-            ) != kombinaw.index(kombina2.title()):
-                kombinaaw.append(kombina1 + kombina2)
-
-    kombinaak = []
-    for kombina1 in kombinak:
-        kombinaak.append(kombina1)
-        for kombina2 in kombinak:
-            if kombinak.index(kombina1) != kombinak.index(kombina2) and kombinak.index(
-                kombina1.title()
-            ) != kombinak.index(kombina2.title()):
-                kombinaak.append(kombina1 + kombina2)
+    kombinaa = list_product(kombina, 2)
+    kombinaaw = list_product(kombinaw, 2)
+    kombinaak = list_product(kombinak, 2)
 
     kombi = {}
     kombi[1] = list(komb(kombinaa, bdss))
