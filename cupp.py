@@ -40,6 +40,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import time
+import itertools
 
 __author__ = "Mebus"
 __license__ = "GPL"
@@ -60,7 +61,7 @@ def read_config(filename: str):
 
     CONFIG["global"] = {
         "years": config.get("years", "years").split(","),
-        "chars": config.get("specialchars", "chars").split(","),
+        "spechars": config.get("specialchars", "specialchars").split(","),
         "numfrom": config.getint("nums", "from"),
         "numto": config.getint("nums", "to"),
         "wcfrom": config.getint("nums", "wcfrom"),
@@ -94,6 +95,16 @@ def concats(seq, start, stop):
         for num in range(start, stop):
             yield mystr + str(num)
 
+
+def permute_list(chars: list, length: int = 3) -> list:
+    result = []
+    for x in range(length):
+        result += [
+            "".join(combination)
+            for combination in itertools.product(chars, repeat=x + 1)
+        ]
+    result.sort()
+    return result
 
 # for sorting and making combinations...
 def komb(seq, start, special=""):
@@ -174,7 +185,7 @@ def improve_dictionary(file_to_open):
     if not os.path.isfile(file_to_open):
         exit("Error: file " + file_to_open + " does not exist.")
 
-    chars = CONFIG["global"]["chars"]
+    spechars = CONFIG["global"]["spechars"]
     years = CONFIG["global"]["years"]
     numfrom = CONFIG["global"]["numfrom"]
     numto = CONFIG["global"]["numto"]
@@ -217,11 +228,11 @@ def improve_dictionary(file_to_open):
         "> Do you want to add special chars at the end of words? Y/[N]: "
     ).lower()
     if spechars1 == "y":
-        for spec1 in chars:
+        for spec1 in spechars:
             spechars.append(spec1)
-            for spec2 in chars:
+            for spec2 in spechars:
                 spechars.append(spec1 + spec2)
-                for spec3 in chars:
+                for spec3 in spechars:
                     spechars.append(spec1 + spec2 + spec3)
 
     randnum = input(
@@ -322,7 +333,7 @@ def interactive():
     profile["wife_birthdate"] = str(wifeb)
     print("\r\n")
 
-    profile["kid"] = input("> Child's name: ").lower()
+    profile["kid_name"] = input("> Child's name: ").lower()
     profile["kid_nickname"] = input("> Child's nickname: ").lower()
     kidb = input("> Child's birthdate (DDMMYYYY): ")
     while len(kidb) != 0 and len(kidb) != 8:
@@ -331,7 +342,7 @@ def interactive():
     profile["kid_birthdate"] = str(kidb)
     print("\r\n")
 
-    profile["pet"] = input("> Pet's name: ").lower()
+    profile["pet_name"] = input("> Pet's name: ").lower()
     profile["company"] = input("> Company name: ").lower()
     print("\r\n")
 
@@ -346,44 +357,35 @@ def interactive():
         ).replace(" ", "")
     profile["words"] = words2.split(",")
 
-    profile["spechars1"] = input(
+    profile["spechars_switch"] = input(
         "> Do you want to add special chars at the end of words? Y/[N]: "
     ).lower()
 
-    profile["randnum"] = input(
+    profile["randnum_switch"] = input(
         "> Do you want to add some random numbers at the end of words? Y/[N]:"
     ).lower()
-    profile["leetmode"] = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
+    profile["leetmode_switch"] = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
 
     generate_wordlist_from_profile(profile)
 
 
-def generate_wordlist_from_profile(profile:dict):
+def generate_wordlist_from_profile(profile: dict):
     """
     Generates a wordlist from a given profile
     """
 
-    chars = CONFIG["global"]["chars"]
+    spechars = CONFIG["global"]["spechars"]
     years = CONFIG["global"]["years"]
     numfrom = CONFIG["global"]["numfrom"]
     numto = CONFIG["global"]["numto"]
 
     profile["spechars"] = []
-
-    if profile["spechars1"] == "y":
-        for spec1 in chars:
-            profile["spechars"].append(spec1)
-            for spec2 in chars:
-                profile["spechars"].append(spec1 + spec2)
-                for spec3 in chars:
-                    profile["spechars"].append(spec1 + spec2 + spec3)
+    if profile["spechars_switch"] == "y":
+        profile["spechars"] = permute_list(spechars)
 
     print("\r\n[+] Now making a dictionary...")
 
-    # Now me must do some string modifications...
-
-    # Birthdays first
-
+    # Birthdates first
     birthdate_yy = profile["birthdate"][-2:]
     birthdate_yyy = profile["birthdate"][-3:]
     birthdate_yyyy = profile["birthdate"][-4:]
@@ -408,16 +410,15 @@ def generate_wordlist_from_profile(profile:dict):
     kidb_dd = profile["kid_birthdate"][:2]
     kidb_mm = profile["kid_birthdate"][2:4]
 
-    # Convert first letters to uppercase...
-
+    # Convert to Title Case
     nameup = profile["name"].title()
     surnameup = profile["surname"].title()
     nickup = profile["nickname"].title()
     wifeup = profile["wife_name"].title()
     wifenup = profile["wife_nickname"].title()
-    kidup = profile["kid"].title()
+    kidup = profile["kid_name"].title()
     kidnup = profile["kid_nickname"].title()
-    petup = profile["pet"].title()
+    petup = profile["pet_name"].title()
     companyup = profile["company"].title()
 
     wordsup = []
@@ -425,15 +426,14 @@ def generate_wordlist_from_profile(profile:dict):
 
     word = profile["words"] + wordsup
 
-    # reverse a name
-
+    # Reverse names
     rev_name = profile["name"][::-1]
     rev_nameup = nameup[::-1]
     rev_nick = profile["nickname"][::-1]
     rev_nickup = nickup[::-1]
     rev_wife = profile["wife_name"][::-1]
     rev_wifeup = wifeup[::-1]
-    rev_kid = profile["kid"][::-1]
+    rev_kid = profile["kid_name"][::-1]
     rev_kidup = kidup[::-1]
 
     reverse = [
@@ -449,10 +449,10 @@ def generate_wordlist_from_profile(profile:dict):
     rev_n = [rev_name, rev_nameup, rev_nick, rev_nickup]
     rev_w = [rev_wife, rev_wifeup]
     rev_k = [rev_kid, rev_kidup]
+
     # Let's do some serious work! This will be a mess of code, but... who cares? :)
 
-    # Birthdays combinations
-
+    # Birthdates combinations
     bds = [
         birthdate_yy,
         birthdate_yyy,
@@ -516,7 +516,7 @@ def generate_wordlist_from_profile(profile:dict):
 
                 # string combinations....
 
-    kombinaac = [profile["pet"], petup, profile["company"], companyup]
+    kombinaac = [profile["pet_name"], petup, profile["company"], companyup]
 
     kombina = [
         profile["name"],
@@ -537,7 +537,7 @@ def generate_wordlist_from_profile(profile:dict):
     ]
 
     kombinak = [
-        profile["kid"],
+        profile["kid_name"],
         profile["kid_nickname"],
         kidup,
         kidnup,
@@ -601,7 +601,7 @@ def generate_wordlist_from_profile(profile:dict):
     kombi[15] = [""]
     kombi[16] = [""]
     kombi[21] = [""]
-    if profile["randnum"] == "y":
+    if profile["randnum_switch"] == "y":
         kombi[12] = list(concats(word, numfrom, numto))
         kombi[13] = list(concats(kombinaa, numfrom, numto))
         kombi[14] = list(concats(kombinaac, numfrom, numto))
@@ -673,7 +673,7 @@ def generate_wordlist_from_profile(profile:dict):
     )
     unique_lista = list(dict.fromkeys(uniqlist).keys())
     unique_leet = []
-    if profile["leetmode"] == "y":
+    if profile["leetmode_switch"] == "y":
         for (
             x
         ) in (
