@@ -82,6 +82,11 @@ def read_config(filename: str):
 
     return True
 
+def remove_words(input: list, lower: int, upper: int) -> list:
+    """Removes words from input with wrong length."""
+    return [x for x in input if len(x) < upper and len(x) > lower]
+
+
 def make_leet(input: str):
     """Convert input to leet."""
     for letter, leetletter in CONFIG["leet"].items():
@@ -91,12 +96,12 @@ def make_leet(input: str):
 
 def add_randnum(input: list, start: int, stop: int):
     """Adds numbers within range to items of input."""
-    for str in input:
+    for str1 in input:
         for num in range(start, stop):
-            yield str + str(num)
+            yield str1 + str(num)
 
 
-def list_product(input: list, length: int) -> list:
+def calc_list_product(input: list, length: int) -> list:
     """Calculate cartesian product of input."""
     result = []
     for x in range(length):
@@ -109,7 +114,7 @@ def list_product(input: list, length: int) -> list:
     return result
 
 
-def list_permutation(input: list, length: int) -> list:
+def calc_list_permutation(input: list, length: int) -> list:
     """Calculate permutation of input."""
     result = []
     for x in range(length):
@@ -122,12 +127,26 @@ def list_permutation(input: list, length: int) -> list:
     return result
 
 
-def combine(input1: list, input2: list, separator: list = [""]):
+def combine_lists(input1: list, input2: list, separator: list = [""]):
+    """Appends items of input2 to items of input1"""
     for sep in separator:
         for str1 in input1:
             for str2 in input2:
                 yield str1 + sep + str2
 
+def disassemble_birthdates(birthdate: str) -> list:
+    """Disassemble birthdates to get individual parts."""
+    result = []
+
+    result.append(birthdate[-2:])  # yy
+    result.append(birthdate[-3:])  # yyy
+    result.append(birthdate[-4:])  # yyyy
+    result.append(birthdate[1:2])  # xd
+    result.append(birthdate[3:4])  # xm
+    result.append(birthdate[:2])  # dd
+    result.append(birthdate[2:4])  # mm
+
+    return result
 
 def print_to_file(filename, unique_list_finished):
     f = open(filename, "w")
@@ -260,13 +279,13 @@ def improve_dictionary(file_to_open):
     for i in range(6):
         kombinacija[i] = [""]
 
-    kombinacija[0] = list(combine(listica, years))
+    kombinacija[0] = list(combine_lists(listica, years))
     if conts == "y":
-        kombinacija[1] = list(combine(cont, years))
+        kombinacija[1] = list(combine_lists(cont, years))
     if spechars1 == "y":
-        kombinacija[2] = list(combine(listica, spechars))
+        kombinacija[2] = list(combine_lists(listica, spechars))
         if conts == "y":
-            kombinacija[3] = list(combine(cont, spechars))
+            kombinacija[3] = list(combine_lists(cont, spechars))
     if randnum == "y":
         kombinacija[4] = list(add_randnum(listica, numfrom, numto))
         if conts == "y":
@@ -397,38 +416,34 @@ def generate_wordlist_from_profile(profile: dict):
 
     profile["spechars"] = []
     if profile["spechars_switch"] == "y":
-        profile["spechars"] = list_product(spechars, 3)
+        profile["spechars"] = calc_list_product(spechars, 3)
 
     print("\r\n[+] Now making a dictionary...")
 
-    def get_birthdates(birthdate: str) -> list:
-        result = []
+    bds = disassemble_birthdates(profile["birthdate"])
+    wbds = disassemble_birthdates(profile["wife_birthdate"])
+    kbds = disassemble_birthdates(profile["kid_birthdate"])
 
-        result.append(birthdate[-2:])  # yy
-        result.append(birthdate[-3:])  # yyy
-        result.append(birthdate[-4:])  # yyyy
-        result.append(birthdate[1:2])  # xd
-        result.append(birthdate[3:4])  # xm
-        result.append(birthdate[:2])  # dd
-        result.append(birthdate[2:4])  # mm
-
-        return result
-
-
-    bds = get_birthdates(profile["birthdate"])
-    wbds = get_birthdates(profile["wife_birthdate"])
-    kbds = get_birthdates(profile["kid_birthdate"])
+    name = profile["name"]
+    surname = profile["surname"]
+    nickname = profile["nickname"]
+    wife_name = profile["wife_name"]
+    wife_nickname = profile["wife_nickname"]
+    kid_name = profile["kid_name"]
+    kid_nickname = profile["kid_nickname"]
+    pet_name = profile["pet_name"]
+    company = profile["company"]
 
     # Convert to Title Case
-    nameup = profile["name"].title()
-    surnameup = profile["surname"].title()
-    nickup = profile["nickname"].title()
-    wifeup = profile["wife_name"].title()
-    wifenup = profile["wife_nickname"].title()
-    kidup = profile["kid_name"].title()
-    kidnup = profile["kid_nickname"].title()
-    petup = profile["pet_name"].title()
-    companyup = profile["company"].title()
+    nameup = name.title()
+    surnameup = surname.title()
+    nickup = nickname.title()
+    wifeup = wife_name.title()
+    wifenup = wife_nickname.title()
+    kidup = kid_name.title()
+    kidnup = kid_nickname.title()
+    petup = pet_name.title()
+    companyup = company.title()
 
     wordsup = []
     wordsup = list(map(str.title, profile["words"]))
@@ -436,13 +451,13 @@ def generate_wordlist_from_profile(profile: dict):
     word = profile["words"] + wordsup
 
     # Reverse names
-    rev_name = profile["name"][::-1]
+    rev_name = name[::-1]
     rev_nameup = nameup[::-1]
-    rev_nick = profile["nickname"][::-1]
+    rev_nick = nickname[::-1]
     rev_nickup = nickup[::-1]
-    rev_wife = profile["wife_name"][::-1]
+    rev_wife = wife_name[::-1]
     rev_wifeup = wifeup[::-1]
-    rev_kid = profile["kid_name"][::-1]
+    rev_kid = kid_name[::-1]
     rev_kidup = kidup[::-1]
 
     rev_n = [rev_name, rev_nameup, rev_nick, rev_nickup]
@@ -454,9 +469,9 @@ def generate_wordlist_from_profile(profile: dict):
     # Let's do some serious work! This will be a mess of code, but... who cares? :)
 
     # Birthdates combinations
-    bdss = list_permutation(bds, 3)
-    wbdss = list_permutation(wbds, 3)
-    kbdss = list_permutation(kbds, 3)
+    bdss = calc_list_permutation(bds, 3)
+    wbdss = calc_list_permutation(wbds, 3)
+    kbdss = calc_list_permutation(kbds, 3)
 
     # string combinations....
     kombinaac = [profile["pet_name"], petup, profile["company"], companyup]
@@ -488,36 +503,32 @@ def generate_wordlist_from_profile(profile: dict):
         surnameup,
     ]
 
-    kombinaa = list_product(kombina, 2)
-    kombinaaw = list_product(kombinaw, 2)
-    kombinaak = list_product(kombinak, 2)
+    kombinaa = calc_list_product(kombina, 2)
+    kombinaaw = calc_list_product(kombinaw, 2)
+    kombinaak = calc_list_product(kombinak, 2)
 
     kombi = []
 
-    kombi += kombinaa
-    kombi += kombinaac
-    kombi += kombinaaw
-    kombi += kombinaak
     kombi += word
     kombi += bdss
     kombi += wbdss
     kombi += kbdss
     kombi += reverse
     # person + birthdate
-    kombi += combine(kombinaa, bdss, ["", "_"])
-    kombi += combine(kombinaaw, wbdss, ["", "_"])
-    kombi += combine(kombinaak, kbdss, ["", "_"])
+    kombi += combine_lists(kombinaa, bdss, ["", "_"])
+    kombi += combine_lists(kombinaaw, wbdss, ["", "_"])
+    kombi += combine_lists(kombinaak, kbdss, ["", "_"])
     # person/(pet/company) + years
-    kombi += combine(kombinaa, years, ["", "_"])
-    kombi += combine(kombinaac, years, ["", "_"])
-    kombi += combine(kombinaaw, years, ["", "_"])
-    kombi += combine(kombinaak, years, ["", "_"])
+    kombi += combine_lists(kombinaa, years, ["", "_"])
+    kombi += combine_lists(kombinaac, years, ["", "_"])
+    kombi += combine_lists(kombinaaw, years, ["", "_"])
+    kombi += combine_lists(kombinaak, years, ["", "_"])
     # words + birthdates
-    kombi += combine(word, bdss, ["", "_"])
-    kombi += combine(word, wbdss, ["", "_"])
-    kombi += combine(word, kbdss, ["", "_"])
+    kombi += combine_lists(word, bdss, ["", "_"])
+    kombi += combine_lists(word, wbdss, ["", "_"])
+    kombi += combine_lists(word, kbdss, ["", "_"])
     # words + years
-    kombi += combine(word, years, ["", "_"])
+    kombi += combine_lists(word, years, ["", "_"])
     # random number
     if profile["randnum_switch"] == "y":
         kombi += add_randnum(word, numfrom, numto)
@@ -527,23 +538,22 @@ def generate_wordlist_from_profile(profile: dict):
         kombi += add_randnum(kombinaak, numfrom, numto)
         kombi += add_randnum(reverse, numfrom, numto)
     # reverse + years
-    kombi += combine(reverse, years, ["", "_"])
+    kombi += combine_lists(reverse, years, ["", "_"])
     # reverse + birthdates
-    kombi += combine(rev_w, wbdss, ["", "_"])
-    kombi += combine(rev_k, kbdss, ["", "_"])
-    kombi += combine(rev_n, bdss, ["", "_"])
+    kombi += combine_lists(rev_w, wbdss, ["", "_"])
+    kombi += combine_lists(rev_k, kbdss, ["", "_"])
+    kombi += combine_lists(rev_n, bdss, ["", "_"])
     # special chars
     if len(profile["spechars"]) > 0:
-        kombi += combine(kombinaa, profile["spechars"])
-        kombi += combine(kombinaac, profile["spechars"])
-        kombi += combine(kombinaaw, profile["spechars"])
-        kombi += combine(kombinaak, profile["spechars"])
-        kombi += combine(word, profile["spechars"])
-        kombi += combine(reverse, profile["spechars"])
+        kombi += combine_lists(kombinaa, profile["spechars"])
+        kombi += combine_lists(kombinaac, profile["spechars"])
+        kombi += combine_lists(kombinaaw, profile["spechars"])
+        kombi += combine_lists(kombinaak, profile["spechars"])
+        kombi += combine_lists(word, profile["spechars"])
+        kombi += combine_lists(reverse, profile["spechars"])
 
     print("[+] Sorting list and removing duplicates...")
 
-    # just to make sure there are really no duplicates!
     kombi = list(set(kombi))
 
     leet = []
@@ -551,13 +561,11 @@ def generate_wordlist_from_profile(profile: dict):
         for x in kombi:
             leet.append(make_leet(x))
 
-    unique_list = kombi + leet
+    unique_list = list(set(kombi + leet))
 
-    result = [
-        x
-        for x in unique_list
-        if len(x) < CONFIG["global"]["wcto"] and len(x) > CONFIG["global"]["wcfrom"]
-    ]
+    lower = CONFIG["global"]["wcfrom"]
+    upper = CONFIG["global"]["wcto"]
+    result = remove_words(unique_list, lower, upper)
 
     print_to_file(profile["name"] + ".txt", result)
 
