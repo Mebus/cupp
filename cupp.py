@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-#
 #  [Program]
 #
 #  CUPP
@@ -7,11 +5,9 @@
 #
 #  [Author]
 #
-#  Muris Kurgas aka j0rgan
-#  j0rgan [at] remote-exploit [dot] org
-#  http://www.remote-exploit.org
-#  http://www.azuzi.me
-#
+#  AndreasInfo
+#  https://github.com/AndreasInfo
+# 
 #  [License]
 #
 #  This program is free software; you can redistribute it and/or modify
@@ -42,9 +38,9 @@ import urllib.request
 import time
 import itertools
 
-__author__ = "Mebus"
+__author__ = "AndreasInfo"
 __license__ = "GPL"
-__version__ = "3.3.0"
+__version__ = "3.4.0"
 
 CONFIG = {}
 
