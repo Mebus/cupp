@@ -385,18 +385,18 @@ def interactive():
     print("\r\n")
 
     msg = "> Childrens' names (first-, last-, nick-...), comma-separated, spaces will be removed: "
-    profile["kid_names"] = input().lower().replace(" ", "").split(",")
+    profile["kids_names"] = input().lower().replace(" ", "").split(",")
     
     msg = "> Childrens' birthdates (DDMMYYYY), comma-separated, spaces will be removed: "
     kid_birthdates = input(msg).replace(" ", "").split(",")
     while not validate_birthdates(kid_birthdates):
         print("\r\n[-] You must enter 8 digits for birthday!")
         kid_birthdates = input("> Childrens' birthdates (DDMMYYYY): ")
-    profile["kid_birthdate"] = kid_birthdates
+    profile["kids_birthdates"] = kid_birthdates
     print("\r\n")
 
     msg = "> Pets' names, comma-separated, spaces will be removed: "
-    profile["pet_names"] = input(msg).lower().replace(" ", "").split(",")
+    profile["pets_names"] = input(msg).lower().replace(" ", "").split(",")
 
     msg = "> Companies' names, comma-separated, spaces will be removed: "
     profile["companies"] = input(msg).lower().replace(" ", "").split(",")
@@ -443,37 +443,37 @@ def generate_wordlist_from_profile(profile: dict):
 
     target_bd = decompose_birthdates(profile["birthdate"])
     wife_bd = decompose_birthdates(profile["wife_birthdate"])
-    kid_bd = decompose_birthdates(profile["kid_birthdate"])
+    kid_bd = decompose_birthdates(profile["kids_birthdates"])
 
     target = transform_items(profile["names"])
     wife = transform_items(profile["wife_names"])
-    kid = transform_items(profile["kid_names"])
-    pet = transform_items(profile["pet_names"])
-    company = transform_items(profile["companies"])
-    word = transform_items(profile["words"])
+    kids = transform_items(profile["kids_names"])
+    pets = transform_items(profile["pets_names"])
+    companies = transform_items(profile["companies"])
+    words = transform_items(profile["words"])
 
-    # Let's do some serious work! This will be a mess of code, but... who cares? :)
+    # Combinations
     target_kombi = calc_list_product(target, 2)
     wife_kombi = calc_list_product(wife, 2)
-    kid_kombi = calc_list_product(kid, 2)
-    all_kombi = target_kombi + wife_kombi + kid_kombi
+    kids_kombi = calc_list_product(kids, 2)
+    all_kombi = target_kombi + wife_kombi + kids_kombi
+
+    rest_kombi = pets + companies + words
 
     target_bd_kombi = calc_list_permutation(target_bd, 3)
     wife_bd_kombi = calc_list_permutation(wife_bd, 3)
-    kid_bd_kombi = calc_list_permutation(kid_bd, 3)
-    all_kombi_bd = target_bd_kombi + wife_bd_kombi + kid_bd_kombi
-
-    rest_kombi = pet + company + word
+    kids_bds_kombi = calc_list_permutation(kid_bd, 3)
+    all_kombi_bds = target_bd_kombi + wife_bd_kombi + kids_bds_kombi
 
     kombi = []
     kombi += all_kombi
-    kombi += all_kombi_bd
     kombi += rest_kombi
+    kombi += all_kombi_bds
     # birthdate
     kombi += combine_lists(target_kombi, target_bd_kombi, ["", "_"])
     kombi += combine_lists(wife_kombi, wife_bd_kombi, ["", "_"])
-    kombi += combine_lists(kid_kombi, kid_bd_kombi, ["", "_"])
-    kombi += combine_lists(rest_kombi, all_kombi_bd, ["", "_"])
+    kombi += combine_lists(kids_kombi, kids_bds_kombi, ["", "_"])
+    kombi += combine_lists(rest_kombi, all_kombi_bds, ["", "_"])
     # years
     kombi += combine_lists(all_kombi, years, ["", "_"])
     kombi += combine_lists(rest_kombi, years, ["", "_"])
