@@ -457,6 +457,8 @@ def generate_wordlist_from_profile(profile: dict):
     wife_bd_kombi = calc_list_permutation(wife_bd, 3)
     kid_bd_kombi = calc_list_permutation(kid_bd, 3)
 
+    all_kombi_bd = target_bd_kombi + wife_bd_kombi + kid_bd_kombi
+
     target_kombi = calc_list_product(target + target_up, 2)
     wife_kombi = calc_list_product(wife + wife_up, 2)
     kid_kombi = calc_list_product(kid + kid_up, 2)
@@ -485,24 +487,20 @@ def generate_wordlist_from_profile(profile: dict):
     kombi += combine_lists(target_kombi, target_bd_kombi, ["", "_"])
     kombi += combine_lists(wife_kombi, wife_bd_kombi, ["", "_"])
     kombi += combine_lists(kid_kombi, kid_bd_kombi, ["", "_"])
+    kombi += combine_lists(word_kombi, all_kombi_bd, ["", "_"])
     # person/(pet/company) + years
     kombi += combine_lists(target_kombi, years, ["", "_"])
-    kombi += combine_lists(rest_kombi, years, ["", "_"])
     kombi += combine_lists(wife_kombi, years, ["", "_"])
     kombi += combine_lists(kid_kombi, years, ["", "_"])
-    # words + birthdates
-    kombi += combine_lists(word_kombi, target_bd_kombi, ["", "_"])
-    kombi += combine_lists(word_kombi, wife_bd_kombi, ["", "_"])
-    kombi += combine_lists(word_kombi, kid_bd_kombi, ["", "_"])
-    # words + years
+    kombi += combine_lists(rest_kombi, years, ["", "_"])
     kombi += combine_lists(word_kombi, years, ["", "_"])
     # random number
     if profile["randnum_switch"] == "y":
-        kombi += add_randnum(word_kombi, numfrom, numto)
         kombi += add_randnum(target_kombi, numfrom, numto)
-        kombi += add_randnum(rest_kombi, numfrom, numto)
         kombi += add_randnum(wife_kombi, numfrom, numto)
         kombi += add_randnum(kid_kombi, numfrom, numto)
+        kombi += add_randnum(rest_kombi, numfrom, numto)
+        kombi += add_randnum(word_kombi, numfrom, numto)
         kombi += add_randnum(all_kombi_rev, numfrom, numto)
     # reverse + years
     kombi += combine_lists(all_kombi_rev, years, ["", "_"])
