@@ -134,19 +134,33 @@ def combine_lists(input1: list, input2: list, separator: list = [""]):
             for str2 in input2:
                 yield str1 + sep + str2
 
-def disassemble_birthdates(birthdate: str) -> list:
+def decompose_birthdates(birthdates: list) -> list:
     """Disassemble birthdates to get individual parts."""
     result = []
 
-    result.append(birthdate[-2:])  # yy
-    result.append(birthdate[-3:])  # yyy
-    result.append(birthdate[-4:])  # yyyy
-    result.append(birthdate[1:2])  # xd
-    result.append(birthdate[3:4])  # xm
-    result.append(birthdate[:2])  # dd
-    result.append(birthdate[2:4])  # mm
+    for birthdate in birthdates:
+        result.append(birthdate[-2:])  # yy
+        result.append(birthdate[-3:])  # yyy
+        result.append(birthdate[-4:])  # yyyy
+        result.append(birthdate[1:2])  # xd
+        result.append(birthdate[3:4])  # xm
+        result.append(birthdate[:2])  # dd
+        result.append(birthdate[2:4])  # mm
 
     return result
+
+def transform_items(input: list) -> list:
+    names = input
+    up = [str(name).title() for name in input]
+    rev = [str(name)[::-1] for name in input]
+    rev_up = [str(name)[::-1] for name in up]
+    return names + up + rev + rev_up
+
+def validate_birthdates(dates: list) -> bool:
+    for date in dates:
+        if len(date) != 0 and len(date) != 8:
+            return False
+    return True
 
 def print_to_file(filename, unique_list_finished):
     f = open(filename, "w")
@@ -343,42 +357,49 @@ def interactive():
 
     profile = {}
 
-    name = input("> First name: ").lower()
-    while len(name) == 0 or name == " " or name == "  " or name == "   ":
+    msg = "> Names (first-, last-, nick-...), comma-separated, spaces will be removed: "
+    names = input(msg).lower().replace(" ", "").split(",")
+    while len(names) == 0:
         print("\r\n[-] You must enter a name at least!")
-        name = input("> Name: ").lower()
-    profile["name"] = str(name)
+        names = input("> Names: ").lower()
+    profile["names"] = names
 
-    profile["surname"] = input("> Surname: ").lower()
-    profile["nickname"] = input("> Nickname: ").lower()
-    birthdate = input("> Birthdate (DDMMYYYY): ")
-    while len(birthdate) != 0 and len(birthdate) != 8:
+    msg = "> Birthdate (DDMMYYYY): "
+    birthdate = input(msg).replace(" ", "").split(",")
+    while not validate_birthdates(birthdate):
         print("\r\n[-] You must enter 8 digits for birthday!")
         birthdate = input("> Birthdate (DDMMYYYY): ")
-    profile["birthdate"] = str(birthdate)
+    profile["birthdate"] = birthdate
 
     print("\r\n")
 
-    profile["wife_name"] = input("> Partner's name: ").lower()
-    profile["wife_nickname"] = input("> Partner's nickname: ").lower()
-    wifeb = input("> Partner's birthdate (DDMMYYYY): ")
-    while len(wifeb) != 0 and len(wifeb) != 8:
+    msg = "> Partners' names (first-, last-, nick-...), comma-separated, spaces will be removed: "
+    profile["wife_names"] = input(msg).lower().replace(" ", "").split(",")
+
+    msg = "> Partner's birthdate (DDMMYYYY): "
+    wife_birthdate = input(msg).replace(" ", "").split(",")
+    while not validate_birthdates(wife_birthdate):
         print("\r\n[-] You must enter 8 digits for birthday!")
-        wifeb = input("> Partner's birthdate (DDMMYYYY): ")
-    profile["wife_birthdate"] = str(wifeb)
+        wife_birthdate = input("> Partner's birthdate (DDMMYYYY): ")
+    profile["wife_birthdate"] = wife_birthdate
     print("\r\n")
 
-    profile["kid_name"] = input("> Child's name: ").lower()
-    profile["kid_nickname"] = input("> Child's nickname: ").lower()
-    kidb = input("> Child's birthdate (DDMMYYYY): ")
-    while len(kidb) != 0 and len(kidb) != 8:
+    msg = "> Childrens' names (first-, last-, nick-...), comma-separated, spaces will be removed: "
+    profile["kids_names"] = input().lower().replace(" ", "").split(",")
+    
+    msg = "> Childrens' birthdates (DDMMYYYY), comma-separated, spaces will be removed: "
+    kid_birthdates = input(msg).replace(" ", "").split(",")
+    while not validate_birthdates(kid_birthdates):
         print("\r\n[-] You must enter 8 digits for birthday!")
-        kidb = input("> Child's birthdate (DDMMYYYY): ")
-    profile["kid_birthdate"] = str(kidb)
+        kid_birthdates = input("> Childrens' birthdates (DDMMYYYY): ")
+    profile["kids_birthdates"] = kid_birthdates
     print("\r\n")
 
-    profile["pet_name"] = input("> Pet's name: ").lower()
-    profile["company"] = input("> Company name: ").lower()
+    msg = "> Pets' names, comma-separated, spaces will be removed: "
+    profile["pets_names"] = input(msg).lower().replace(" ", "").split(",")
+
+    msg = "> Companies' names, comma-separated, spaces will be removed: "
+    profile["companies"] = input(msg).lower().replace(" ", "").split(",")
     print("\r\n")
 
     profile["words"] = [""]
@@ -388,7 +409,7 @@ def interactive():
     words2 = ""
     if words1 == "y":
         words2 = input(
-            "> Please enter the words, separated by comma. [i.e. hacker,juice,black], spaces will be removed: "
+            "> Please enter the words, comma-separated, spaces will be removed: "
         ).replace(" ", "")
     profile["words"] = words2.split(",")
 
@@ -420,137 +441,50 @@ def generate_wordlist_from_profile(profile: dict):
 
     print("\r\n[+] Now making a dictionary...")
 
-    bds = disassemble_birthdates(profile["birthdate"])
-    wbds = disassemble_birthdates(profile["wife_birthdate"])
-    kbds = disassemble_birthdates(profile["kid_birthdate"])
+    target_bd = decompose_birthdates(profile["birthdate"])
+    wife_bd = decompose_birthdates(profile["wife_birthdate"])
+    kid_bd = decompose_birthdates(profile["kids_birthdates"])
 
-    name = profile["name"]
-    surname = profile["surname"]
-    nickname = profile["nickname"]
-    wife_name = profile["wife_name"]
-    wife_nickname = profile["wife_nickname"]
-    kid_name = profile["kid_name"]
-    kid_nickname = profile["kid_nickname"]
-    pet_name = profile["pet_name"]
-    company = profile["company"]
+    target = transform_items(profile["names"])
+    wife = transform_items(profile["wife_names"])
+    kids = transform_items(profile["kids_names"])
+    pets = transform_items(profile["pets_names"])
+    companies = transform_items(profile["companies"])
+    words = transform_items(profile["words"])
 
-    # Convert to Title Case
-    nameup = name.title()
-    surnameup = surname.title()
-    nickup = nickname.title()
-    wifeup = wife_name.title()
-    wifenup = wife_nickname.title()
-    kidup = kid_name.title()
-    kidnup = kid_nickname.title()
-    petup = pet_name.title()
-    companyup = company.title()
+    # Combinations
+    target_kombi = calc_list_product(target, 2)
+    wife_kombi = calc_list_product(wife, 2)
+    kids_kombi = calc_list_product(kids, 2)
+    all_kombi = target_kombi + wife_kombi + kids_kombi
 
-    wordsup = []
-    wordsup = list(map(str.title, profile["words"]))
+    rest_kombi = pets + companies + words
 
-    word = profile["words"] + wordsup
-
-    # Reverse names
-    rev_name = name[::-1]
-    rev_nameup = nameup[::-1]
-    rev_nick = nickname[::-1]
-    rev_nickup = nickup[::-1]
-    rev_wife = wife_name[::-1]
-    rev_wifeup = wifeup[::-1]
-    rev_kid = kid_name[::-1]
-    rev_kidup = kidup[::-1]
-
-    rev_n = [rev_name, rev_nameup, rev_nick, rev_nickup]
-    rev_w = [rev_wife, rev_wifeup]
-    rev_k = [rev_kid, rev_kidup]
-
-    reverse = rev_n + rev_w + rev_k
-
-    # Let's do some serious work! This will be a mess of code, but... who cares? :)
-
-    # Birthdates combinations
-    bdss = calc_list_permutation(bds, 3)
-    wbdss = calc_list_permutation(wbds, 3)
-    kbdss = calc_list_permutation(kbds, 3)
-
-    # string combinations....
-    kombinaac = [profile["pet_name"], petup, profile["company"], companyup]
-
-    kombina = [
-        profile["name"],
-        profile["surname"],
-        profile["nickname"],
-        nameup,
-        surnameup,
-        nickup,
-    ]
-
-    kombinaw = [
-        profile["wife_name"],
-        profile["wife_nickname"],
-        wifeup,
-        wifenup,
-        profile["surname"],
-        surnameup,
-    ]
-
-    kombinak = [
-        profile["kid_name"],
-        profile["kid_nickname"],
-        kidup,
-        kidnup,
-        profile["surname"],
-        surnameup,
-    ]
-
-    kombinaa = calc_list_product(kombina, 2)
-    kombinaaw = calc_list_product(kombinaw, 2)
-    kombinaak = calc_list_product(kombinak, 2)
+    target_bd_kombi = calc_list_permutation(target_bd, 3)
+    wife_bd_kombi = calc_list_permutation(wife_bd, 3)
+    kids_bds_kombi = calc_list_permutation(kid_bd, 3)
+    all_kombi_bds = target_bd_kombi + wife_bd_kombi + kids_bds_kombi
 
     kombi = []
-
-    kombi += word
-    kombi += bdss
-    kombi += wbdss
-    kombi += kbdss
-    kombi += reverse
-    # person + birthdate
-    kombi += combine_lists(kombinaa, bdss, ["", "_"])
-    kombi += combine_lists(kombinaaw, wbdss, ["", "_"])
-    kombi += combine_lists(kombinaak, kbdss, ["", "_"])
-    # person/(pet/company) + years
-    kombi += combine_lists(kombinaa, years, ["", "_"])
-    kombi += combine_lists(kombinaac, years, ["", "_"])
-    kombi += combine_lists(kombinaaw, years, ["", "_"])
-    kombi += combine_lists(kombinaak, years, ["", "_"])
-    # words + birthdates
-    kombi += combine_lists(word, bdss, ["", "_"])
-    kombi += combine_lists(word, wbdss, ["", "_"])
-    kombi += combine_lists(word, kbdss, ["", "_"])
-    # words + years
-    kombi += combine_lists(word, years, ["", "_"])
+    kombi += all_kombi
+    kombi += rest_kombi
+    kombi += all_kombi_bds
+    # birthdate
+    kombi += combine_lists(target_kombi, target_bd_kombi, ["", "_"])
+    kombi += combine_lists(wife_kombi, wife_bd_kombi, ["", "_"])
+    kombi += combine_lists(kids_kombi, kids_bds_kombi, ["", "_"])
+    kombi += combine_lists(rest_kombi, all_kombi_bds, ["", "_"])
+    # years
+    kombi += combine_lists(all_kombi, years, ["", "_"])
+    kombi += combine_lists(rest_kombi, years, ["", "_"])
     # random number
     if profile["randnum_switch"] == "y":
-        kombi += add_randnum(word, numfrom, numto)
-        kombi += add_randnum(kombinaa, numfrom, numto)
-        kombi += add_randnum(kombinaac, numfrom, numto)
-        kombi += add_randnum(kombinaaw, numfrom, numto)
-        kombi += add_randnum(kombinaak, numfrom, numto)
-        kombi += add_randnum(reverse, numfrom, numto)
-    # reverse + years
-    kombi += combine_lists(reverse, years, ["", "_"])
-    # reverse + birthdates
-    kombi += combine_lists(rev_w, wbdss, ["", "_"])
-    kombi += combine_lists(rev_k, kbdss, ["", "_"])
-    kombi += combine_lists(rev_n, bdss, ["", "_"])
+        kombi += add_randnum(all_kombi, numfrom, numto)
+        kombi += add_randnum(rest_kombi, numfrom, numto)
     # special chars
     if len(profile["spechars"]) > 0:
-        kombi += combine_lists(kombinaa, profile["spechars"])
-        kombi += combine_lists(kombinaac, profile["spechars"])
-        kombi += combine_lists(kombinaaw, profile["spechars"])
-        kombi += combine_lists(kombinaak, profile["spechars"])
-        kombi += combine_lists(word, profile["spechars"])
-        kombi += combine_lists(reverse, profile["spechars"])
+        kombi += combine_lists(all_kombi, profile["spechars"])
+        kombi += combine_lists(rest_kombi, profile["spechars"])
 
     print("[+] Sorting list and removing duplicates...")
 
@@ -558,16 +492,18 @@ def generate_wordlist_from_profile(profile: dict):
 
     leet = []
     if profile["leetmode_switch"] == "y":
-        for x in kombi:
-            leet.append(make_leet(x))
+        for item in kombi:
+            result = make_leet(item)
+            if result != item:
+                leet.append(result)
 
-    unique_list = list(set(kombi + leet))
+    unique_list = kombi + leet
 
     lower = CONFIG["global"]["wcfrom"]
     upper = CONFIG["global"]["wcto"]
     result = remove_words(unique_list, lower, upper)
 
-    print_to_file(profile["name"] + ".txt", result)
+    print_to_file(target[0] + ".txt", result)
 
 
 def download_http(url, targetfile):
