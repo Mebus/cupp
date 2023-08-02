@@ -149,12 +149,12 @@ def decompose_birthdates(birthdates: list) -> list:
 
     return result
 
-def transform_items(input: list):
+def transform_items(input: list) -> list:
     names = input
     up = [str(name).title() for name in input]
     rev = [str(name)[::-1] for name in input]
     rev_up = [str(name)[::-1] for name in up]
-    return names, up, rev, rev_up
+    return names + up + rev + rev_up
 
 def validate_birthdates(dates: list) -> bool:
     for date in dates:
@@ -445,77 +445,46 @@ def generate_wordlist_from_profile(profile: dict):
     wife_bd = decompose_birthdates(profile["wife_birthdate"])
     kid_bd = decompose_birthdates(profile["kid_birthdate"])
 
-    target, target_up, target_rev, target_up_rev = transform_items(profile["names"])
-    wife, wife_up, wife_rev, wife_up_rev = transform_items(profile["wife_names"])
-    kid, kid_up, kid_rev, kid_up_rev = transform_items(profile["kid_names"])
-    pet, pet_up, pet_rev, pet_up_rev = transform_items(profile["pet_names"])
-    company, company_up, company_rev, company_up_rev = transform_items(profile["companies"])
-    word, word_up, word_rev, word_up_rev = transform_items(profile["words"])
+    target = transform_items(profile["names"])
+    wife = transform_items(profile["wife_names"])
+    kid = transform_items(profile["kid_names"])
+    pet = transform_items(profile["pet_names"])
+    company = transform_items(profile["companies"])
+    word = transform_items(profile["words"])
 
     # Let's do some serious work! This will be a mess of code, but... who cares? :)
+    target_kombi = calc_list_product(target, 2)
+    wife_kombi = calc_list_product(wife, 2)
+    kid_kombi = calc_list_product(kid, 2)
+    all_kombi = target_kombi + wife_kombi + kid_kombi
+
     target_bd_kombi = calc_list_permutation(target_bd, 3)
     wife_bd_kombi = calc_list_permutation(wife_bd, 3)
     kid_bd_kombi = calc_list_permutation(kid_bd, 3)
-
     all_kombi_bd = target_bd_kombi + wife_bd_kombi + kid_bd_kombi
 
-    target_kombi = calc_list_product(target + target_up, 2)
-    wife_kombi = calc_list_product(wife + wife_up, 2)
-    kid_kombi = calc_list_product(kid + kid_up, 2)
-
-    target_kombi_rev = target_rev + target_up_rev
-    wife_kombi_rev = wife_rev + wife_up_rev
-    kid_kombi_rev = kid_rev + kid_up_rev
-
-    all_kombi_rev = target_kombi_rev + wife_kombi_rev + kid_kombi_rev
-
-    rest_kombi = pet + pet_up + company + company_up
-
-    word_kombi = word + word_up
+    rest_kombi = pet + company + word
 
     kombi = []
-
-    kombi += target_kombi
-    kombi += wife_kombi
-    kombi += kid_kombi
-    kombi += word_kombi
-    kombi += target_bd_kombi
-    kombi += wife_bd_kombi
-    kombi += kid_bd_kombi
-    kombi += all_kombi_rev
-    # person + birthdate
+    kombi += all_kombi
+    kombi += all_kombi_bd
+    kombi += rest_kombi
+    # birthdate
     kombi += combine_lists(target_kombi, target_bd_kombi, ["", "_"])
     kombi += combine_lists(wife_kombi, wife_bd_kombi, ["", "_"])
     kombi += combine_lists(kid_kombi, kid_bd_kombi, ["", "_"])
-    kombi += combine_lists(word_kombi, all_kombi_bd, ["", "_"])
-    # person/(pet/company) + years
-    kombi += combine_lists(target_kombi, years, ["", "_"])
-    kombi += combine_lists(wife_kombi, years, ["", "_"])
-    kombi += combine_lists(kid_kombi, years, ["", "_"])
+    kombi += combine_lists(rest_kombi, all_kombi_bd, ["", "_"])
+    # years
+    kombi += combine_lists(all_kombi, years, ["", "_"])
     kombi += combine_lists(rest_kombi, years, ["", "_"])
-    kombi += combine_lists(word_kombi, years, ["", "_"])
     # random number
     if profile["randnum_switch"] == "y":
-        kombi += add_randnum(target_kombi, numfrom, numto)
-        kombi += add_randnum(wife_kombi, numfrom, numto)
-        kombi += add_randnum(kid_kombi, numfrom, numto)
+        kombi += add_randnum(all_kombi, numfrom, numto)
         kombi += add_randnum(rest_kombi, numfrom, numto)
-        kombi += add_randnum(word_kombi, numfrom, numto)
-        kombi += add_randnum(all_kombi_rev, numfrom, numto)
-    # reverse + years
-    kombi += combine_lists(all_kombi_rev, years, ["", "_"])
-    # reverse + birthdates
-    kombi += combine_lists(wife_kombi_rev, wife_bd_kombi, ["", "_"])
-    kombi += combine_lists(kid_kombi_rev, kid_bd_kombi, ["", "_"])
-    kombi += combine_lists(target_kombi_rev, target_bd_kombi, ["", "_"])
     # special chars
     if len(profile["spechars"]) > 0:
-        kombi += combine_lists(target_kombi, profile["spechars"])
+        kombi += combine_lists(all_kombi, profile["spechars"])
         kombi += combine_lists(rest_kombi, profile["spechars"])
-        kombi += combine_lists(wife_kombi, profile["spechars"])
-        kombi += combine_lists(kid_kombi, profile["spechars"])
-        kombi += combine_lists(word_kombi, profile["spechars"])
-        kombi += combine_lists(all_kombi_rev, profile["spechars"])
 
     print("[+] Sorting list and removing duplicates...")
 
