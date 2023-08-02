@@ -364,7 +364,7 @@ def interactive():
     birthdate = input(msg).replace(" ", "").split(",")
     while not validate_birthdates(birthdate):
         print("\r\n[-] You must enter 8 digits for birthday!")
-        birthdate = input("> Birthdate (DDMMYYYY): ")
+        birthdate = input(msg).replace(" ", "").split(",")
     profile["birthdate"] = birthdate
 
     print("\r\n")
@@ -376,18 +376,18 @@ def interactive():
     wife_birthdate = input(msg).replace(" ", "").split(",")
     while not validate_birthdates(wife_birthdate):
         print("\r\n[-] You must enter 8 digits for birthday!")
-        wife_birthdate = input("> Partner's birthdate (DDMMYYYY): ")
+        wife_birthdate = input(msg).replace(" ", "").split(",")
     profile["wife_birthdate"] = wife_birthdate
     print("\r\n")
 
     msg = "> Childrens' names (first-, last-, nick-...), comma-separated, spaces will be removed: "
-    profile["kids_names"] = input().lower().replace(" ", "").split(",")
+    profile["kids_names"] = input(msg).lower().replace(" ", "").split(",")
     
     msg = "> Childrens' birthdates (DDMMYYYY), comma-separated, spaces will be removed: "
     kid_birthdates = input(msg).replace(" ", "").split(",")
     while not validate_birthdates(kid_birthdates):
         print("\r\n[-] You must enter 8 digits for birthday!")
-        kid_birthdates = input("> Childrens' birthdates (DDMMYYYY): ")
+        kid_birthdates = input(msg).input(msg).replace(" ", "").split(",")
     profile["kids_birthdates"] = kid_birthdates
     print("\r\n")
 
