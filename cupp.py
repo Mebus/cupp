@@ -176,7 +176,7 @@ def version():
     print("\r\n	\033[1;31m[ cupp.py ]  " + __version__ + "\033[1;m\r\n")
     print("	* Hacked up by j0rgan - j0rgan@remote-exploit.org")
     print("	* http://www.remote-exploit.org\r\n")
-    print("	Take a look ./README.md file for more info about the program\r\n")
+    # print("	Take a look ./README.md file for more info about the program\r\n")
 
 
 def improve_dictionary(file_to_open):
