@@ -312,11 +312,11 @@ def interactive():
 
     profile = {}
 
-    name = input("> First Name: ").lower()
-    while len(name) == 0 or name == " " or name == "  " or name == "   ":
+    name = input("> First Name: ").lower().strip()
+    while len(name) == 0:
         print("\r\n[-] You must enter a name at least!")
-        name = input("> Name: ").lower()
-    profile["name"] = str(name)
+        name = input("> Name: ").lower().strip()
+    profile["name"] = name
 
     profile["surname"] = input("> Surname: ").lower()
     profile["nick"] = input("> Nickname: ").lower()
@@ -324,7 +324,7 @@ def interactive():
     while len(birthdate) != 0 and len(birthdate) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
         birthdate = input("> Birthdate (DDMMYYYY): ")
-    profile["birthdate"] = str(birthdate)
+    profile["birthdate"] = birthdate
 
     print("\r\n")
 
@@ -334,7 +334,7 @@ def interactive():
     while len(wifeb) != 0 and len(wifeb) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
         wifeb = input("> Partners birthdate (DDMMYYYY): ")
-    profile["wifeb"] = str(wifeb)
+    profile["wifeb"] = wifeb
     print("\r\n")
 
     profile["kid"] = input("> Child's name: ").lower()
@@ -343,7 +343,7 @@ def interactive():
     while len(kidb) != 0 and len(kidb) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
         kidb = input("> Child's birthdate (DDMMYYYY): ")
-    profile["kidb"] = str(kidb)
+    profile["kidb"] = kidb
     print("\r\n")
 
     profile["pet"] = input("> Pet's name: ").lower()
