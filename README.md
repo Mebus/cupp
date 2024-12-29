@@ -50,7 +50,7 @@ Quick start
         -a      Parse default usernames and passwords directly from Alecto DB.
                 Project Alecto uses purified databases of Phenoelit and CIRT which where merged and enhanced.
 
-        -v      Version of the program
+        -v      Version of the program 677566
 
 
 
