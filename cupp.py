@@ -158,16 +158,12 @@ def print_to_file(filename, unique_list_finished):
 def print_cow():
     print(" ___________ ")
     print(" \033[07m  cupp.py! \033[27m                # \033[07mC\033[27mommon")
-    print("      \                     # \033[07mU\033[27mser")
-    print("       \   \033[1;31m,__,\033[1;m             # \033[07mP\033[27masswords")
-    print(
-        "        \  \033[1;31m(\033[1;moo\033[1;31m)____\033[1;m         # \033[07mP\033[27mrofiler"
-    )
-    print("           \033[1;31m(__)    )\ \033[1;m  ")
-    print(
-        "           \033[1;31m   ||--|| \033[1;m\033[05m*\033[25m\033[1;m      [ Muris Kurgas | j0rgan@remote-exploit.org ]"
-    )
-    print(28 * " " + "[ Mebus | https://github.com/Mebus/]\r\n")
+    print("      \\                     # \033[07mU\033[27mser")
+    print("       \\   \033[1;31m,__,\033[1;m             # \033[07mP\033[27masswords")
+    print("        \\  \033[1;31m(\033[1;moo\033[1;31m)____\033[1;m         # \033[07mP\033[27mrofiler")
+    print("           \033[1;31m(__)    )\\ \033[1;m  ")
+    print("           \033[1;31m   ||--|| \033[1;m\033[05m*\033[25m\033[1;m      [ Muris Kurgas | j0rgan@remote-exploit.org ]")
+    print("                            [ Mebus | https://github.com/Mebus/]\r\n")
 
 
 def version():
