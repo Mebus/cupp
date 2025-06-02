@@ -117,7 +117,7 @@ def komb(seq, start, special=""):
 # print list to file counting words
 
 
-def print_to_file(filename, unique_list_finished):
+def print_to_file(filename, unique_list_finished, hyperspeed_print=True):
     f = open(filename, "w")
     unique_list_finished.sort()
     f.write(os.linesep.join(unique_list_finished))
@@ -134,7 +134,7 @@ def print_to_file(filename, unique_list_finished):
         + str(lines)
         + " words.\033[1;m"
     )
-    inspect = input("> Hyperspeed Print? (Y/n) : ").lower()
+    inspect = input("> Hyperspeed Print? (Y/n) : ").lower() if hyperspeed_print else "n"
     if inspect == "y":
         try:
             with open(filename, "r+") as wlist:
@@ -373,7 +373,7 @@ def interactive():
     generate_wordlist_from_profile(profile)  # generate the wordlist
 
 
-def generate_wordlist_from_profile(profile):
+def generate_wordlist_from_profile(profile, **print_options):
     """ Generates a wordlist from a given profile """
 
     chars = CONFIG["global"]["chars"]
@@ -705,7 +705,7 @@ def generate_wordlist_from_profile(profile):
         if len(x) < CONFIG["global"]["wcto"] and len(x) > CONFIG["global"]["wcfrom"]
     ]
 
-    print_to_file(profile["name"] + ".txt", unique_list_finished)
+    print_to_file(profile["name"] + ".txt", unique_list_finished, **print_options)
 
 
 def download_http(url, targetfile):
