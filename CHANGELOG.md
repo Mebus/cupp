@@ -24,7 +24,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
  - added l33t mode
  - added char mode
  - ability to make pwnsauce with other wordlists or wyd.pl outputs
- - cupp.cfg makes cupp.py easier to configure 
+ - cupp.yml makes cupp.py easier to configure 
 
 
 ## 1.0.0

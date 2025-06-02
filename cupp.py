@@ -31,14 +31,12 @@
 #  See 'LICENSE' for more information.
 
 import argparse
-import configparser
+import yaml
 import csv
 import functools
 import gzip
 import os
 import sys
-import urllib.error
-import urllib.parse
 import urllib.request
 import time
 
@@ -49,7 +47,7 @@ __version__ = "3.3.0"
 CONFIG = {}
 
 
-def read_config(filename):
+def read_config(filename='cupp.yml'):
     """Read the given configuration file and update global variables to reflect
     changes (CONFIG)."""
 
@@ -58,32 +56,30 @@ def read_config(filename):
         # global CONFIG
 
         # Reading configuration file
-        config = configparser.ConfigParser()
-        config.read(filename)
-
+        with open(filename, 'r') as file:
+            config = yaml.safe_load(file)
         CONFIG["global"] = {
-            "years": config.get("years", "years").split(","),
-            "chars": config.get("specialchars", "chars").split(","),
-            "numfrom": config.getint("nums", "from"),
-            "numto": config.getint("nums", "to"),
-            "wcfrom": config.getint("nums", "wcfrom"),
-            "wcto": config.getint("nums", "wcto"),
-            "threshold": config.getint("nums", "threshold"),
-            "alectourl": config.get("alecto", "alectourl"),
-            "dicturl": config.get("downloader", "dicturl"),
+            "years": config["years"]["years"].split(","),
+            "chars": list(config["specialchars"]["chars"]),
+            "numfrom": int(config["nums"]["from"]),
+            "numto": int(config["nums"]["to"]),
+            "wcfrom": int(config["nums"]["wcfrom"]),
+            "wcto": int(config["nums"]["wcto"]),
+            "threshold": int(config["nums"]["threshold"]),
+            "alectourl": config["alecto"]["url"],
+            "dicturl": config["downloader"]["dicturl"],
         }
-
         # 1337 mode configs, well you can add more lines if you add it to the
         # config file too.
-        leet = functools.partial(config.get, "leet")
-        leetc = {}
-        letters = {"a", "i", "e", "t", "o", "s", "g", "z"}
+        if 'leet' in config:
+            leetc = {}
+            allowed_letters = {"a", "i", "e", "t", "o", "s", "g", "z"}
+            for letter in allowed_letters:
+                if letter in config['leet']:
+                    leetc[letter] = str(config['leet'][letter])
+            CONFIG["LEET"] = leetc
 
-        for letter in letters:
-            leetc[letter] = config.get("leet", letter)
-
-        CONFIG["LEET"] = leetc
-
+        print(CONFIG)
         return True
 
     else:
@@ -282,7 +278,7 @@ def improve_dictionary(file_to_open):
             x
         ) in (
             unique_lista
-        ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
+        ):  # if you want to add more leet chars, you will need to add more lines in cupp.yml too...
             x = make_leet(x)  # convert to leet
             unique_leet.append(x)
 
@@ -384,7 +380,7 @@ def generate_wordlist_from_profile(profile, **print_options):
     profile["spechars"] = []
 
     if profile["spechars1"] == "y":
-        for spec1 in chars:
+        for spec1 in list(chars):
             profile["spechars"].append(spec1)
             for spec2 in chars:
                 profile["spechars"].append(spec1 + spec2)
@@ -691,7 +687,7 @@ def generate_wordlist_from_profile(profile, **print_options):
             x
         ) in (
             unique_lista
-        ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
+        ):  # if you want to add more leet chars, you will need to add more lines in cupp.yml too...
 
             x = make_leet(x)  # convert to leet
             unique_leet.append(x)
@@ -1025,7 +1021,7 @@ def mkdir_if_not_exists(dire):
 def main():
     """Command-line interface to the cupp utility"""
 
-    read_config(os.path.join(os.path.dirname(os.path.realpath(__file__)), "cupp.cfg"))
+    read_config(os.path.join(os.path.dirname(os.path.realpath(__file__)), "cupp.yml"))
 
     parser = get_parser()
     args = parser.parse_args()

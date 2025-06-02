@@ -36,7 +36,7 @@ from cupp import *
 class TestCupp(unittest.TestCase):
     def setUp(self):
 
-        read_config("cupp.cfg")
+        read_config("cupp.yml")
 
     def test_config(self):
 
@@ -62,7 +62,7 @@ class TestCupp(unittest.TestCase):
             "leetmode": "y",
             "spechars": [],
         }
-        read_config("cupp.cfg")
+        read_config("cupp.yml")
         generate_wordlist_from_profile(profile)
 
     def test_parser(self):

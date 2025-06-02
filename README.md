@@ -56,7 +56,7 @@ Quick start
 
 ## Configuration
 
-   CUPP has configuration file cupp.cfg with instructions.
+   CUPP has configuration file cupp.yml with instructions.
 
 ## Example (Fast forwarded)
 
