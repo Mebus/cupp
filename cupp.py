@@ -90,14 +90,42 @@ def read_config(filename):
         print("Configuration file " + filename + " not found!")
         sys.exit("Exiting.")
 
-        return False
+
+def replace_str(in_str: str, pattern: str, indices: [int], char_replacer: {str: int}) -> str:
+    assert len(pattern) == len(indices)
+    result_str = list(in_str)
+    for patt_index in range(len(indices)):
+        if pattern[patt_index] == "1":
+            str_index = indices[patt_index]
+            result_str[str_index] = str(char_replacer[result_str[str_index]])
+    return "".join(result_str)
 
 
-def make_leet(x):
-    """convert string to leet"""
-    for letter, leetletter in CONFIG["LEET"].items():
-        x = x.replace(letter, leetletter)
-    return x
+def make_leet(in_str: str) -> [str]:
+    """convert string to list of leet"""
+
+    # map to replace a singe char with it's leet equivalent
+    char_replacer = {
+        letter: leet_letter
+        for letter, leet_letter in CONFIG["LEET"].items()
+    }
+    # list of indices of replaceable chars
+    indices = [
+        index
+        for index in range(len(in_str))
+        if in_str[index] in char_replacer.keys()
+    ]
+    ind_len = len(indices)
+    # A replacement could be represented by a binary number
+    # E.g. 1001 would mean that the first and the last replaceable char is replaced.
+    # Such a Number has 2^len(indices) possibilities and the 000... possibility is not fulfilled,
+    # because it has no leet replaced chars in it.
+    count_of_replaced_strings = 2**ind_len
+
+    return [
+        replace_str(in_str, f'{pattern:0{ind_len}b}', indices, char_replacer)
+        for pattern in range(1, count_of_replaced_strings)
+    ]
 
 
 # for concatenations...
@@ -284,16 +312,14 @@ def improve_dictionary(file_to_open):
             unique_lista
         ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
             x = make_leet(x)  # convert to leet
-            unique_leet.append(x)
+            unique_leet.extend(x)
 
     unique_list = unique_lista + unique_leet
-
-    unique_list_finished = []
 
     unique_list_finished = [
         x
         for x in unique_list
-        if len(x) > CONFIG["global"]["wcfrom"] and len(x) < CONFIG["global"]["wcto"]
+        if CONFIG["global"]["wcfrom"] < len(x) < CONFIG["global"]["wcto"]
     ]
 
     print_to_file(file_to_open + ".cupp.txt", unique_list_finished)
@@ -433,7 +459,6 @@ def generate_wordlist_from_profile(profile):
     petup = profile["pet"].title()
     companyup = profile["company"].title()
 
-    wordsup = []
     wordsup = list(map(str.title, profile["words"]))
 
     word = profile["words"] + wordsup
@@ -694,7 +719,7 @@ def generate_wordlist_from_profile(profile):
         ):  # if you want to add more leet chars, you will need to add more lines in cupp.cfg too...
 
             x = make_leet(x)  # convert to leet
-            unique_leet.append(x)
+            unique_leet.extend(x)
 
     unique_list = unique_lista + unique_leet
 
@@ -702,7 +727,7 @@ def generate_wordlist_from_profile(profile):
     unique_list_finished = [
         x
         for x in unique_list
-        if len(x) < CONFIG["global"]["wcto"] and len(x) > CONFIG["global"]["wcfrom"]
+        if CONFIG["global"]["wcto"] > len(x) > CONFIG["global"]["wcfrom"]
     ]
 
     print_to_file(profile["name"] + ".txt", unique_list_finished)
