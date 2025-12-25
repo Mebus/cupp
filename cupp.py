@@ -345,7 +345,25 @@ def interactive():
         kidb = input("> Child's birthdate (DDMMYYYY): ")
     profile["kidb"] = str(kidb)
     print("\r\n")
-
+    
+    profile["father"] = input("> father's name: ").lower()
+    profile["fathern"] = input("> father's nickname: ").lower()
+    fatherb = input("> father's birthdate (DDMMYYYY): ")
+    while len(fatherb) != 0 and len(fatherb) != 8:
+        print("\r\n[-] You must enter 8 digits for birthday!")
+        fatherb = input("> Child's birthdate (DDMMYYYY): ")
+    profile["fatherb"] = str(fatherb)
+    print("\r\n")
+     
+    profile["mother"] = input("> mother's name: ").lower()
+    profile["mothern"] = input("> mother's nickname: ").lower()
+    motherb = input("> mother's birthdate (DDMMYYYY): ")
+    while len(motherb) != 0 and len(motherb) != 8:
+        print("\r\n[-] You must enter 8 digits for birthday!")
+        motherb = input("> mother's birthdate (DDMMYYYY): ")
+    profile["motherb"] = str(motherb)
+    print("\r\n")
+    
     profile["pet"] = input("> Pet's name: ").lower()
     profile["company"] = input("> Company name: ").lower()
     print("\r\n")
