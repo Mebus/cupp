@@ -1082,6 +1082,12 @@ def get_parser():
     parser.add_argument(
         "-q", "--quiet", action="store_true", help="Quiet mode (don't print banner)"
     )
+    parser.add_argument(
+        "-o",
+        dest="output",
+        metavar="FILENAME",
+        help="Output file for the generated dictionary (with -i option)",
+    )
 
     return parser
 
