@@ -174,7 +174,7 @@ def version():
     print("	Take a look ./README.md file for more info about the program\r\n")
 
 
-def improve_dictionary(file_to_open):
+def improve_dictionary(file_to_open, directory):
     """Implementation of the -w option. Improve a dictionary by
     interactively questioning the user."""
 
@@ -290,13 +290,13 @@ def improve_dictionary(file_to_open):
         for x in unique_list
         if len(x) > CONFIG["global"]["wcfrom"] and len(x) < CONFIG["global"]["wcto"]
     ]
-
-    print_to_file(file_to_open + ".cupp.txt", unique_list_finished)
+    base_name = os.path.basename(file_to_open)
+    print_to_file(os.path.join(directory, base_name + ".cupp.txt"), unique_list_finished)
 
     fajl.close()
 
 
-def interactive():
+def interactive(directory):
     """Implementation of the -i switch. Interactively question the user and
     create a password dictionary file based on the answer."""
 
@@ -365,10 +365,10 @@ def interactive():
     ).lower()
     profile["leetmode"] = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
 
-    generate_wordlist_from_profile(profile)  # generate the wordlist
+    generate_wordlist_from_profile(profile, directory)  # generate the wordlist
 
 
-def generate_wordlist_from_profile(profile):
+def generate_wordlist_from_profile(profile, directory):
     """ Generates a wordlist from a given profile """
 
     chars = CONFIG["global"]["chars"]
@@ -700,7 +700,7 @@ def generate_wordlist_from_profile(profile):
         if len(x) < CONFIG["global"]["wcto"] and len(x) > CONFIG["global"]["wcfrom"]
     ]
 
-    print_to_file(profile["name"] + ".txt", unique_list_finished)
+    print_to_file(os.path.join(directory, profile["name"] + ".txt"), unique_list_finished)
 
 
 def download_http(url, targetfile):
@@ -712,7 +712,7 @@ def download_http(url, targetfile):
     localFile.close()
 
 
-def alectodb_download():
+def alectodb_download(directory):
     """Download csv from alectodb and save into local file as a list of
     usernames and passwords"""
 
@@ -739,20 +739,21 @@ def alectodb_download():
     gpa = list(set(passwords))
     gus.sort()
     gpa.sort()
-
+    usernames_path = os.path.join(directory, "alectodb-usernames.txt")
+    passwords_path = os.path.join(directory, "alectodb-passwords.txt")
     print(
-        "\r\n[+] Exporting to alectodb-usernames.txt and alectodb-passwords.txt\r\n[+] Done."
+        f"\r\n[+] Exporting to {usernames_path} and {passwords_path}\r\n[+] Done."
     )
-    f = open("alectodb-usernames.txt", "w")
+    f = open(usernames_path, "w")
     f.write(os.linesep.join(gus))
     f.close()
 
-    f = open("alectodb-passwords.txt", "w")
+    f = open(passwords_path, "w")
     f.write(os.linesep.join(gpa))
     f.close()
 
 
-def download_wordlist():
+def download_wordlist(directory):
     """Implementation of -l switch. Download wordlists from http repository as
     defined in the configuration file."""
 
@@ -781,24 +782,21 @@ def download_wordlist():
     )
 
     filedown = input("> Enter number: ")
-    filedown.isdigit()
     while filedown.isdigit() == 0:
         print("\r\n[-] Wrong choice. ")
         filedown = input("> Enter number: ")
     filedown = str(filedown)
-    while int(filedown) > 38 or int(filedown) < 0:
+    while int(filedown) > 38 or int(filedown) < 1:
         print("\r\n[-] Wrong choice. ")
         filedown = input("> Enter number: ")
     filedown = str(filedown)
 
-    download_wordlist_http(filedown)
+    download_wordlist_http(filedown, directory)
     return filedown
 
 
-def download_wordlist_http(filedown):
+def download_wordlist_http(filedown, directory):
     """ do the HTTP download of a wordlist """
-
-    mkdir_if_not_exists("dictionaries")
 
     # List of files to download:
     arguments = {
@@ -995,13 +993,13 @@ def download_wordlist_http(filedown):
 
     if intfiledown in arguments:
 
-        dire = "dictionaries/" + arguments[intfiledown][0] + "/"
-        mkdir_if_not_exists(dire)
+        dire = os.path.join(directory, "dictionaries", arguments[intfiledown][0])
+        mkdir(dire)
         files_to_download = arguments[intfiledown][1]
 
         for fi in files_to_download:
             url = CONFIG["global"]["dicturl"] + arguments[intfiledown][0] + "/" + fi
-            tgt = dire + fi
+            tgt = os.path.join(dire, fi)
             download_http(url, tgt)
 
         print("[+] files saved to " + dire)
@@ -1010,10 +1008,17 @@ def download_wordlist_http(filedown):
         print("[-] leaving.")
 
 
-# create the directory if it doesn't exist
-def mkdir_if_not_exists(dire):
-    if not os.path.isdir(dire):
-        os.mkdir(dire)
+# create the directory 
+def mkdir(dire):
+    try:
+        if os.path.exists(dire):
+            if not os.access(dire, os.W_OK):
+                raise PermissionError(f"No write permission on existing directory {dire}")
+        else:
+            os.makedirs(dire)
+    except PermissionError as e:
+        print(f"[-] Error: {e}")
+        sys.exit(1)
 
 
 # the main function
@@ -1030,16 +1035,22 @@ def main():
 
     if args.version:
         version()
-    elif args.interactive:
-        interactive()
-    elif args.download_wordlist:
-        download_wordlist()
-    elif args.alecto:
-        alectodb_download()
-    elif args.improve:
-        improve_dictionary(args.improve)
-    else:
+        return 
+    elif not any([args.interactive, args.download_wordlist, args.alecto, args.improve]):
         parser.print_help()
+        return
+    
+    user_dir = os.path.abspath(os.path.expanduser(args.path))
+    mkdir(user_dir)
+
+    if args.interactive:
+        interactive(user_dir)
+    elif args.download_wordlist:
+        download_wordlist(user_dir)
+    elif args.alecto:
+        alectodb_download(user_dir)
+    elif args.improve:
+        improve_dictionary(args.improve, user_dir)
 
 
 # Separate into a function for testing purposes
@@ -1082,7 +1093,9 @@ def get_parser():
     parser.add_argument(
         "-q", "--quiet", action="store_true", help="Quiet mode (don't print banner)"
     )
-
+    parser.add_argument(
+        "-p", "--path", action = "store", default = "./", help = "Set the directory for the generated output file (default: current directory)", metavar = "DIR"
+    )
     return parser
 
 
