@@ -1,21 +1,3 @@
-# Cupp (Enhanced Fork)
-
-This is an enhanced version of the original [Mebus/cupp](https://github.com/Mebus/cupp) repository.
-
-Since the original repository is currently not accepting external contributions, I have published this fork to share improvements and bug fixes that I have implemented for my own use.
-
-## Key Improvements
-- **New Feature:** Added the `-p` flag to specify a custom output file path.
-- **Code Cleanup:** Removed redundant code to improve maintainability and readability.
-- **Stability:** Added write permission checks to prevent runtime errors when saving files.
-
-## Usage
-You can now specify an output path using the `-p` argument (using interactive mode as an example):
-
-```bash
-python3 cupp.py -i -p /path/to/your/output/
-```
-
 # CUPP - Common User Passwords Profiler
 
 [![Build Status](https://travis-ci.org/Mebus/cupp.svg?branch=master)](https://travis-ci.org/Mebus/cupp)
@@ -61,7 +43,7 @@ Usage: python3 cupp.py [OPTIONS]
 - **-l** : Download huge wordlists from repository
 - **-a** : Parse default usernames and passwords directly from Alecto DB. Project Alecto uses purified databases of Phenoelit and CIRT which where merged and enhanced.
 - **-v** : Version of the program
-- **-p** : Set the directory for the generated output file (default: current directory) **(New in this fork)**
+- **-p** : Set the directory for the generated output file (default: current directory) 
 
 
 
