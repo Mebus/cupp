@@ -1,0 +1,17 @@
+name: "🚀 Feature Request"
+description: "Suggest a new capability, parser, or word generation rule"
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We welcome requests to make CUPP a better profiling utility.
+  - type: textarea
+    id: details
+    attributes:
+      label: "Proposed Feature Details"
+      description: "What new wordlist combination rule, formatting script, or command line flag should be added?"
+      placeholder: "Add options to output generated lists in JSON format..."
+    validations:
+      required: true
