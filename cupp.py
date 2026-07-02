@@ -117,11 +117,11 @@ def komb(seq, start, special=""):
 
 
 def print_to_file(filename, unique_list_finished):
-    f = open(filename, "w")
+    f = open(filename, "w", encoding="utf-8")
     unique_list_finished.sort()
     f.write(os.linesep.join(unique_list_finished))
     f.close()
-    f = open(filename, "r")
+    f = open(filename, "r", encoding="utf-8")
     lines = 0
     for line in f:
         lines += 1
@@ -136,7 +136,7 @@ def print_to_file(filename, unique_list_finished):
     inspect = input("> Hyperspeed Print? (Y/n) : ").lower()
     if inspect == "y":
         try:
-            with open(filename, "r+") as wlist:
+            with open(filename, "r+", encoding="utf-8") as wlist:
                 data = wlist.readlines()
                 for line in data:
                     print("\033[1;32m[" + filename + "] \033[1;33m" + line)

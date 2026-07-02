@@ -27,6 +27,7 @@
 #  See 'LICENSE' for more information.
 
 import os
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -63,7 +64,33 @@ class TestCupp(unittest.TestCase):
             "spechars": [],
         }
         read_config("cupp.cfg")
-        generate_wordlist_from_profile(profile)
+        old_cwd = os.getcwd()
+        with tempfile.TemporaryDirectory() as temp_dir:
+            try:
+                os.chdir(temp_dir)
+                with patch("builtins.input", return_value="n"):
+                    generate_wordlist_from_profile(profile)
+            finally:
+                os.chdir(old_cwd)
+
+    def test_print_to_file_writes_utf8_with_cp1252_default_encoding(self):
+        real_open = open
+
+        def default_cp1252_open(file, mode="r", *args, **kwargs):
+            if "b" not in mode and "encoding" not in kwargs:
+                kwargs["encoding"] = "cp1252"
+            return real_open(file, mode, *args, **kwargs)
+
+        words = ["владимир", "путин", "Крим"]
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            filename = os.path.join(temp_dir, "wordlist.txt")
+            with patch("builtins.open", side_effect=default_cp1252_open):
+                with patch("builtins.input", return_value="n"):
+                    print_to_file(filename, words)
+
+            with real_open(filename, "r", encoding="utf-8") as wordlist:
+                self.assertEqual(wordlist.read().splitlines(), sorted(words))
 
     def test_parser(self):
         """ downloads a file and checks if it exists """
