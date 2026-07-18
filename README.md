@@ -51,6 +51,7 @@ Quick start
                 Project Alecto uses purified databases of Phenoelit and CIRT which where merged and enhanced.
 
         -v      Version of the program
+        -p :    Set the directory for the generated output file (default: current directory) 
 
 
 
