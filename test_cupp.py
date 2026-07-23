@@ -132,6 +132,7 @@ class TestCupp(unittest.TestCase):
             "Y",  # Special chars
             "N",  # Random
             "N",  # Leet mode
+            "Y",  # Hyperspeed Print
         ]
 
         test_ok = False
