@@ -5,10 +5,7 @@ import pathlib
 import unittest
 from unittest.mock import patch
 
-# Also runnable from a repository tests/ directory.
-root = pathlib.Path(__file__).resolve().parent
-if not (root / "cupp.py").exists():
-    root = root.parent
+root = pathlib.Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("cupp_choice_test", root / "cupp.py")
 cupp = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(cupp)
