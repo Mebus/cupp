@@ -780,16 +780,10 @@ def download_wordlist():
         "	\r\n	Tip: After downloading wordlist, you can improve it with -w option\r\n"
     )
 
-    filedown = input("> Enter number: ")
-    filedown.isdigit()
-    while filedown.isdigit() == 0:
+    filedown = input("> Enter number: ").strip()
+    while not filedown.isdecimal() or not 1 <= int(filedown) <= 38:
         print("\r\n[-] Wrong choice. ")
-        filedown = input("> Enter number: ")
-    filedown = str(filedown)
-    while int(filedown) > 38 or int(filedown) < 0:
-        print("\r\n[-] Wrong choice. ")
-        filedown = input("> Enter number: ")
-    filedown = str(filedown)
+        filedown = input("> Enter number: ").strip()
 
     download_wordlist_http(filedown)
     return filedown
