@@ -59,7 +59,7 @@ def read_config(filename):
 
         # Reading configuration file
         config = configparser.ConfigParser()
-        config.read(filename, encoding="utf-8")
+        config.read(filename)
 
         CONFIG["global"] = {
             "years": config.get("years", "years").split(","),
@@ -89,6 +89,8 @@ def read_config(filename):
         print("Configuration file " + filename + " not found!")
         sys.exit("Exiting.")
 
+        return False
+
 
 def make_leet(x):
     """convert string to leet"""
@@ -115,11 +117,15 @@ def komb(seq, start, special=""):
 
 
 def print_to_file(filename, unique_list_finished):
-    with open(filename, "w", encoding="utf-8") as f:
-        unique_list_finished.sort()
-        f.write(os.linesep.join(unique_list_finished))
-    with open(filename, "r", encoding="utf-8") as f:
-        lines = sum(1 for _ in f)
+    f = open(filename, "w")
+    unique_list_finished.sort()
+    f.write(os.linesep.join(unique_list_finished))
+    f.close()
+    f = open(filename, "r")
+    lines = 0
+    for line in f:
+        lines += 1
+    f.close()
     print(
         "[+] Saving dictionary to \033[1;31m"
         + filename
@@ -130,12 +136,12 @@ def print_to_file(filename, unique_list_finished):
     inspect = input("> Hyperspeed Print? (Y/n) : ").lower()
     if inspect == "y":
         try:
-            clear_cmd = "cls" if os.name == "nt" else "clear"
-            with open(filename, "r", encoding="utf-8") as wlist:
-                for line in wlist:
-                    print("\033[1;32m[" + filename + "] \033[1;33m" + line.rstrip("\n\r"))
-                    time.sleep(0.1)
-                    os.system(clear_cmd)
+            with open(filename, "r+") as wlist:
+                data = wlist.readlines()
+                for line in data:
+                    print("\033[1;32m[" + filename + "] \033[1;33m" + line)
+                    time.sleep(0000.1)
+                    os.system("clear")
         except Exception as e:
             print("[ERROR]: " + str(e))
     else:
@@ -183,7 +189,7 @@ def improve_dictionary(file_to_open):
     numfrom = CONFIG["global"]["numfrom"]
     numto = CONFIG["global"]["numto"]
 
-    fajl = open(file_to_open, "r", encoding="utf-8")
+    fajl = open(file_to_open, "r")
     listic = fajl.readlines()
     listica = []
     for x in listic:
@@ -197,7 +203,7 @@ def improve_dictionary(file_to_open):
 
     conts = input(
         "> Do you want to concatenate all words from wordlist? Y/[N]: "
-    ).lower().strip()
+    ).lower()
 
     if conts == "y" and len(listic) > CONFIG["global"]["threshold"]:
         print(
@@ -207,19 +213,19 @@ def improve_dictionary(file_to_open):
         print("[-] Check configuration file for increasing this number.\r\n")
         conts = input(
             "> Do you want to concatenate all words from wordlist? Y/[N]: "
-        ).lower().strip()
+        ).lower()
 
     cont = [""]
     if conts == "y":
-        for i, cont1 in enumerate(listica):
-            for j, cont2 in enumerate(listica):
-                if i != j:
+        for cont1 in listica:
+            for cont2 in listica:
+                if listica.index(cont1) != listica.index(cont2):
                     cont.append(cont1 + cont2)
 
     spechars = [""]
     spechars1 = input(
         "> Do you want to add special chars at the end of words? Y/[N]: "
-    ).lower().strip()
+    ).lower()
     if spechars1 == "y":
         for spec1 in chars:
             spechars.append(spec1)
@@ -230,8 +236,8 @@ def improve_dictionary(file_to_open):
 
     randnum = input(
         "> Do you want to add some random numbers at the end of words? Y/[N]:"
-    ).lower().strip()
-    leetmode = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower().strip()
+    ).lower()
+    leetmode = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
 
     # init
     for i in range(6):
@@ -307,42 +313,42 @@ def interactive():
         name = input("> Name: ").lower().strip()
     profile["name"] = name
 
-    profile["surname"] = input("> Surname: ").lower().strip()
-    profile["nick"] = input("> Nickname: ").lower().strip()
-    birthdate = input("> Birthdate (DDMMYYYY): ").strip()
+    profile["surname"] = input("> Surname: ").lower()
+    profile["nick"] = input("> Nickname: ").lower()
+    birthdate = input("> Birthdate (DDMMYYYY): ")
     while len(birthdate) != 0 and len(birthdate) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
-        birthdate = input("> Birthdate (DDMMYYYY): ").strip()
+        birthdate = input("> Birthdate (DDMMYYYY): ")
     profile["birthdate"] = birthdate
 
     print("\r\n")
 
-    profile["wife"] = input("> Partners) name: ").lower().strip()
-    profile["wifen"] = input("> Partners) nickname: ").lower().strip()
-    wifeb = input("> Partners) birthdate (DDMMYYYY): ").strip()
+    profile["wife"] = input("> Partners) name: ").lower()
+    profile["wifen"] = input("> Partners) nickname: ").lower()
+    wifeb = input("> Partners) birthdate (DDMMYYYY): ")
     while len(wifeb) != 0 and len(wifeb) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
-        wifeb = input("> Partners birthdate (DDMMYYYY): ").strip()
+        wifeb = input("> Partners birthdate (DDMMYYYY): ")
     profile["wifeb"] = wifeb
     print("\r\n")
 
-    profile["kid"] = input("> Child's name: ").lower().strip()
-    profile["kidn"] = input("> Child's nickname: ").lower().strip()
-    kidb = input("> Child's birthdate (DDMMYYYY): ").strip()
+    profile["kid"] = input("> Child's name: ").lower()
+    profile["kidn"] = input("> Child's nickname: ").lower()
+    kidb = input("> Child's birthdate (DDMMYYYY): ")
     while len(kidb) != 0 and len(kidb) != 8:
         print("\r\n[-] You must enter 8 digits for birthday!")
-        kidb = input("> Child's birthdate (DDMMYYYY): ").strip()
+        kidb = input("> Child's birthdate (DDMMYYYY): ")
     profile["kidb"] = kidb
     print("\r\n")
 
-    profile["pet"] = input("> Pet's name: ").lower().strip()
-    profile["company"] = input("> Company name: ").lower().strip()
+    profile["pet"] = input("> Pet's name: ").lower()
+    profile["company"] = input("> Company name: ").lower()
     print("\r\n")
 
     profile["words"] = [""]
     words1 = input(
         "> Do you want to add some key words about the victim? Y/[N]: "
-    ).lower().strip()
+    ).lower()
     words2 = ""
     if words1 == "y":
         words2 = input(
@@ -352,12 +358,12 @@ def interactive():
 
     profile["spechars1"] = input(
         "> Do you want to add special chars at the end of words? Y/[N]: "
-    ).lower().strip()
+    ).lower()
 
     profile["randnum"] = input(
         "> Do you want to add some random numbers at the end of words? Y/[N]:"
-    ).lower().strip()
-    profile["leetmode"] = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower().strip()
+    ).lower()
+    profile["leetmode"] = input("> Leet mode? (i.e. leet = 1337) Y/[N]: ").lower()
 
     generate_wordlist_from_profile(profile)  # generate the wordlist
 
@@ -737,11 +743,11 @@ def alectodb_download():
     print(
         "\r\n[+] Exporting to alectodb-usernames.txt and alectodb-passwords.txt\r\n[+] Done."
     )
-    f = open("alectodb-usernames.txt", "w", encoding="utf-8")
+    f = open("alectodb-usernames.txt", "w")
     f.write(os.linesep.join(gus))
     f.close()
 
-    f = open("alectodb-passwords.txt", "w", encoding="utf-8")
+    f = open("alectodb-passwords.txt", "w")
     f.write(os.linesep.join(gpa))
     f.close()
 
@@ -775,7 +781,7 @@ def download_wordlist():
     )
 
     filedown = input("> Enter number: ").strip()
-    while not filedown.isdigit() or int(filedown) > 38 or int(filedown) < 1:
+    while not filedown.isdecimal() or not 1 <= int(filedown) <= 38:
         print("\r\n[-] Wrong choice. ")
         filedown = input("> Enter number: ").strip()
 
